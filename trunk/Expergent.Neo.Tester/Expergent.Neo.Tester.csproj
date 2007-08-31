@@ -88,17 +88,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="norque.dtd" />
-    <None Include="Templates\NeoClass.vtl" />
-    <None Include="Templates\NeoCreateDb.sql.vtl" />
-    <None Include="Templates\NeoSupport.vtl" />
-    <None Include="Templates\NeoViewDetail.vtl" />
-    <None Include="Templates\NeoViewEdit.vtl" />
-    <None Include="Templates\NeoViewHelp.vtl" />
-    <None Include="Templates\NeoViewIndex.vtl" />
-    <None Include="Templates\NeoViewList.vtl" />
-    <None Include="Templates\NeoViewNew.vtl" />
-    <None Include="Templates\Resource.resx.vtl" />
-    <None Include="Templates\SqlTables.vtl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Expergent.Tester\Expergent.Tester.csproj">
