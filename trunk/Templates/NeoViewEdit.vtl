@@ -1,0 +1,57 @@
+#set ($startBoo = "${")
+#set ($endBoo = "}")
+<%
+import ${Rails.Model.Namespace}.Models
+import ${Rails.Model.Namespace}.Controllers
+import System
+%>
+<% if IsDefined("errortext"): %>
+<div class="error">
+  <p>${errortext}</p>
+</div>
+<% end %>
+<% if IsDefined("infoMessage"): %>
+<div class="info">
+  <p>${infoMessage}</p>
+</div>
+<% end %>
+<% if IsDefined("${Rails.Entity.ClassName.ToLower()}"): %>
+<a href="${siteRoot}/${Rails.Entity.ClassName}/List.ashx">${startBoo}CommonText.Action_Cancel${endBoo}</a>
+${startBoo}HtmlHelper.Form(siteRoot + '/${Rails.Entity.ClassName}/Update.ashx', DictHelper.CreateDict('method=post', 'class=f-wrap-1', 'enctype=multipart/form-data', 'onsubmit=' + JavaScriptHelper.GetValidationTriggerFunction()) )${endBoo}
+<div class="req"><b>*</b> ${startBoo} CommonText.requiredField ${endBoo}</div>
+<fieldset>
+<h3>${startBoo} String.Format(CommonText.Edit, ${Rails.Entity.ClassName}Text.${Rails.Entity.ClassName}, ${Rails.Entity.ClassName.ToLower()}) ${endBoo}</h3>
+#foreach($attribute in $Rails.Entity.Attributes)
+#if($attribute.IsPkColumn)
+${startBoo}HtmlHelper.InputHidden( '${Rails.Entity.ClassName}.${attribute.DotNetName}', ${Rails.Entity.ClassName.ToLower()}.${attribute.DotNetName} ) ${endBoo}
+#end
+#end
+#foreach($attribute in $Rails.Entity.Attributes)
+#if( ! $attribute.IsHidden)
+#if($attribute.IsPkColumn)
+
+#elseif($attribute.DotNetType.Equals("System.Boolean"))
+	<fieldset class="f-radio-wrap">
+		<b>#if($attribute.IsRequired)<span class="req">*</span>#end${startBoo}${Rails.Entity.ClassName}Text.${attribute.DotNetName}${endBoo}${startBoo}CustomHtmlHelper.MakeHelpImage('${attribute.DotNetName}')${endBoo}</b>
+		<fieldset>
+		$HtmlHelpers.GenerateControlWithValue($Rails.Entity, $attribute)
+		</fieldset>
+	</fieldset>
+#elseif($attribute.DotNetType.Equals("System.DateTime"))
+	<label for="${Rails.Entity.ClassName}.${attribute.DotNetName}"><b>#if($attribute.IsRequired)<span class="req">*</span>#end${startBoo}${Rails.Entity.ClassName}Text.${attribute.DotNetName}${endBoo}${startBoo}CustomHtmlHelper.MakeHelpImage('${attribute.DotNetName}')${endBoo}</b>
+  $HtmlHelpers.GenerateControlWithValue($Rails.Entity, $attribute)<br />
+  </label>
+#else
+  <label for="${Rails.Entity.ClassName}.${attribute.DotNetName}"><b>#if($attribute.IsRequired)<span class="req">*</span>#end${startBoo}${Rails.Entity.ClassName}Text.${attribute.DotNetName}${endBoo}${startBoo}CustomHtmlHelper.MakeHelpImage('${attribute.DotNetName}')${endBoo}</b>
+  $HtmlHelpers.GenerateControlWithValue($Rails.Entity, $attribute)<br />
+  </label>
+#end
+#end
+#end
+	<div class="f-submit-wrap">
+		<input type="submit" name="Submit" id="Submit" value="${startBoo}CommonText.Save${endBoo}" class="f-submit" /><br />
+	</div>
+</fieldset> 
+${HtmlHelper.EndForm()}
+<a href="${siteRoot}/${Rails.Entity.ClassName}/List.ashx">${startBoo}CommonText.Action_Cancel${endBoo}</a>
+<% end %>

@@ -1,0 +1,53 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <RootNamespace>BooRulesMacro</RootNamespace>
+    <AssemblyName>BooRulesMacro</AssemblyName>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DCB6C9C0-FB34-4449-81D0-8BB5EA2D54C1}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <Optimize>False</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <Optimize>True</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Boo.Lang.Useful" />
+    <Reference Include="Boo.Lang.Compiler">
+      <HintPath>..\..\Lib\Boo.Lang.Compiler.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Expergent">
+      <HintPath>..\Expergent\bin\Debug\Expergent.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.boo" />
+    <Compile Include="UsefulMacro.boo" />
+    <Compile Include="AtomFinder.boo" />
+    <Compile Include="NameExpander.boo" />
+    <Compile Include="MethodReplacer.boo" />
+    <Compile Include="BlockFinder.boo" />
+    <Compile Include="VariableReference.boo" />
+    <Compile Include="Helpers.boo" />
+    <Compile Include="RULESETMacro.boo" />
+    <Compile Include="RULEMacro.boo" />
+    <Compile Include="IFMacro.boo" />
+    <Compile Include="THENMacro.boo" />
+  </ItemGroup>
+  <Import Project="$(BooBinPath)\Boo.Microsoft.Build.targets" />
+</Project>

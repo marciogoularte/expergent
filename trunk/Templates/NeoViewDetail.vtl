@@ -1,0 +1,60 @@
+<%
+import ${Rails.Model.Namespace}.Models
+import ${Rails.Model.Namespace}.Controllers
+import System
+%>
+<% if IsDefined("errortext"): %>
+<div class="error">
+  <p>${errortext}</p>
+</div>
+<% end %>
+<% if IsDefined("infoMessage"): %>
+<div class="info">
+  <p>${infoMessage}</p>
+</div>
+<% end %>
+<% 
+if IsDefined("${Rails.Entity.ClassName.ToLower()}"): 
+  qstring = []
+%>
+#set ($startBoo = "${")
+#set ($endBoo = "}")
+#foreach($attribute in $Rails.Entity.Attributes)
+#if($attribute.IsPkColumn)
+<%
+  qstring.Add("${attribute.DotNetName}" + "=" + ${Rails.Entity.ClassName.ToLower()}.GetProperty("${attribute.DotNetName}") )
+%>
+#end
+#end
+<table class="table1">
+	<thead>
+		<tr>
+			<th colspan="2">${startBoo} String.Format(CommonText.Detail, ${Rails.Entity.ClassName}Text.${Rails.Entity.ClassName}, ${Rails.Entity.ClassName.ToLower()} ) ${endBoo}</th>
+		</tr>
+	</thead>
+	<tbody>
+#foreach($attribute in $Rails.Entity.Attributes)
+  <tr>
+    <th class="sub">${startBoo} ${Rails.Entity.ClassName}Text.${attribute.DotNetName} ${endBoo}</td>
+    <td>$HtmlHelpers.GenerateControlReadOnly($Rails.Entity, $attribute)</td>
+  </tr>
+#end
+</tbody>
+</table>
+<p>
+	<a href="${siteRoot}/${Rails.Entity.ClassName}/List.ashx">${startBoo}CommonText.Action_Cancel${endBoo}</a>&nbsp;|&nbsp;<a href="${siteRoot}/${Rails.Entity.ClassName}/Edit.ashx?${Boo.Lang.Builtins.join(qstring, '&')}">${startBoo}CommonText.Action_Edit${endBoo}</a>&nbsp;|&nbsp;<a href="${siteRoot}/${Rails.Entity.ClassName}/Delete.ashx?${Boo.Lang.Builtins.join(qstring, '&')}">${startBoo}CommonText.Action_Delete${endBoo}</a>
+</p>
+#foreach($relation in $Rails.Entity.ToManyRelationships)
+<p>$relation.DotNetName</p>
+<ul>
+<%
+for related as ${relation.ForeignEntity.ClassName} in ${Rails.Entity.ClassName.ToLower()}.${relation.VarName}:
+%>
+<li>${related}</li>
+<%
+end
+%>
+</ul>
+#end
+
+<% end %>
