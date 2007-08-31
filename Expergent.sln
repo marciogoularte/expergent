@@ -1,0 +1,80 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expergent", "Expergent\Expergent.csproj", "{18F668E6-8812-4215-908C-86EE0E91582F}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expergent.Runtime", "Expergent.Runtime\Expergent.Runtime.csproj", "{9A662D74-03FC-41CC-85FC-370F324753C2}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expergent.Tester", "Expergent.Tester\Expergent.Tester.csproj", "{06F596AD-5236-420E-9BDE-5E653D805D45}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expergent.Neo.Tester", "Expergent.Neo.Tester\Expergent.Neo.Tester.csproj", "{C680B02D-55D4-4F5E-8597-7455D9826705}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expergent.ProductionProviderTest", "Expergent.ProductionProviderTest\Expergent.ProductionProviderTest.csproj", "{E528A647-AF4B-4EF7-BADF-B304CFD00E6D}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{560C9A7B-0D0B-486F-B354-5D5F64644B05}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		gpl.txt = gpl.txt
+		License.txt = License.txt
+	EndProjectSection
+	ProjectSection(FolderStartupServices) = postProject
+		{B4F97281-0DBD-4835-9ED8-7DFB966E87FF} = {B4F97281-0DBD-4835-9ED8-7DFB966E87FF}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TextTemplating) = postSolution
+		TextTemplating = 1
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{18F668E6-8812-4215-908C-86EE0E91582F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18F668E6-8812-4215-908C-86EE0E91582F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18F668E6-8812-4215-908C-86EE0E91582F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18F668E6-8812-4215-908C-86EE0E91582F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A662D74-03FC-41CC-85FC-370F324753C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A662D74-03FC-41CC-85FC-370F324753C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A662D74-03FC-41CC-85FC-370F324753C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A662D74-03FC-41CC-85FC-370F324753C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06F596AD-5236-420E-9BDE-5E653D805D45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06F596AD-5236-420E-9BDE-5E653D805D45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06F596AD-5236-420E-9BDE-5E653D805D45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06F596AD-5236-420E-9BDE-5E653D805D45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C680B02D-55D4-4F5E-8597-7455D9826705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C680B02D-55D4-4F5E-8597-7455D9826705}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C680B02D-55D4-4F5E-8597-7455D9826705}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C680B02D-55D4-4F5E-8597-7455D9826705}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E528A647-AF4B-4EF7-BADF-B304CFD00E6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E528A647-AF4B-4EF7-BADF-B304CFD00E6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E528A647-AF4B-4EF7-BADF-B304CFD00E6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E528A647-AF4B-4EF7-BADF-B304CFD00E6D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

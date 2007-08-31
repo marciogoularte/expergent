@@ -1,0 +1,95 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{06F596AD-5236-420E-9BDE-5E653D805D45}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Expergent.Tester</RootNamespace>
+    <AssemblyName>Expergent.Tester</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Neo, Version=1.0.0.17, Culture=neutral, PublicKeyToken=36a32b8e5c75024d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Library\Neo.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.4.1.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AgendaTests.cs" />
+    <Compile Include="AlphaMemoryTests.cs" />
+    <Compile Include="BuiltinsTests.cs" />
+    <Compile Include="Customer.cs" />
+    <Compile Include="MetaNodeTester.cs" />
+    <Compile Include="ObjectGrapherTest.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TermFactoryTests.cs" />
+    <Compile Include="TestClasses\ChildHash.cs" />
+    <Compile Include="TestClasses\ChildHash2.cs" />
+    <Compile Include="TestClasses\ChildNOCollection.cs" />
+    <Compile Include="TestClasses\ChildNOCollection2.cs" />
+    <Compile Include="TestClasses\ChildObjectTest.cs" />
+    <Compile Include="TestClasses\CollectionofLists.cs" />
+    <Compile Include="TestClasses\CustomerTestClass.cs" />
+    <Compile Include="TestClasses\Effector_SetAttribute.cs" />
+    <Compile Include="TestClasses\FirstOrderCollection.cs" />
+    <Compile Include="TestClasses\FirstOrderCollectionList.cs" />
+    <Compile Include="TestClasses\LocationList.cs" />
+    <Compile Include="TestClasses\LocationTestClass.cs" />
+    <Compile Include="TestClasses\NthOrderCollection.cs" />
+    <Compile Include="TestClasses\ParentCustomer.cs" />
+    <Compile Include="TestClasses\PurchaseOrder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ObjectMap.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Expergent.Runtime\Expergent.Runtime.csproj">
+      <Project>{9A662D74-03FC-41CC-85FC-370F324753C2}</Project>
+      <Name>Expergent.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Expergent\Expergent.csproj">
+      <Project>{18F668E6-8812-4215-908C-86EE0E91582F}</Project>
+      <Name>Expergent</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

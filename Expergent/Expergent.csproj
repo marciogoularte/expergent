@@ -1,0 +1,189 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{18F668E6-8812-4215-908C-86EE0E91582F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Expergent</RootNamespace>
+    <AssemblyName>Expergent</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Expergent.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Library\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Neo, Version=1.0.0.17, Culture=neutral, PublicKeyToken=36a32b8e5c75024d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Library\Neo.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Activation.cs" />
+    <Compile Include="Agenda.cs" />
+    <Compile Include="Authoring\AND.cs" />
+    <Compile Include="Authoring\ASSERT.cs" />
+    <Compile Include="Authoring\EVAL.cs" />
+    <Compile Include="Authoring\INVOKE.cs" />
+    <Compile Include="Authoring\NOT.cs" />
+    <Compile Include="Authoring\RETRACT.cs" />
+    <Compile Include="Authoring\SET.cs" />
+    <Compile Include="Conditions\AssertCondition.cs" />
+    <Compile Include="Conditions\FunctionCondition.cs" />
+    <Compile Include="Conditions\InvokeCondition.cs" />
+    <Compile Include="Conditions\LeftHandSideCondition.cs" />
+    <Compile Include="Conditions\NCCCondition.cs" />
+    <Compile Include="Conditions\NegativeCondition.cs" />
+    <Compile Include="Conditions\PositiveCondition.cs" />
+    <Compile Include="Conditions\RetractCondition.cs" />
+    <Compile Include="Conditions\RightHandSideCondition.cs" />
+    <Compile Include="Conditions\SetCondition.cs" />
+    <Compile Include="Configuration\ExpergentConfigSection.cs" />
+    <Compile Include="Configuration\ExpergentOptions.cs" />
+    <Compile Include="ConflictResolvers\TimeStampConflictResolver.cs" />
+    <Compile Include="Exceptions\InvalidMethodInvocationException.cs" />
+    <Compile Include="Interfaces\IFactProvider.cs" />
+    <Compile Include="Interfaces\IProductionProvider.cs" />
+    <Compile Include="Interfaces\IVisitable.cs" />
+    <Compile Include="MutexEvaluators\AbstractBaseMutexEvaluator.cs" />
+    <Compile Include="Builtins\isInList.cs" />
+    <Compile Include="Interfaces\IMutexEvaluator.cs" />
+    <Compile Include="MutexEvaluators\Max.cs" />
+    <Compile Include="AlphaMemory.cs" />
+    <Compile Include="Base\AbstractVisitor.cs" />
+    <Compile Include="BetaMemory.cs" />
+    <Compile Include="BindingPair.cs" />
+    <Compile Include="BuiltinMemory.cs" />
+    <Compile Include="Builtins\ConstantSubstitutor.cs" />
+    <Compile Include="Builtins\funcEquals.cs" />
+    <Compile Include="Builtins\funcGreaterThan.cs" />
+    <Compile Include="Builtins\funcMax.cs" />
+    <Compile Include="Builtins\funcNotEquals.cs" />
+    <Compile Include="ConflictResolvers\SalienceResolver.cs" />
+    <Compile Include="Delegates.cs" />
+    <Compile Include="Interfaces\ISubstitutor.cs" />
+    <Compile Include="Builtins\SubstituterType.cs" />
+    <Compile Include="Builtins\VariableSubstituter.cs" />
+    <Compile Include="Conditions\Condition.cs" />
+    <Compile Include="Conditions\ConditionType.cs" />
+    <Compile Include="DummyTopNode.cs" />
+    <Compile Include="DummyTopToken.cs" />
+    <Compile Include="Evaluators\Equals.cs" />
+    <Compile Include="Evaluators\EvaluatorManager.cs" />
+    <Compile Include="Evaluators\GreaterThan.cs" />
+    <Compile Include="Evaluators\GreaterThanOrEquals.cs" />
+    <Compile Include="Evaluators\LessThan.cs" />
+    <Compile Include="Evaluators\LessThanOrEquals.cs" />
+    <Compile Include="Evaluators\NotEquals.cs" />
+    <Compile Include="Builtins\BuiltinManager.cs" />
+    <Compile Include="Interfaces\IBuiltIn.cs" />
+    <Compile Include="Interfaces\IEvaluator.cs" />
+    <Compile Include="Interfaces\IVisitor.cs" />
+    <Compile Include="ItemInAlphaMemory.cs" />
+    <Compile Include="JoinNode.cs" />
+    <Compile Include="Mutex.cs" />
+    <Compile Include="MutexNode.cs" />
+    <Compile Include="Neo\EntityObjectTerm.cs" />
+    <Compile Include="Neo\ObjectRelationTerm.cs" />
+    <Compile Include="Neo\RulesEnabledEntityObject.cs" />
+    <Compile Include="Override.cs" />
+    <Compile Include="NCCNode.cs" />
+    <Compile Include="NCCPartnerNode.cs" />
+    <Compile Include="NegativeJoinResult.cs" />
+    <Compile Include="NegativeNode.cs" />
+    <Compile Include="Production.cs" />
+    <Compile Include="ProductionStatus.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProductionNode.cs" />
+    <Compile Include="Reflection\Mixup.cs" />
+    <Compile Include="Reflection\ObjectGrapher.cs" />
+    <Compile Include="Reflection\ObjectInstance.cs" />
+    <Compile Include="Reflection\ObjectInterface.cs" />
+    <Compile Include="Reflection\ObjectMapping.cs" />
+    <Compile Include="Reflection\ObjectMapTable.cs" />
+    <Compile Include="Reflection\ProductionLoader.cs" />
+    <Compile Include="Reflection\RuleObjectInfo.cs" />
+    <Compile Include="Rete.cs" />
+    <Compile Include="ReteNodeType.cs" />
+    <Compile Include="ReteNode.cs" />
+    <Compile Include="Sorting\DefaultSwap.cs" />
+    <Compile Include="Sorting\FastQuickSorter.cs" />
+    <Compile Include="Sorting\ISorter.cs" />
+    <Compile Include="Sorting\ISwap.cs" />
+    <Compile Include="Sorting\SwapSorter.cs" />
+    <Compile Include="Terms\BooleanTerm.cs" />
+    <Compile Include="Terms\CollectionTerm.cs" />
+    <Compile Include="Terms\DateTimeTerm.cs" />
+    <Compile Include="Terms\DoubleTerm.cs" />
+    <Compile Include="Terms\FuncTerm.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Terms\GenericTerm.cs" />
+    <Compile Include="Terms\GuidTerm.cs" />
+    <Compile Include="Terms\IntegerTerm.cs" />
+    <Compile Include="Terms\GenericListTerm.cs" />
+    <Compile Include="Terms\ListTerm.cs" />
+    <Compile Include="Terms\NullTerm.cs" />
+    <Compile Include="Terms\ObjectTerm.cs" />
+    <Compile Include="Terms\StringTerm.cs" />
+    <Compile Include="Terms\Term.cs" />
+    <Compile Include="Terms\TermFactory.cs" />
+    <Compile Include="Terms\TermType.cs" />
+    <Compile Include="Terms\Variable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestAtJoinNode.cs" />
+    <Compile Include="Token.cs" />
+    <Compile Include="Visitors\NetworkPrinter.cs" />
+    <Compile Include="WME.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Expergent.Runtime\Expergent.Runtime.csproj">
+      <Project>{9A662D74-03FC-41CC-85FC-370F324753C2}</Project>
+      <Name>Expergent.Runtime</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Expergent.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Aggregators\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

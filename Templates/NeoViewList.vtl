@@ -1,0 +1,107 @@
+#set ($startBoo = "${")
+#set ($endBoo = "}")
+#set ($colspan = $Rails.Entity.AttributeCount + 1)
+<%
+import ${Rails.Model.Namespace}.Models
+import ${Rails.Model.Namespace}.Controllers
+import System
+%>
+<%
+if IsDefined("errortext"):
+%>
+<div class="error">
+  <p>${errortext}</p>
+</div>
+<%
+end
+%>
+<% if IsDefined("infoMessage"): %>
+<div class="info">
+  <p>${infoMessage}</p>
+</div>
+<% end %>
+<% if IsDefined("sort"): %>
+<% dict = {} %>
+#if( $Rails.Entity.ToOneRelationships.Count > 0 )
+${startBoo}HtmlHelper.Form(siteRoot + '/${Rails.Entity.ClassName}/List.ashx', DictHelper.CreateDict('method=post', 'class=f-wrap-1') )${endBoo}
+<fieldset>
+<h3>${startBoo}CommonText.Filter${endBoo}</h3>
+${startBoo}HtmlHelper.InputHidden( 'sort', sort ) ${endBoo}
+${startBoo}HtmlHelper.InputHidden( 'dir', dirnow ) ${endBoo}
+#foreach($attribute in $Rails.Entity.Attributes)
+#if($Rails.Entity.RelationshipForAttribute($attribute) && $Rails.Entity.RelationshipForAttribute($attribute).Direction.ToString == "Child")
+	<label for="${Rails.Entity.ClassName}.${attribute.DotNetName}"><b>#if($attribute.IsRequired)<span class="req">*</span>#end${startBoo}${Rails.Entity.ClassName}Text.${attribute.DotNetName}${endBoo}${startBoo}CustomHtmlHelper.MakeHelpImage('${attribute.DotNetName}')${endBoo}</b>
+  	$HtmlHelpers.GenerateSelect($Rails.Entity, $attribute, 2)<br />
+  </label>
+  <% dict.Add("${Rails.Entity.ClassName}.${attribute.DotNetName}", ${Rails.Entity.ClassName.ToLower()}.${attribute.DotNetName}) %>
+#end
+#end
+	<div class="f-submit-wrap">
+		<input type="submit" name="Submit" id="Submit" value="${startBoo}CommonText.Filter${endBoo}" class="f-submit" /><br />
+	</div>
+</fieldset> 
+${HtmlHelper.EndForm()}
+#end
+<% dict.Add('sort', sort) %>
+<% dict.Add('dir', dir) %>
+<% dict.Add('dirnow', dirnow) %>
+${startBoo}CustomHtmlHelper.PaginationControl(${Rails.Entity.ClassName.ToLower()}Items, null, dict ) ${endBoo}
+<% end %>
+<p><a href="${siteRoot}/${Rails.Entity.ClassName}/New.ashx">${startBoo}String.Format(CommonText.Action_Create,  ${Rails.Entity.ClassName}Text.${Rails.Entity.ClassName})${endBoo}</a></p>
+<div style="overflow: scroll;">
+<table class="tablewide">
+	<thead>
+		<tr>
+			<th colspan="$colspan">${startBoo}String.Format(CommonText.List, ${Rails.Entity.ClassName}Text.${Rails.Entity.ClassName})${endBoo}</th>
+		</tr>
+	</thead>
+	<tbody>
+  <tr>
+<% if IsDefined("sort"): %>
+#foreach($attribute in $Rails.Entity.Attributes)
+#if( ! $attribute.IsHidden)
+#if( ! $attribute.IsPkColumn)
+#if( ! $attribute.IsSQLTextColumn)
+    <th>${startBoo}${Rails.Entity.ClassName}Helper.ListColumnSort('$HtmlHelpers.GetSortName($Rails.Entity, $attribute)', ${Rails.Entity.ClassName}Text.${attribute.DotNetName}, dict )${endBoo}</th>
+#end
+#end
+#end
+#end
+<% else: %>
+#foreach($attribute in $Rails.Entity.Attributes)
+#if( ! $attribute.IsHidden)
+#if( ! $attribute.IsPkColumn)
+#if( ! $attribute.IsSQLTextColumn)
+    <th>${startBoo} ${Rails.Entity.ClassName}Text.${attribute.DotNetName} ${endBoo}</th>
+#end
+#end
+#end
+#end
+<% end %>
+    <th>${startBoo}CommonText.Action${endBoo}</th>
+  </tr>
+<% 
+for ${Rails.Entity.ClassName.ToLower()} as ${Rails.Entity.ClassName} in ${Rails.Entity.ClassName.ToLower()}Items:
+  qstring = []
+%>
+  <tr>
+#foreach($attribute in $Rails.Entity.Attributes)
+#if( ! $attribute.IsHidden)
+#if( ! $attribute.IsSQLTextColumn)
+#if($attribute.IsPkColumn)
+<%
+  qstring.Add("${attribute.DotNetName}" + "=" + ${Rails.Entity.ClassName.ToLower()}.${attribute.DotNetName})
+%>
+#else
+    <td>$HtmlHelpers.GenerateControlReadOnly($Rails.Entity, $attribute)</td>
+#end
+#end	
+#end
+#end
+    <td><a href="${siteRoot}/${Rails.Entity.ClassName}/Edit.ashx?${Boo.Lang.Builtins.join(qstring, '&')}">${startBoo}CommonText.Action_Edit${endBoo}</a>&nbsp;<a href="${siteRoot}/${Rails.Entity.ClassName}/Detail.ashx?${Boo.Lang.Builtins.join(qstring, '&')}">${startBoo}CommonText.Action_Detail${endBoo}</a></td>
+  </tr>
+<% end %>
+</tbody>
+</table>
+</div>
+<p><a href="${siteRoot}/${Rails.Entity.ClassName}/New.ashx">${startBoo}String.Format(CommonText.Action_Create,  ${Rails.Entity.ClassName}Text.${Rails.Entity.ClassName})${endBoo}</a></p>

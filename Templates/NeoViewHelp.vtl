@@ -1,0 +1,36 @@
+#set ($startBoo = "${")
+#set ($endBoo = "}")
+<%
+import ${Rails.Model.Namespace}.Models
+import ${Rails.Model.Namespace}.Controllers
+import System
+%>
+<% if IsDefined("errortext"): %>
+<div class="error">
+  <p>${errortext}</p>
+</div>
+<% end %>
+<% if IsDefined("infoMessage"): %>
+<div class="info">
+  <p>${infoMessage}</p>
+</div>
+<% end %>
+<h3 id="toc" name="toc">${startBoo} String.Format(CommonText.Help, ${Rails.Entity.ClassName}Text.${Rails.Entity.ClassName}) ${endBoo}</h3>
+<ul>
+#foreach($attribute in $Rails.Entity.Attributes)
+#if( ! $attribute.IsHidden)
+#if( ! $HtmlHelpers.DisplayAsHidden($Rails.Entity, $attribute))
+<li><a href="#id_${attribute.DotNetName}">${startBoo}${Rails.Entity.ClassName}Text.${attribute.DotNetName}${endBoo}</a></li>
+#end
+#end
+#end
+</ul>
+#foreach($attribute in $Rails.Entity.Attributes)
+#if( ! $attribute.IsHidden)
+#if( ! $HtmlHelpers.DisplayAsHidden($Rails.Entity, $attribute))
+<h5 id="id_${attribute.DotNetName}" name="id_${attribute.DotNetName}">${startBoo} String.Format(CommonText.Help, ${Rails.Entity.ClassName}Text.${attribute.DotNetName}) ${endBoo}</h5>
+<p>${startBoo} ${Rails.Entity.ClassName}Text.Help_Long_${attribute.DotNetName} ${endBoo}</p>
+<a href="#toc" class="backtotoc">${startBoo} CommonText.BackToToc ${endBoo}</a>
+#end
+#end
+#end

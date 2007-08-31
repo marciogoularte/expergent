@@ -1,0 +1,91 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "norque.dtd">
+<?neo debug="false" genadmin="false" usebuiltins="false" dbserver="INDEPENDENCE\SQLEXPRESS" database="SampleCMS" dbusername="cmsuser" dbpassword="password"?>
+<database name="CRMSample" package="CRMSample" defaultJavaNamingMethod="nochange" tablePrefix="" defaultIdMethod="native">
+  <table name="Customers" javaName="Customer" idMethod="native" defaultProperty="Name" description="">
+    <column name="CustomerID" javaName="CustomerID" type="INTEGER" autoIncrement="true" required="true" primaryKey="true" description="" />
+    <column name="Name" javaName="Name" type="VARCHAR" required="true" attributes="ValidateNonEmpty" size="128" inputValidator="blank" description="" />
+    <column name="MailingAddressID" javaName="MailingAddressID" type="UNIQUEIDENTIFIER" required="true" attributes="ValidateNonEmpty" description="" />
+    <column name="DeliveryAddressID" javaName="DeliveryAddressID" type="UNIQUEIDENTIFIER" required="true" attributes="ValidateNonEmpty" description="" />
+    <column name="StatusID" javaName="StatusID" type="INTEGER" required="true" />
+    <column name="Remarks" javaName="Remarks" type="VARCHAR" required="true" attributes="ValidateNonEmpty" size="512" inputValidator="blank" description="" />
+    <iforeign-key foreignTable="Orders" name="Orders" onUpdate="none" onDelete="none">
+      <ireference local="CustomerID" foreign="CustomerID"/>
+    </iforeign-key>
+    <foreign-key foreignTable="Addresses" name="MailingAddress" onUpdate="none" onDelete="none">
+      <reference local="MailingAddressID" foreign="AddressID"/>
+    </foreign-key>
+    <foreign-key foreignTable="Addresses" name="DeliveryAddress" onUpdate="none" onDelete="none">
+      <reference local="DeliveryAddressID" foreign="AddressID"/>
+    </foreign-key>
+    <foreign-key foreignTable="Status" name="Status" onUpdate="none" onDelete="none">
+      <reference local="StatusID" foreign="StatusID"/>
+    </foreign-key>
+  </table>
+  <table name="Addresses" javaName="Address" idMethod="guid">
+    <column name="AddressID" javaName="AddressID" type="UNIQUEIDENTIFIER" required="true" primaryKey="true" />
+    <column name="Address1" javaName="Address1" type="VARCHAR" size="256" required="true" />
+    <column name="Address2" javaName="Address2" type="VARCHAR" size="256" required="false" />
+    <column name="City" javaName="City" type="VARCHAR" size="256" required="true" />
+    <column name="State" javaName="State" type="CHAR" size="2" required="true" />
+    <column name="Zip" javaName="Zip" type="CHAR" size="5" required="true" />
+    <column name="Zip4" javaName="Zip4" type="CHAR" size="4" required="true" />
+    <iforeign-key foreignTable="Customers" name="CustomerMailingAddress" onUpdate="none" onDelete="none">
+      <ireference local="AddressID" foreign="MailingAddressID"/>
+    </iforeign-key>
+    <iforeign-key foreignTable="Customers" name="CustomerDeliveryAddress" onUpdate="none" onDelete="none">
+      <ireference local="AddressID" foreign="DeliveryAddressID"/>
+    </iforeign-key>
+  </table>
+  <table name="Orders" javaName="Order" idMethod="native">
+    <column name="OrderID" javaName="OrderID" type="INTEGER" autoIncrement="true" required="true" primaryKey="true" />
+    <column name="CustomerID" javaName="CustomerID" type="INTEGER" required="true" description="" />
+    <column name="OrderDate" javaName="OrderDate" type="DATETIME" required="true" />
+    <column name="OrderAmount" javaName="OrderAmount" type="DECIMAL" required="true" />
+    <foreign-key foreignTable="Customers" name="Customer" onUpdate="none" onDelete="none">
+      <reference local="CustomerID" foreign="CustomerID"/>
+    </foreign-key>
+    <iforeign-key foreignTable="OrderItems" name="OrderItems" onUpdate="none" onDelete="none">
+      <ireference local="OrderID" foreign="OrderID"/>
+    </iforeign-key>
+  </table>
+  <table name="OrderItems" javaName="OrderItem" idMethod="native">
+    <column name="OrderItemID" javaName="OrderItemID" type="INTEGER" autoIncrement="true" required="true" primaryKey="true" />
+    <column name="OrderID" javaName="OrderID" type="INTEGER" required="true" />
+    <column name="ProductID" javaName="ProductID" type="UNIQUEIDENTIFIER" required="true" description="" />
+    <column name="Quantity" javaName="Quantity" type="INTEGER" required="true" />
+    <column name="UnitPrice" javaName="UnitPrice" type="DECIMAL" required="true" />
+    <foreign-key foreignTable="Orders" name="Order" onUpdate="none" onDelete="none">
+      <reference local="OrderID" foreign="OrderID"/>
+    </foreign-key>
+    <foreign-key foreignTable="Products" name="Product" onUpdate="none" onDelete="none">
+      <reference local="ProductID" foreign="ProductID"/>
+    </foreign-key>
+  </table>
+  <table name="Products" javaName="Product" idMethod="guid">
+    <column name="ProductID" javaName="ProductID" type="UNIQUEIDENTIFIER" required="true" primaryKey="true" />
+    <column name="Description" javaName="Description" type="VARCHAR" required="true" attributes="ValidateNonEmpty" size="512" inputValidator="blank" description="" />
+    <column name="Supplier" javaName="Supplier" type="VARCHAR" required="true" attributes="ValidateNonEmpty" size="512" inputValidator="blank" description="" />
+    <iforeign-key foreignTable="Inventory" name="Inventory" onUpdate="none" onDelete="none">
+      <ireference local="ProductID" foreign="ProductID"/>
+    </iforeign-key>
+    <iforeign-key foreignTable="OrderItems" name="OrderItems" onUpdate="none" onDelete="none">
+      <ireference local="ProductID" foreign="ProductID"/>
+    </iforeign-key>
+  </table>
+  <table name="Inventory" javaName="Inventory" idMethod="guid">
+    <column name="InventoryID" javaName="InventoryID" type="UNIQUEIDENTIFIER" required="true" primaryKey="true" />
+    <column name="ProductID" javaName="ProductID" type="UNIQUEIDENTIFIER" required="true" />
+    <column name="StockOnHand" javaName="StockOnHand" type="INTEGER" required="true" />
+    <foreign-key foreignTable="Products" name="Products" onUpdate="none" onDelete="none">
+      <reference local="ProductID" foreign="ProductID"/>
+    </foreign-key>
+  </table>
+  <table name="Status" javaName="Status" idMethod="native">
+    <column name="StatusID" javaName="StatusID" type="INTEGER" autoIncrement="true" required="true" primaryKey="true" />
+    <column name="Name" javaName="Name" type="VARCHAR" size="56" required="true" />
+    <iforeign-key foreignTable="Customers" name="Customers" onUpdate="none" onDelete="none">
+      <ireference local="StatusID" foreign="StatusID"/>
+    </iforeign-key>
+  </table>
+</database>

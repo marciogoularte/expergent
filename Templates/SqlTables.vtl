@@ -1,0 +1,88 @@
+/* Template $ThisTemplateName */
+/* UseBuiltins $DatabaseModel.UseBuiltins */
+#foreach($Table in $DatabaseModel.Tables)
+#set($entity = $Table.Entity)
+#if($Table.Action.ToString() == "ADD")
+/* $Table.SqlComments $Table.Action.ToString() */
+CREATE TABLE $Table.TableName
+(
+#foreach($attribute in $entity.Attributes)
+	$attribute.ColumnName $attribute.ColumnType#if($attribute.Size)($attribute.Size)#end#if($attribute.IsIdentityColumn && $entity.IdMethod.ToString == "Native") IDENTITY#end#if(!$attribute.AllowsNull) NOT NULL#end,
+#end
+
+	CONSTRAINT pk_$entity.TableName PRIMARY KEY ( #foreach($column in $entity.PkColumns)#if( $velocityCount > 1), #end$column.ColumnName#end )
+);
+
+#end ## end Add Table Action
+#if($Table.Action.ToString() == "DROP")
+/* $Table.SqlComments $Table.Action.ToString() */
+#foreach($constraint in $Table.Constraints)
+#if($constraint.Action.ToString() == "DROP")
+/* $constraint.SqlComments $constraint.Action.ToString() */
+IF EXISTS(SELECT * FROM dbo.sysobjects WHERE id = object_id(N'$constraint.ConstraintName') AND OBJECTPROPERTY(id, N'IsConstraint') = 1)
+	ALTER TABLE $constraint.ForeignTable DROP CONSTRAINT $constraint.ConstraintName
+
+#end ## end if constraint is drop
+#end ## end foreach constraint
+IF EXISTS(SELECT * FROM dbo.sysobjects WHERE id = object_id(N'$Table.TableName') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	DROP TABLE $Table.TableName
+
+#end ## end drop Table Action
+#end ## end foreach tables
+#foreach($Table in $DatabaseModel.Tables)
+#foreach($Column in $Table.Columns)
+/* $Column.SqlComments $Column.Action.ToString() */
+#if($Column.Action.ToString() == "DROP")
+ALTER TABLE $Table.TableName DROP COLUMN $Column.EntityAttribute.ColumnName 
+
+#end
+#if($Column.Action.ToString() == "ADD")
+ALTER TABLE $Table.TableName ADD $Column.EntityAttribute.ColumnName $Column.EntityAttribute.ColumnType#if($Column.EntityAttribute.Size)($Column.EntityAttribute.Size)#end#if($Column.EntityAttribute.IsIdentityColumn && $Table.Entity.IdMethod.ToString == "Native") IDENTITY#end#if(!$Column.EntityAttribute.AllowsNull) NOT NULL#end 
+
+#end
+#if($Column.Action.ToString() == "ALTER")
+ALTER TABLE $Table.TableName ALTER COLUMN $Column.EntityAttribute.ColumnName $Column.EntityAttribute.ColumnType#if($Column.EntityAttribute.Size)($Column.EntityAttribute.Size)#end#if($Column.EntityAttribute.IsIdentityColumn && $Table.Entity.IdMethod.ToString == "Native") IDENTITY#end#if(!$Column.EntityAttribute.AllowsNull) NOT NULL#end 
+
+#end
+#end
+#end
+
+#foreach($Table in $DatabaseModel.Tables)
+#foreach($Constraint in $Table.Constraints)
+/* $Constraint.SqlComments $Constraint.Action.ToString() */
+#if($Constraint.Action.ToString() == "DROP")
+IF EXISTS(SELECT * FROM dbo.sysobjects WHERE id = object_id(N'$Constraint.ConstraintName') AND OBJECTPROPERTY(id, N'IsConstraint') = 1)
+	ALTER TABLE $Constraint.LocalTable DROP CONSTRAINT $Constraint.ConstraintName;
+
+#end
+#if($Constraint.Action.ToString() == "ADD")
+ALTER TABLE $Constraint.LocalTable WITH NOCHECK ADD CONSTRAINT $Constraint.ConstraintName FOREIGN KEY ( $Constraint.LocalKey ) REFERENCES $Constraint.ForeignTable ( $Constraint.ForeignKey ) ON UPDATE $Constraint.UpdateRule ON DELETE $Constraint.DeleteRule; 
+
+#end
+#if($Constraint.Action.ToString() == "ALTER")
+IF EXISTS(SELECT * FROM dbo.sysobjects WHERE id = object_id(N'$Constraint.ConstraintName') AND OBJECTPROPERTY(id, N'IsConstraint') = 1)
+	ALTER TABLE $Constraint.LocalTable DROP CONSTRAINT $Constraint.ConstraintName;
+ALTER TABLE $Constraint.LocalTable WITH NOCHECK ADD CONSTRAINT $Constraint.ConstraintName FOREIGN KEY ( $Constraint.LocalKey ) REFERENCES $Constraint.ForeignTable ( $Constraint.ForeignKey ) ON UPDATE $Constraint.UpdateRule ON DELETE $Constraint.DeleteRule; 
+
+#end
+#end
+#end
+
+#if ($DatabaseModel.UseBuiltins)
+
+#set( $controllerActions = ["List", "Create", "New", "Edit", "Update", "Detail", "Delete", "Index", "Help"])
+
+#foreach($Table in $DatabaseModel.Tables)
+#set($entity = $Table.Entity)
+#if($Table.Action.ToString() == "ADD")
+
+insert into ${DatabaseModel.Model.TablePrefix}Security_Objects (ObjectID, Name) values (NEWID(), '${entity.ClassName}');
+insert into ${DatabaseModel.Model.TablePrefix}Security_RoleObjectLinks (RoleObjectID, RoleID, ObjectID)  select NEWID(), ${DatabaseModel.Model.TablePrefix}Security_Roles.RoleID, ${DatabaseModel.Model.TablePrefix}Security_Objects.ObjectID from ${DatabaseModel.Model.TablePrefix}Security_Roles, ${DatabaseModel.Model.TablePrefix}Security_Objects where ${DatabaseModel.Model.TablePrefix}Security_Roles.Name = 'Administrator' and ${DatabaseModel.Model.TablePrefix}Security_Objects.Name = '${entity.ClassName}';
+#foreach($action in $controllerActions)
+insert into ${DatabaseModel.Model.TablePrefix}Security_RoleObjectPrivledgeLinks (RoleObjectPrivledgeID, RoleObjectID, PrivledgeID, Enabled) select NEWID(), ${DatabaseModel.Model.TablePrefix}Security_RoleObjectLinks.RoleObjectID, ${DatabaseModel.Model.TablePrefix}Security_Privledges.PrivledgeID, 1 from ${DatabaseModel.Model.TablePrefix}Security_Roles, ${DatabaseModel.Model.TablePrefix}Security_Objects, ${DatabaseModel.Model.TablePrefix}Security_RoleObjectLinks, ${DatabaseModel.Model.TablePrefix}Security_Privledges where ((${DatabaseModel.Model.TablePrefix}Security_RoleObjectLinks.RoleID = ${DatabaseModel.Model.TablePrefix}Security_Roles.RoleID and ${DatabaseModel.Model.TablePrefix}Security_Roles.Name = 'Administrator') and (${DatabaseModel.Model.TablePrefix}Security_RoleObjectLinks.ObjectID = ${DatabaseModel.Model.TablePrefix}Security_Objects.ObjectID and ${DatabaseModel.Model.TablePrefix}Security_Objects.Name = '${entity.ClassName}')) and ${DatabaseModel.Model.TablePrefix}Security_Privledges.Name = '${action}';
+#end
+insert into ${DatabaseModel.Model.TablePrefix}Security_RoleObjectLinks (RoleObjectID, RoleID, ObjectID)  select NEWID(), ${DatabaseModel.Model.TablePrefix}Security_Roles.RoleID, ${DatabaseModel.Model.TablePrefix}Security_Objects.ObjectID from ${DatabaseModel.Model.TablePrefix}Security_Roles, ${DatabaseModel.Model.TablePrefix}Security_Objects where ${DatabaseModel.Model.TablePrefix}Security_Roles.Name = 'User' and ${DatabaseModel.Model.TablePrefix}Security_Objects.Name = '${entity.ClassName}';
+insert into ${DatabaseModel.Model.TablePrefix}Security_RoleObjectPrivledgeLinks (RoleObjectPrivledgeID, RoleObjectID, PrivledgeID, Enabled) select NEWID(), ${DatabaseModel.Model.TablePrefix}Security_RoleObjectLinks.RoleObjectID, ${DatabaseModel.Model.TablePrefix}Security_Privledges.PrivledgeID, 1 from ${DatabaseModel.Model.TablePrefix}Security_Roles, ${DatabaseModel.Model.TablePrefix}Security_Objects, ${DatabaseModel.Model.TablePrefix}Security_RoleObjectLinks, ${DatabaseModel.Model.TablePrefix}Security_Privledges where ((${DatabaseModel.Model.TablePrefix}Security_RoleObjectLinks.RoleID = ${DatabaseModel.Model.TablePrefix}Security_Roles.RoleID and ${DatabaseModel.Model.TablePrefix}Security_Roles.Name = 'User') and (${DatabaseModel.Model.TablePrefix}Security_RoleObjectLinks.ObjectID = ${DatabaseModel.Model.TablePrefix}Security_Objects.ObjectID and ${DatabaseModel.Model.TablePrefix}Security_Objects.Name = '${entity.ClassName}')) and ${DatabaseModel.Model.TablePrefix}Security_Privledges.Name = 'Index';
+#end
+#end
+#end

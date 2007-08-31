@@ -1,0 +1,17 @@
+<%
+import ${Rails.Model.Namespace}.Models
+%>
+<% if IsDefined("errortext"): %>
+<div class="error">
+  <p>${errortext}</p>
+</div>
+<% end %>
+<% if IsDefined("infoMessage"): %>
+<div class="info">
+  <p>${infoMessage}</p>
+</div>
+<% end %>
+<% 
+if IsDefined("${Rails.Entity.ClassName.ToLower()}"): 
+  output ${Rails.Entity.ClassName.ToLower()}
+end %>

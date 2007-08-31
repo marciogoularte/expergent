@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ObjectMap>
+	<Class name="location" path="Expergent.Tester.TestClasses.LocationTestClass" namespace="Account" isList="false" listOf="" isContained="true" containedBy="LocationList">
+		<Property name="ID" alias="locationID"></Property>
+		<Property name="Description" alias="locationDescription"></Property>
+		<Property name="IntVal" alias="locationIntegerValue"></Property>
+	</Class>
+	<Class name="customer" path="Expergent.Tester.TestClasses.CustomerTestClass" namespace="Account" isList="false" listOf="" isContained="false" containedBy="">
+		<Property name="TheLocation" alias="CustomerLocation"></Property>
+		<Property name="IntVal" alias="CustomerIntVal"></Property>
+		<Property name="Locations" alias="locations"></Property>
+		<Property name="TheHash" alias="theChildHash"></Property>
+	</Class>
+	<Class name="locationList" path="Expergent.Tester.TestClasses.LocationList" namespace="Account" isList="true" listOf="Location" isContained="false" containedBy="">
+		<Property name="Count" alias="count"></Property>
+	</Class>
+	<Class name="childHash" path="Expergent.Tester.TestClasses.ChildHash" namespace="Account" isList="true" listOf="String" isContained="false" containedBy="">
+		<Property name="Count" alias="count"></Property>
+	</Class>
+
+<!-- System Types -->
+	<Class name="System.String" path="System.String" namespace="Account" isList="" listOf="" isContained="false" containedBy="">
+		<Property name="Count" alias="childHashText"></Property>
+	</Class>
+	
+<!-- End System Type -->	
+</ObjectMap>
