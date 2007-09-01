@@ -40,7 +40,6 @@ namespace Expergent
         private Dictionary<string, int> _variableList;
         private List<Activation> _inferredFacts;
         private int _salience;
-        private bool _activated;
         private ProductionStatus _status;
         private DateTime _timeStamp;
 
