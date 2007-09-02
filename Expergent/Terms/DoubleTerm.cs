@@ -25,41 +25,71 @@ using System;
 
 namespace Expergent.Terms
 {
-    public class DoubleTerm : GenericTerm<double>
+    ///<summary>A Double Term
+    ///</summary>
+    public class DoubleTerm : Term
     {
         #region constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DoubleTerm"/> class.
+        /// </summary>
+        /// <param name="s">The s.</param>
         public DoubleTerm(String s) : this(Double.Parse(s))
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DoubleTerm"/> class.
+        /// </summary>
+        /// <param name="d">The d.</param>
         public DoubleTerm(double d) : base(d)
         {
             _termType = TermType.Double;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DoubleTerm"/> class.
+        /// </summary>
+        /// <param name="d">The d.</param>
         public DoubleTerm(Single d) : base(d)
         {
             _termType = TermType.Double;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DoubleTerm"/> class.
+        /// </summary>
+        /// <param name="d">The d.</param>
         public DoubleTerm(decimal d) : base(Convert.ToDouble(d))
         {
             _termType = TermType.Double;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DoubleTerm"/> class.
+        /// </summary>
+        /// <param name="d">The d.</param>
         public DoubleTerm(double? d)
             : base(d.Value)
         {
             _termType = TermType.Double;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DoubleTerm"/> class.
+        /// </summary>
+        /// <param name="d">The d.</param>
         public DoubleTerm(Single? d)
             : base(d.Value)
         {
             _termType = TermType.Double;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DoubleTerm"/> class.
+        /// </summary>
+        /// <param name="d">The d.</param>
         public DoubleTerm(decimal? d)
             : base(Convert.ToDouble(d.Value))
         {
@@ -70,6 +100,20 @@ namespace Expergent.Terms
 
         #region Overrides
 
+        /// <summary>
+        /// Gets or sets the underlying value for this Term.
+        /// </summary>
+        /// <value>The value.</value>
+        public new double Value
+        {
+            get { return (double) _value; }
+            set { _value = value; }
+        }
+
+        /// <summary>
+        /// Method for creating a copy of this term.
+        /// </summary>
+        /// <returns></returns>
         public override Term Copy()
         {
             return new DoubleTerm(Value);
@@ -79,31 +123,61 @@ namespace Expergent.Terms
 
         #region Implicit Conversions
 
+        /// <summary>
+        /// Implicit operator to convert a value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>DoubleTerm</returns>
         public static implicit operator DoubleTerm(Double value)
         {
             return new DoubleTerm(value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert a value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>DoubleTerm</returns>
         public static implicit operator DoubleTerm(Single value)
         {
             return new DoubleTerm(value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert a value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>DoubleTerm</returns>
         public static implicit operator DoubleTerm(Decimal value)
         {
             return new DoubleTerm(value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert a value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>DoubleTerm</returns>
         public static implicit operator DoubleTerm(Double? value)
         {
             return new DoubleTerm(value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert a value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>DoubleTerm</returns>
         public static implicit operator DoubleTerm(Single? value)
         {
             return new DoubleTerm(value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert a value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>DoubleTerm</returns>
         public static implicit operator DoubleTerm(Decimal? value)
         {
             return new DoubleTerm(value);

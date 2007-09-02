@@ -26,8 +26,11 @@ using Expergent.Conditions;
 namespace Expergent
 {
     /// <summary>
-    /// 
+    /// Represents an inferred fact and the action to take.
     /// </summary>
+    /// <remarks>
+    /// 
+    /// </remarks>
     public class Activation
     {
         private WME _fact;

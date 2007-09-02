@@ -25,13 +25,28 @@ using Expergent.Terms;
 
 namespace Expergent.Conditions
 {
+    ///<summary>A Not Condition
+    ///</summary>
     public class NegativeCondition : LeftHandSideCondition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NegativeCondition"/> class.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public NegativeCondition(Term id, Term attribute, Term value)
             : base("NegativeCondition", ConditionType.Negative, id, attribute, value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NegativeCondition"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public NegativeCondition(string label, Term id, Term attribute, Term value)
             : base(label, ConditionType.Negative, id, attribute, value)
         {

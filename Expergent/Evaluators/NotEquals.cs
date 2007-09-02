@@ -26,10 +26,18 @@ using Expergent.Terms;
 
 namespace Expergent.Evaluators
 {
+    ///<summary>Not Equals
+    ///</summary>
     public class NotEquals : IEvaluator
     {
         #region IEvaluator Members
 
+        /// <summary>
+        /// Evaluates the specified terms.
+        /// </summary>
+        /// <param name="subject">The subject.</param>
+        /// <param name="obj">The obj.</param>
+        /// <returns>The result</returns>
         public bool Evaluate(Term subject, Term obj)
         {
             return ! subject.Equals(obj);
@@ -37,6 +45,12 @@ namespace Expergent.Evaluators
 
         #endregion
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
         public override string ToString()
         {
             return "<>";

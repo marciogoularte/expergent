@@ -23,11 +23,25 @@
 
 namespace Expergent
 {
+    ///<summary>Production Status
+    ///</summary>
     public enum ProductionStatus
     {
+        /// <summary>
+        /// LostInOverride
+        /// </summary>
         LostInOverride,
+        /// <summary>
+        /// WonInOverride
+        /// </summary>
         WonInOverride,
+        /// <summary>
+        /// Ready
+        /// </summary>
         Ready,
+        /// <summary>
+        /// InMutex
+        /// </summary>
         InMutex
     }
 }

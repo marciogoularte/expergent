@@ -43,6 +43,9 @@ namespace Expergent
         private ReteNode _nearest_ancestor_with_same_amem;
         private bool _isRightUnlinked;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NegativeNode"/> class.
+        /// </summary>
         public NegativeNode()
         {
             _type = ReteNodeType.Negative;
@@ -50,34 +53,60 @@ namespace Expergent
             _tests = new LinkedList<TestAtJoinNode>();
         }
 
+        /// <summary>
+        /// Gets the items.
+        /// </summary>
+        /// <value>The items.</value>
         public LinkedList<Token> Items
         {
             get { return _items; }
         }
 
+        /// <summary>
+        /// Gets or sets the alpha memory.
+        /// </summary>
+        /// <value>The alpha memory.</value>
         public AlphaMemory AlphaMemory
         {
             get { return _amem; }
             set { _amem = value; }
         }
 
+        /// <summary>
+        /// Gets the tests.
+        /// </summary>
+        /// <value>The tests.</value>
         public LinkedList<TestAtJoinNode> Tests
         {
             get { return _tests; }
         }
 
+        /// <summary>
+        /// Gets or sets the nearest ancestor with same amem.
+        /// </summary>
+        /// <value>The nearest ancestor with same amem.</value>
         public ReteNode NearestAncestorWithSameAmem
         {
             get { return _nearest_ancestor_with_same_amem; }
             set { _nearest_ancestor_with_same_amem = value; }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is right unlinked.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this instance is right unlinked; otherwise, <c>false</c>.
+        /// </value>
         public bool IsRightUnlinked
         {
             get { return _isRightUnlinked; }
             set { _isRightUnlinked = value; }
         }
 
+        /// <summary>
+        /// Accepts the specified visitor.
+        /// </summary>
+        /// <param name="visitor">The visitor.</param>
         public override void Accept(IVisitor visitor)
         {
             visitor.OnNegativeNode(this);

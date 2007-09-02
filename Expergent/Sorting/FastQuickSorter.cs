@@ -21,46 +21,62 @@
 
 #endregion
 
+#region Attribution
+
+//<summary>A fast quick sort demonstration algorithm
+//</summary>
+// /// <remarks>
+// <para>
+// Author James Gosling, Kevin A. Smith, 
+// </para>
+// <para>
+// Source: http://www.cs.ubc.ca/spider/harrison/Java/FastQSortAlgorithm.java.html
+// </para>
+// <para>
+// Ported to C# by Jonathand de Halleux
+// </para>
+// <para>
+// SortAlgorithm.java
+// extended with TriMedian and InsertionSort by Denis Ahrens
+// with all the tips from Robert Sedgewick (Algorithms in C++).
+// It uses TriMedian and InsertionSort for lists shorts than 4.
+// <fuhrmann@cs.tu-berlin.de>
+// </para>
+// </remarks>
+//<typeparam name="T"></typeparam>
+
+#endregion
+
 using System.Collections.Generic;
 
 namespace NSort.Generic
 {
-    /**
- * 
- * SortAlgorithm.java
- *
- *
- * extended with TriMedian and InsertionSort by Denis Ahrens
- * with all the tips from Robert Sedgewick (Algorithms in C++).
- * It uses TriMedian and InsertionSort for lists shorts than 4.
- * <fuhrmann@cs.tu-berlin.de>
- */
-
-    /// <summary>
-    /// A fast quick sort demonstration algorithm
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// Author James Gosling, Kevin A. Smith, 
-    /// </para>
-    /// <para>
-    /// Source: http://www.cs.ubc.ca/spider/harrison/Java/FastQSortAlgorithm.java.html
-    /// </para>
-    /// <para>
-    /// Ported to C# by Jonathand de Halleux
-    /// </para>
-    /// </remarks>
+    ///<summary>
+    ///</summary>
+    ///<typeparam name="T"></typeparam>
     public class FastQuickSorter<T> : SwapSorter<T>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FastQuickSorter&lt;T&gt;"/> class.
+        /// </summary>
         public FastQuickSorter()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FastQuickSorter&lt;T&gt;"/> class.
+        /// </summary>
+        /// <param name="comparer">The comparer.</param>
+        /// <param name="swapper">The swapper.</param>
         public FastQuickSorter(IComparer<T> comparer, ISwap<T> swapper)
             : base(comparer, swapper)
         {
         }
 
+        /// <summary>
+        /// Sorts the specified list.
+        /// </summary>
+        /// <param name="list">The list.</param>
         public override void Sort(IList<T> list)
         {
             QuickSort(list, 0, list.Count - 1);

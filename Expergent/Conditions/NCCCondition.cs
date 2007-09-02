@@ -25,13 +25,28 @@ using Expergent.Terms;
 
 namespace Expergent.Conditions
 {
+    ///<summary>NCC Condition
+    ///</summary>
     public class NCCCondition : LeftHandSideCondition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NCCCondition"/> class.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public NCCCondition(Term id, Term attribute, Term value)
             : base("NCCCondition", ConditionType.NCC, id, attribute, value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NCCCondition"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public NCCCondition(string label, Term id, Term attribute, Term value)
             : base(label, ConditionType.NCC, id, attribute, value)
         {

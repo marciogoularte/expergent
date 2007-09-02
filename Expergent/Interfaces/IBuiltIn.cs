@@ -25,14 +25,16 @@ using Expergent.Terms;
 
 namespace Expergent.Interfaces
 {
+    ///<summary>Interface IBuiltIn
+    ///</summary>
     public interface IBuiltIn
     {
         /// <summary>
-        /// Evaluates the specified subject.
+        /// Evaluates the specified Terms.
         /// </summary>
         /// <param name="subject">The subject.</param>
         /// <param name="obj">The obj.</param>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         bool Evaluate(Term subject, Term obj);
     }
 }

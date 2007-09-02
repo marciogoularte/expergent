@@ -25,13 +25,28 @@ using Expergent.Terms;
 
 namespace Expergent.Conditions
 {
+    ///<summary>An Assert Condition
+    ///</summary>
     public class AssertCondition : RightHandSideCondition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AssertCondition"/> class.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public AssertCondition(Term id, Term attribute, Term value)
             : base("AssertCondition", ConditionType.Assert, id, attribute, value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AssertCondition"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public AssertCondition(string label, Term id, Term attribute, Term value)
             : base(label, ConditionType.Assert, id, attribute, value)
         {

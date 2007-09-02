@@ -26,16 +26,46 @@ using Expergent.Interfaces;
 
 namespace Expergent
 {
+    ///<summary>a sequence of WMEs
+    ///</summary>
     public class Token : IVisitable
     {
         #region Fields
 
+        /// <summary>
+        /// points to the higher token, for items 1...i-1
+        /// </summary>
+        /// <value>The parent.</value>
         protected Token _parent;
+
+        /// <summary>
+        /// The wme associated with this token
+        /// </summary>
         protected WME _wme;
+
+        /// <summary>
+        /// points to the memory this token is in
+        /// </summary>
         protected ReteNode _node;
+
+        /// <summary>
+        /// the ones with parent=this token
+        /// </summary>
         protected LinkedList<Token> _children;
+
+        /// <summary>
+        /// used only on tokens in negative nodes
+        /// </summary>
         protected LinkedList<NegativeJoinResult> _join_results;
+
+        /// <summary>
+        /// similar to join-results but for NCC nodes
+        /// </summary>
         protected LinkedList<Token> _ncc_results;
+
+        /// <summary>
+        /// The owner of this token
+        /// </summary>
         protected Token _owner;
 
         #endregion
@@ -113,6 +143,10 @@ namespace Expergent
             get { return _ncc_results; }
         }
 
+        /// <summary>
+        /// Gets or sets the owner.
+        /// </summary>
+        /// <value>The owner.</value>
         public virtual Token Owner
         {
             get { return _owner; }

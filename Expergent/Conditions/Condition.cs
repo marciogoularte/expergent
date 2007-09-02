@@ -29,12 +29,14 @@ using Expergent.Terms;
 namespace Expergent.Conditions
 {
     /// <summary>
-    /// 
+    /// Base class for production conditions
     /// </summary>
     public class Condition : IVisitable
     {
         #region Private Fields
-
+        /// <summary>
+        /// Subconditions for an NCC node
+        /// </summary>
         protected List<LeftHandSideCondition> _subconditions;
 
         private Term[] _fields;

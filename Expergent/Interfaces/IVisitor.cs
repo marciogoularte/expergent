@@ -27,6 +27,8 @@ using Expergent.Terms;
 
 namespace Expergent.Interfaces
 {
+    ///<summary>For visiting a rete network
+    ///</summary>
     public interface IVisitor
     {
         /// <summary>

@@ -26,8 +26,16 @@ using Expergent.Terms;
 
 namespace Expergent.MutexEvaluators
 {
+    ///<summary>Compares the larger of the two.
+    ///</summary>
     public class Max : AbstractBaseMutexEvaluator
     {
+        /// <summary>
+        /// Performs the evaluation.
+        /// </summary>
+        /// <param name="subject">The subject.</param>
+        /// <param name="obj">The obj.</param>
+        /// <returns></returns>
         public override bool PerformEvaluation(Term subject, Term obj)
         {
             try

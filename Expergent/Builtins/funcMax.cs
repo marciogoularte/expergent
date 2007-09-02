@@ -26,10 +26,18 @@ using Expergent.Terms;
 
 namespace Expergent.Builtins
 {
+    ///<summary>Evaluates the larger of two terms
+    ///</summary>
     public class funcMax : IBuiltIn
     {
         #region IBuiltIn Members
 
+        /// <summary>
+        /// Evaluates the specified subject.
+        /// </summary>
+        /// <param name="subject">The subject.</param>
+        /// <param name="obj">The obj.</param>
+        /// <returns></returns>
         public bool Evaluate(Term subject, Term obj)
         {
             return true;

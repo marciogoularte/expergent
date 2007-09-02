@@ -25,12 +25,25 @@ using System;
 
 namespace Expergent
 {
+    ///<summary>For activation events
+    ///</summary>
+    ///<param name="o"></param>
+    ///<param name="e"></param>
     public delegate void ActivationDelegate(object o, ActivationEvent e);
 
+    ///<summary>For activation events
+    ///</summary>
     public class ActivationEvent : EventArgs
     {
+        /// <summary>
+        /// The activation
+        /// </summary>
         public readonly Activation Activation;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActivationEvent"/> class.
+        /// </summary>
+        /// <param name="activation">The activation.</param>
         public ActivationEvent(Activation activation)
         {
             Activation = activation;

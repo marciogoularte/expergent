@@ -26,6 +26,8 @@ using Expergent.Terms;
 
 namespace Expergent.Interfaces
 {
+    ///<summary>The ISubstitutor Interface
+    ///</summary>
     public interface ISubstitutor
     {
         /// <summary>

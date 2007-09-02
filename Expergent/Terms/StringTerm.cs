@@ -25,28 +25,62 @@ using System;
 
 namespace Expergent.Terms
 {
-    public class StringTerm : GenericTerm<string>
+    ///<summary>A term for strings.
+    ///</summary>
+    public class StringTerm : Term //GenericTerm<string>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringTerm"/> class.
+        /// </summary>
+        /// <param name="s">The String.</param>
         public StringTerm(String s) : base(s)
         {
-            TermType = TermType.String;
+            _termType = TermType.String;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringTerm"/> class.
+        /// </summary>
+        /// <param name="c">The char.</param>
         public StringTerm(char c) : base(new string(c, 1))
         {
-            TermType = TermType.String;
+            _termType = TermType.String;
         }
 
+        /// <summary>
+        /// Gets or sets the underlying value for this Term.
+        /// </summary>
+        /// <value>The value.</value>
+        public new string Value
+        {
+            get { return (string)_value; }
+            set { _value = value; }
+        }
+
+        /// <summary>
+        /// Method for creating a copy of this term.
+        /// </summary>
+        /// <returns></returns>
         public override Term Copy()
         {
             return new StringTerm(Value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert a value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>StringTerm</returns>
         public static implicit operator StringTerm(String value)
         {
             return new StringTerm(value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert a value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>StringTerm</returns>
         public static implicit operator StringTerm(char value)
         {
             return new StringTerm(value);

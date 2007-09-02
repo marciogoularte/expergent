@@ -25,10 +25,15 @@ using System;
 
 namespace Expergent.Runtime
 {
+    ///<summary>ParentID Attribute
+    ///</summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class ExpergentParentIDAttribute : Attribute
     {
         // Methods
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpergentParentIDAttribute"/> class.
+        /// </summary>
         public ExpergentParentIDAttribute()
         {
         }

@@ -25,25 +25,49 @@ using System;
 
 namespace Expergent.Terms
 {
-    public class GuidTerm : GenericTerm<Guid>
+    ///<summary>A Guid Term
+    ///</summary>
+    public class GuidTerm : Term
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GuidTerm"/> class.
+        /// </summary>
+        /// <param name="guid">The GUID.</param>
         public GuidTerm(Guid guid) : base(guid)
         {
-            TermType = TermType.Guid;
+            _termType = TermType.Guid;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GuidTerm"/> class.
+        /// </summary>
+        /// <param name="guid">The GUID.</param>
         public GuidTerm(Guid? guid)
             : base(guid.Value)
         {
-            TermType = TermType.Guid;
+            _termType = TermType.Guid;
         }
 
         #endregion
 
         #region Overrides
 
+        /// <summary>
+        /// Gets or sets the underlying value for this Term.
+        /// </summary>
+        /// <value>The value.</value>
+        public new Guid Value
+        {
+            get { return (Guid) _value; }
+            set { _value = value; }
+        }
+
+        /// <summary>
+        /// Method for creating a copy of this term.
+        /// </summary>
+        /// <returns></returns>
         public override Term Copy()
         {
             return new GuidTerm(Value);
@@ -53,11 +77,21 @@ namespace Expergent.Terms
 
         #region Implicit Conversions
 
+        /// <summary>
+        /// Implicit operatorto convert the specified value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>GuidTerm</returns>
         public static implicit operator GuidTerm(Guid value)
         {
             return new GuidTerm(value);
         }
 
+        /// <summary>
+        /// Implicit operatorto convert the specified value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>GuidTerm</returns>
         public static implicit operator GuidTerm(Guid? value)
         {
             return new GuidTerm(value);

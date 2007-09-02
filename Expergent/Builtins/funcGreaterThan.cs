@@ -27,8 +27,16 @@ using Expergent.Terms;
 
 namespace Expergent.Builtins
 {
+    ///<summary>Greater Than
+    ///</summary>
     public class funcGreaterThan : IBuiltIn
     {
+        /// <summary>
+        /// Evaluates the specified subject.
+        /// </summary>
+        /// <param name="subject">The subject.</param>
+        /// <param name="obj">The obj.</param>
+        /// <returns></returns>
         public bool Evaluate(Term subject, Term obj)
         {
             try
@@ -41,6 +49,12 @@ namespace Expergent.Builtins
             }
         }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
         public override string ToString()
         {
             return "funcGreaterThan";

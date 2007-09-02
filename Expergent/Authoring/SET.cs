@@ -26,13 +26,28 @@ using Expergent.Terms;
 
 namespace Expergent.Authoring
 {
+    ///<summary>A set condition
+    ///</summary>
     public class SET : SetCondition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SET"/> class.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public SET(Term id, StringTerm attribute, Term value)
             : base("SetCondition", id, attribute, value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SET"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public SET(string label, Term id, StringTerm attribute, Term value)
             : base(label, id, attribute, value)
         {

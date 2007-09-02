@@ -38,7 +38,9 @@ namespace Expergent.Neo
     public abstract class RulesEnabledEntityObject : EntityObject, IFactProvider
     {
         #region Fields
-
+        /// <summary>
+        /// Gets a value indicating whether the facts have been asserted for this instance.
+        /// </summary>
         protected bool myFactsHaveBeenAsserted;
 
         #endregion
@@ -213,7 +215,7 @@ namespace Expergent.Neo
         }
 
         /// <summary>
-        /// A wrapper around the <see cref="TermFactory.Instance.Create"/> TermFactory.Instance.Create helper method.
+        /// A wrapper around the TermFactory.Instance.Create helper method.
         /// </summary>
         /// <param name="val">The val.</param>
         /// <returns>A Term appropriate for the type of the object parameter.</returns>

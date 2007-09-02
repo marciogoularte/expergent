@@ -27,7 +27,7 @@ using Expergent.Interfaces;
 namespace Expergent
 {
     /// <summary>
-    /// 
+    /// A rete node for collecting wme's to be evaluated by a mutex
     /// </summary>
     public class MutexNode : ReteNode
     {

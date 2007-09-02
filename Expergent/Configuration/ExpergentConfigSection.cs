@@ -26,10 +26,19 @@ using System.Xml;
 
 namespace Expergent.Configuration
 {
+    ///<summary>Expergent Configuration Section
+    ///</summary>
     public class ExpergentConfigSection : IConfigurationSectionHandler
     {
         #region IConfigurationSectionHandler Members
 
+        /// <summary>
+        /// Creates a configuration section handler.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="configContext">Configuration context object.</param>
+        /// <param name="section"></param>
+        /// <returns>The created section handler object.</returns>
         public object Create(object parent, object configContext, XmlNode section)
         {
             ExpergentOptions options = new ExpergentOptions();

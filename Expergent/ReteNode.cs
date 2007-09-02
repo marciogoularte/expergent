@@ -41,10 +41,21 @@ namespace Expergent
     public abstract class ReteNode : IVisitable
     {
         #region Fields
-
+        /// <summary>
+        /// The parent node
+        /// </summary>
         protected ReteNode _parent;
+        /// <summary>
+        /// The Node Type
+        /// </summary>
         protected ReteNodeType _type;
+        /// <summary>
+        /// List of child nodes
+        /// </summary>
         protected LinkedList<ReteNode> _children;
+        /// <summary>
+        /// The node label
+        /// </summary>
         protected string _label;
 
         #endregion

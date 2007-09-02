@@ -26,13 +26,33 @@ using System.Collections.Generic;
 namespace NSort.Generic
 {
     /// <summary>
-    /// 
+    /// ISwap Interface
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface ISwap<T>
     {
+        /// <summary>
+        /// Swaps the specified array.
+        /// </summary>
+        /// <param name="array">The array.</param>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
         void Swap(IList<T> array, int left, int right);
+
+        /// <summary>
+        /// Sets the specified array.
+        /// </summary>
+        /// <param name="array">The array.</param>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
         void Set(IList<T> array, int left, int right);
+
+        /// <summary>
+        /// Sets the specified array.
+        /// </summary>
+        /// <param name="array">The array.</param>
+        /// <param name="left">The left.</param>
+        /// <param name="obj">The obj.</param>
         void Set(IList<T> array, int left, T obj);
     }
 }

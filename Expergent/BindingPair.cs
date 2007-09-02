@@ -28,7 +28,7 @@ using Expergent.Terms;
 namespace Expergent
 {
     /// <summary>
-    /// 
+    /// Represents a Variable and its bound value, in the form of a substitutor
     /// </summary>
     public class BindingPair : IVisitable
     {

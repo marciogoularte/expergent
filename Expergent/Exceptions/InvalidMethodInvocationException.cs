@@ -25,8 +25,14 @@ using System;
 
 namespace Expergent.Exceptions
 {
+    ///<summary>Thrown when a method or property is not found
+    ///</summary>
     public class InvalidMethodInvocationException : ApplicationException
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InvalidMethodInvocationException"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
         public InvalidMethodInvocationException(string message) : base(message)
         {
         }

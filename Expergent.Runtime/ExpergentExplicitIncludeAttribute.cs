@@ -25,10 +25,16 @@ using System;
 
 namespace Expergent.Runtime
 {
+    ///<summary>Forces an Include
+    ///</summary>
     [AttributeUsage(AttributeTargets.Class)]
     public class ExpergentExplicitIncludeAttribute : Attribute
     {
         // Methods
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpergentExplicitIncludeAttribute"/> class.
+        /// </summary>
+        /// <param name="ApplyToInheritingClass">if set to <c>true</c> [apply to inheriting class].</param>
         public ExpergentExplicitIncludeAttribute(bool ApplyToInheritingClass)
         {
             _ApplyToInheritingClass = ApplyToInheritingClass;
@@ -36,6 +42,12 @@ namespace Expergent.Runtime
 
 
         // Properties
+        /// <summary>
+        /// Gets a value indicating whether [apply to inheriting class].
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if [apply to inheriting class]; otherwise, <c>false</c>.
+        /// </value>
         public bool ApplyToInheritingClass
         {
             get { return _ApplyToInheritingClass; }

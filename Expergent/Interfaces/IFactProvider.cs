@@ -26,6 +26,8 @@ using Neo.Framework;
 
 namespace Expergent.Interfaces
 {
+    ///<summary>Interface IFactProvider
+    ///</summary>
     public interface IFactProvider
     {
         /// <summary>

@@ -25,13 +25,28 @@ using Expergent.Terms;
 
 namespace Expergent.Conditions
 {
+    ///<summary>A condition for invoking a method on the right hand side of a production
+    ///</summary>
     public class InvokeCondition : RightHandSideCondition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InvokeCondition"/> class.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public InvokeCondition(Term id, StringTerm attribute, Term value)
             : base("InvokeCondition", ConditionType.Invoke, id, attribute, value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InvokeCondition"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public InvokeCondition(string label, Term id, StringTerm attribute, Term value)
             : base(label, ConditionType.Invoke, id, attribute, value)
         {

@@ -27,7 +27,7 @@ using Expergent.Interfaces;
 namespace Expergent
 {
     /// <summary>
-    /// 
+    /// Evaluates incoming wme's and passes those matching the evaluation on to its children.
     /// </summary>
     /// <remarks><para>
     /// As mentioned in the overview, a join node can incur a right activation when a WME is added

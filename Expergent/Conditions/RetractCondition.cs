@@ -25,13 +25,28 @@ using Expergent.Terms;
 
 namespace Expergent.Conditions
 {
+    ///<summary>A Retract Condition
+    ///</summary>
     public class RetractCondition : RightHandSideCondition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RetractCondition"/> class.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public RetractCondition(Term id, Term attribute, Term value)
             : base("RetractCondition", ConditionType.Retract, id, attribute, value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RetractCondition"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public RetractCondition(string label, Term id, Term attribute, Term value)
             : base(label, ConditionType.Retract, id, attribute, value)
         {

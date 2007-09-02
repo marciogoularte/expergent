@@ -26,10 +26,16 @@ using Expergent.Terms;
 
 namespace Expergent.Neo
 {
-    public class EntityObjectTerm : GenericTerm<IFactProvider>
+    ///<summary>An Entity Object Term
+    ///</summary>
+    public class EntityObjectTerm : Term
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntityObjectTerm"/> class.
+        /// </summary>
+        /// <param name="entityObject">The entity object.</param>
         public EntityObjectTerm(IFactProvider entityObject)
             : base(entityObject)
         {
@@ -40,6 +46,20 @@ namespace Expergent.Neo
 
         #region Overrides
 
+        /// <summary>
+        /// Gets or sets the underlying value for this Term.
+        /// </summary>
+        /// <value>The value.</value>
+        public new IFactProvider Value
+        {
+            get { return (IFactProvider) _value; }
+            set { _value = value; }
+        }
+
+        /// <summary>
+        /// Method for creating a copy of this term.
+        /// </summary>
+        /// <returns></returns>
         public override Term Copy()
         {
             return new EntityObjectTerm(Value);
@@ -49,6 +69,11 @@ namespace Expergent.Neo
 
         #region Implicit Conversions
 
+        /// <summary>
+        /// Implicit operator to convert the specified value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>EntityObjectTerm</returns>
         public static implicit operator EntityObjectTerm(RulesEnabledEntityObject value)
         {
             return new EntityObjectTerm(value);

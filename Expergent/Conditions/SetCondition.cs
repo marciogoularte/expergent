@@ -25,13 +25,28 @@ using Expergent.Terms;
 
 namespace Expergent.Conditions
 {
+    ///<summary>COndition for setting a property
+    ///</summary>
     public class SetCondition : RightHandSideCondition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SetCondition"/> class.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public SetCondition(Term id, StringTerm attribute, Term value)
             : base("SetCondition", ConditionType.Set, id, attribute, value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SetCondition"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public SetCondition(string label, Term id, StringTerm attribute, Term value)
             : base(label, ConditionType.Set, id, attribute, value)
         {

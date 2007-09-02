@@ -29,6 +29,8 @@ using Expergent.Terms;
 
 namespace Expergent
 {
+    ///<summary>A rule.
+    ///</summary>
     public class Production : IVisitable
     {
         #region Fields
@@ -151,6 +153,12 @@ namespace Expergent
             get { return _timeStamp; }
         }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
         public override string ToString()
         {
             return _label;

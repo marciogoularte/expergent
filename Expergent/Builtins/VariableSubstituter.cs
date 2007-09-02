@@ -26,6 +26,8 @@ using Expergent.Terms;
 
 namespace Expergent.Builtins
 {
+    ///<summary>A Variable Substituter
+    ///</summary>
     public class VariableSubstituter : ISubstitutor, IVisitable
     {
         private int fieldNumber;
@@ -33,29 +35,50 @@ namespace Expergent.Builtins
         private BindingPair _bindingPair;
         private string _wmeRef;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VariableSubstituter"/> class.
+        /// </summary>
         public VariableSubstituter()
         {
             _bindingPair = new BindingPair();
         }
 
+        /// <summary>
+        /// Gets or sets the binding pair.
+        /// </summary>
+        /// <value>The binding pair.</value>
         public BindingPair BindingPair
         {
             get { return _bindingPair; }
             set { _bindingPair = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the field number.
+        /// </summary>
+        /// <value>The field number.</value>
         public int FieldNumber
         {
             get { return fieldNumber; }
             set { fieldNumber = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the number of levels up.
+        /// </summary>
+        /// <value>The number of levels up.</value>
         public int NumberOfLevelsUp
         {
             get { return numberOfLevelsUp; }
             set { numberOfLevelsUp = value; }
         }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
         public override string ToString()
         {
             return string.Format("{0} {1}", _wmeRef, _bindingPair);
@@ -63,6 +86,11 @@ namespace Expergent.Builtins
 
         #region ISubstitutor Members
 
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        /// <param name="t">The t.</param>
+        /// <returns>Term</returns>
         public Term GetValue(Token t)
         {
             Token tok = t.GetTokenUp(numberOfLevelsUp);
@@ -71,6 +99,10 @@ namespace Expergent.Builtins
             return _bindingPair.Value;
         }
 
+        /// <summary>
+        /// Gets the type of the substituter.
+        /// </summary>
+        /// <value>The type of the substituter.</value>
         public SubstituterType SubstituterType
         {
             get { return SubstituterType.Variable; }
@@ -80,6 +112,10 @@ namespace Expergent.Builtins
 
         #region IVisitable Members
 
+        /// <summary>
+        /// Accepts the specified visitor.
+        /// </summary>
+        /// <param name="visitor">The visitor.</param>
         public void Accept(IVisitor visitor)
         {
             visitor.OnVariableSubstituter(this);

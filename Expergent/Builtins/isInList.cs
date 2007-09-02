@@ -27,10 +27,18 @@ using Expergent.Terms;
 
 namespace Expergent.Builtins
 {
+    ///<summary>Is In List
+    ///</summary>
     public class isInList : IBuiltIn
     {
         #region IBuiltIn Members
 
+        /// <summary>
+        /// Evaluates the specified Terms.
+        /// </summary>
+        /// <param name="subject">The subject.</param>
+        /// <param name="obj">The obj.</param>
+        /// <returns>bool</returns>
         public bool Evaluate(Term subject, Term obj)
         {
             IEnumerable iterator = obj.Value as IEnumerable;
@@ -49,6 +57,12 @@ namespace Expergent.Builtins
 
         #endregion
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
         public override string ToString()
         {
             return "isInList";

@@ -25,21 +25,35 @@ using System;
 
 namespace Expergent.Terms
 {
-    public class DateTimeTerm : GenericTerm<DateTime>
+    ///<summary>A Date Time Term
+    ///</summary>
+    public class DateTimeTerm : Term
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateTimeTerm"/> class.
+        /// </summary>
+        /// <param name="date">The date.</param>
         public DateTimeTerm(DateTime date) : base(date)
         {
             _termType = TermType.DateTime;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateTimeTerm"/> class.
+        /// </summary>
+        /// <param name="date">The date.</param>
         public DateTimeTerm(DateTime? date)
             : base(date.Value)
         {
             _termType = TermType.DateTime;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateTimeTerm"/> class.
+        /// </summary>
+        /// <param name="s">The s.</param>
         public DateTimeTerm(string s) : this(Convert.ToDateTime(s))
         {
         }
@@ -48,6 +62,20 @@ namespace Expergent.Terms
 
         #region Overrides
 
+        /// <summary>
+        /// Gets or sets the underlying value for this Term.
+        /// </summary>
+        /// <value>The value.</value>
+        public new DateTime Value
+        {
+            get { return (DateTime)_value; }
+            set { _value = value; }
+        }
+
+        /// <summary>
+        /// Method for creating a copy of this term.
+        /// </summary>
+        /// <returns></returns>
         public override Term Copy()
         {
             return new DateTimeTerm(Value);
@@ -57,11 +85,21 @@ namespace Expergent.Terms
 
         #region Implicit Conversions
 
+        /// <summary>
+        /// Implicit operator to convert the specified value into a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>DateTimeTerm</returns>
         public static implicit operator DateTimeTerm(DateTime value)
         {
             return new DateTimeTerm(value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert the specified value into a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>DateTimeTerm</returns>
         public static implicit operator DateTimeTerm(DateTime? value)
         {
             return new DateTimeTerm(value);

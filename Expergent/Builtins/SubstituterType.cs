@@ -23,9 +23,15 @@
 
 namespace Expergent.Builtins
 {
+    ///<summary>SubstituterType
+    ///</summary>
     public enum SubstituterType
     {
+        ///<summary>Variable
+        ///</summary>
         Variable,
+        ///<summary>Constant
+        ///</summary>
         Constant
     }
 }

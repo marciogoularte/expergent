@@ -25,10 +25,18 @@ using System;
 
 namespace Expergent.Runtime
 {
+    ///<summary>Provides info
+    ///</summary>
     [AttributeUsage(AttributeTargets.All)]
     public class ExpergentInfoAttribute : Attribute
     {
         // Methods
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpergentInfoAttribute"/> class.
+        /// </summary>
+        /// <param name="FriendlyName">Name of the friendly.</param>
+        /// <param name="ReturnType">Type of the return.</param>
+        /// <param name="UseFriendlyName">if set to <c>true</c> [use friendly name].</param>
         public ExpergentInfoAttribute(string FriendlyName, Type ReturnType, bool UseFriendlyName)
         {
             _FriendlyName = FriendlyName;
@@ -38,16 +46,28 @@ namespace Expergent.Runtime
 
 
         // Properties
+        /// <summary>
+        /// Gets the name of the friendly.
+        /// </summary>
+        /// <value>The name of the friendly.</value>
         public string FriendlyName
         {
             get { return _FriendlyName; }
         }
 
+        /// <summary>
+        /// Gets the type of the return.
+        /// </summary>
+        /// <value>The type of the return.</value>
         public Type ReturnType
         {
             get { return _ReturnType; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether [use friendly name].
+        /// </summary>
+        /// <value><c>true</c> if [use friendly name]; otherwise, <c>false</c>.</value>
         public bool UseFriendlyName
         {
             get { return _UseFriendlyName; }

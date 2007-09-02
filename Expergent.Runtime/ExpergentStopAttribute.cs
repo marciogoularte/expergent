@@ -25,10 +25,16 @@ using System;
 
 namespace Expergent.Runtime
 {
+    ///<summary>Stop Attribute
+    ///</summary>
     [AttributeUsage(AttributeTargets.All)]
     public class ExpergentStopAttribute : Attribute
     {
         // Methods
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpergentStopAttribute"/> class.
+        /// </summary>
+        /// <param name="StopBaseInspection">if set to <c>true</c> [stop base inspection].</param>
         public ExpergentStopAttribute(bool StopBaseInspection)
         {
             _stop = true;
@@ -37,6 +43,10 @@ namespace Expergent.Runtime
 
 
         // Properties
+        /// <summary>
+        /// Gets a value indicating whether [stop base inspection].
+        /// </summary>
+        /// <value><c>true</c> if [stop base inspection]; otherwise, <c>false</c>.</value>
         public bool StopBaseInspection
         {
             get { return _stop; }
