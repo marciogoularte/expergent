@@ -30,7 +30,7 @@ using Expergent.Terms;
 namespace Expergent
 {
     /// <summary>
-    /// 
+    /// A class for the resolution of Mutual Exclusions
     /// </summary>
     public class Mutex : IVisitable
     {
@@ -146,6 +146,10 @@ namespace Expergent
             set { _items = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the variable list.
+        /// </summary>
+        /// <value>The variable list.</value>
         public Dictionary<string, int> VariableList
         {
             get { return _variableList; }

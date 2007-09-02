@@ -25,10 +25,20 @@ using System.Collections.Generic;
 
 namespace Expergent.ConflictResolvers
 {
+    ///<summary>Resolves Mutexes on Salience
+    ///</summary>
     public class SalienceResolver : IComparer<Production>
     {
         #region IComparer<production> Members
 
+        /// <summary>
+        /// Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
+        /// </summary>
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The second object to compare.</param>
+        /// <returns>
+        /// Value Condition Less than zerox is less than y.Zerox equals y.Greater than zerox is greater than y.
+        /// </returns>
         public int Compare(Production x, Production y)
         {
             if (x.Salience == y.Salience)

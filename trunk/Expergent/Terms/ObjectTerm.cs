@@ -25,18 +25,32 @@ using System;
 
 namespace Expergent.Terms
 {
-    public class ObjectTerm : GenericTerm<object>
+    ///<summary>A Object Term
+    ///</summary>
+    public class ObjectTerm : Term
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObjectTerm"/> class.
+        /// </summary>
+        /// <param name="obj">The obj.</param>
         public ObjectTerm(Object obj) : base(obj)
         {
             TermType = TermType.ObjectReference;
         }
 
+        /// <summary>
+        /// Gets the name of the object class.
+        /// </summary>
+        /// <value>The name of the object class.</value>
         public string ObjectClassName
         {
             get { return Value.GetType().FullName; }
         }
 
+        /// <summary>
+        /// Method for creating a copy of this term.
+        /// </summary>
+        /// <returns></returns>
         public override Term Copy()
         {
             return new ObjectTerm(Value);

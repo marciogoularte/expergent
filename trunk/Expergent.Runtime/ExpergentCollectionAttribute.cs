@@ -25,10 +25,20 @@ using System;
 
 namespace Expergent.Runtime
 {
+    ///<summary>Tags a property as a collection
+    ///</summary>
     [AttributeUsage(AttributeTargets.All)]
     public class ExpergentCollectionAttribute : Attribute
     {
         // Methods
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpergentCollectionAttribute"/> class.
+        /// </summary>
+        /// <param name="FriendlyName">Name of the friendly.</param>
+        /// <param name="ReturnType">Type of the return.</param>
+        /// <param name="UseFriendlyName">if set to <c>true</c> [use friendly name].</param>
+        /// <param name="isObjectCollection">if set to <c>true</c> [is object collection].</param>
+        /// <param name="isCLPList">if set to <c>true</c> [is CLP list].</param>
         public ExpergentCollectionAttribute(string FriendlyName, Type ReturnType, bool UseFriendlyName, bool isObjectCollection, bool isCLPList)
         {
             _FriendlyName = FriendlyName;
@@ -40,26 +50,50 @@ namespace Expergent.Runtime
 
 
         // Properties
+        /// <summary>
+        /// Gets the name of the friendly.
+        /// </summary>
+        /// <value>The name of the friendly.</value>
         public string FriendlyName
         {
             get { return _FriendlyName; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is CLP list.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this instance is CLP list; otherwise, <c>false</c>.
+        /// </value>
         public bool isCLPList
         {
             get { return _isCLPList; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is object collection.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this instance is object collection; otherwise, <c>false</c>.
+        /// </value>
         public bool isObjectCollection
         {
             get { return _isObjectCollection; }
         }
 
+        /// <summary>
+        /// Gets the type of the return.
+        /// </summary>
+        /// <value>The type of the return.</value>
         public Type ReturnType
         {
             get { return _ReturnType; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether [use friendly name].
+        /// </summary>
+        /// <value><c>true</c> if [use friendly name]; otherwise, <c>false</c>.</value>
         public bool UseFriendlyName
         {
             get { return _UseFriendlyName; }

@@ -25,8 +25,15 @@ using System.Collections.Generic;
 
 namespace NSort.Generic
 {
+    ///<summary>The ISorter Interface
+    ///</summary>
+    ///<typeparam name="T"></typeparam>
     public interface ISorter<T>
     {
+        /// <summary>
+        /// Sorts the specified list.
+        /// </summary>
+        /// <param name="list">The list.</param>
         void Sort(IList<T> list);
     }
 }

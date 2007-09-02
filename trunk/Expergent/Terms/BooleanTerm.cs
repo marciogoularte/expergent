@@ -25,25 +25,49 @@ using System;
 
 namespace Expergent.Terms
 {
-    public class BooleanTerm : GenericTerm<bool>
+    ///<summary>A Boolean Term
+    ///</summary>
+    public class BooleanTerm : Term
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BooleanTerm"/> class.
+        /// </summary>
+        /// <param name="flag">if set to <c>true</c> [flag].</param>
         public BooleanTerm(bool flag) : base(flag)
         {
-            TermType = TermType.Boolean;
+            _termType = TermType.Boolean;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BooleanTerm"/> class.
+        /// </summary>
+        /// <param name="flag">The flag.</param>
         public BooleanTerm(bool? flag)
             : base(flag.Value)
         {
-            TermType = TermType.Boolean;
+            _termType = TermType.Boolean;
         }
 
         #endregion
 
         #region Overrides
 
+        /// <summary>
+        /// Gets or sets the underlying value for this Term.
+        /// </summary>
+        /// <value>The value.</value>
+        public new bool Value
+        {
+            get { return (bool)_value; }
+            set { _value = value; }
+        }
+
+        /// <summary>
+        /// Method for creating a copy of this term.
+        /// </summary>
+        /// <returns></returns>
         public override Term Copy()
         {
             return new BooleanTerm(Value);
@@ -53,11 +77,21 @@ namespace Expergent.Terms
 
         #region Implicit Conversions
 
+        /// <summary>
+        /// Implicit operator to convert the specified value into a term.
+        /// </summary>
+        /// <param name="value">if set to <c>true</c> [value].</param>
+        /// <returns>BooleanTerm</returns>
         public static implicit operator BooleanTerm(Boolean value)
         {
             return new BooleanTerm(value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert the specified value into a term.
+        /// </summary>
+        /// <param name="value">if set to <c>true</c> [value].</param>
+        /// <returns>BooleanTerm</returns>
         public static implicit operator BooleanTerm(Boolean? value)
         {
             return new BooleanTerm(value);

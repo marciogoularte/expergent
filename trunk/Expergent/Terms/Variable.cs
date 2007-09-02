@@ -26,10 +26,16 @@ using Expergent.Interfaces;
 
 namespace Expergent.Terms
 {
+    ///<summary>A Term representing a variable binding
+    ///</summary>
     public class Variable : Term, IVisitable
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Variable"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
         public Variable(String label)
         {
             TermType = TermType.Variable;
@@ -40,12 +46,20 @@ namespace Expergent.Terms
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the underlying value for this Term.
+        /// </summary>
+        /// <value>The value.</value>
         public new string Value
         {
             get { return _value.ToString(); }
             set { _value = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the label.
+        /// </summary>
+        /// <value>The label.</value>
         public String Label
         {
             get { return _value.ToString(); }
@@ -57,16 +71,32 @@ namespace Expergent.Terms
 
         #region Overrides
 
+        /// <summary>
+        /// Method for creating a copy of this term.
+        /// </summary>
+        /// <returns></returns>
         public override Term Copy()
         {
             return new Variable(_value.ToString());
         }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
         public override String ToString()
         {
             return "?" + _value;
         }
 
+        /// <summary>
+        /// Serves as a hash function for a particular type. <see cref="M:System.Object.GetHashCode"></see> is suitable for use in hashing algorithms and data structures like a hash table.
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object"></see>.
+        /// </returns>
         public override int GetHashCode()
         {
             return 0;
@@ -76,6 +106,10 @@ namespace Expergent.Terms
 
         #region IVisitable Members
 
+        /// <summary>
+        /// Accepts the specified visitor.
+        /// </summary>
+        /// <param name="visitor">The visitor.</param>
         public new void Accept(IVisitor visitor)
         {
             visitor.OnVariable(this);

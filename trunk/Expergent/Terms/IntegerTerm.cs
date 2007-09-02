@@ -25,51 +25,95 @@ using System;
 
 namespace Expergent.Terms
 {
-    public class IntegerTerm : GenericTerm<int>
+    ///<summary>An Integer Term
+    ///</summary>
+    public class IntegerTerm : Term
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntegerTerm"/> class.
+        /// </summary>
+        /// <param name="s">The s.</param>
         public IntegerTerm(String s) : this(Int32.Parse(s))
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntegerTerm"/> class.
+        /// </summary>
+        /// <param name="i">The i.</param>
         public IntegerTerm(Int16 i) : base(i)
         {
-            TermType = TermType.Integer;
+            _termType = TermType.Integer;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntegerTerm"/> class.
+        /// </summary>
+        /// <param name="i">The i.</param>
         public IntegerTerm(Int32 i) : base(i)
         {
-            TermType = TermType.Integer;
+            _termType = TermType.Integer;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntegerTerm"/> class.
+        /// </summary>
+        /// <param name="i">The i.</param>
         public IntegerTerm(Int64 i) : base(Convert.ToInt32(i))
         {
-            TermType = TermType.Integer;
+            _termType = TermType.Integer;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntegerTerm"/> class.
+        /// </summary>
+        /// <param name="i">The i.</param>
         public IntegerTerm(Int16? i)
             : base(i.Value)
         {
-            TermType = TermType.Integer;
+            _termType = TermType.Integer;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntegerTerm"/> class.
+        /// </summary>
+        /// <param name="i">The i.</param>
         public IntegerTerm(Int32? i)
             : base(i.Value)
         {
-            TermType = TermType.Integer;
+            _termType = TermType.Integer;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntegerTerm"/> class.
+        /// </summary>
+        /// <param name="i">The i.</param>
         public IntegerTerm(Int64? i)
             : base(Convert.ToInt32(i.Value))
         {
-            TermType = TermType.Integer;
+            _termType = TermType.Integer;
         }
 
         #endregion
 
         #region Overrides
 
+        /// <summary>
+        /// Gets or sets the underlying value for this Term.
+        /// </summary>
+        /// <value>The value.</value>
+        public new Int32 Value
+        {
+            get { return (Int32)_value; }
+            set { _value = value; }
+        }
+
+        /// <summary>
+        /// Method for creating a copy of this term.
+        /// </summary>
+        /// <returns></returns>
         public override Term Copy()
         {
             return new IntegerTerm(Value);
@@ -79,31 +123,61 @@ namespace Expergent.Terms
 
         #region Implicit Conversions
 
+        /// <summary>
+        /// Implicit operator to convert the specified value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>IntegerTerm</returns>
         public static implicit operator IntegerTerm(Int16 value)
         {
             return new IntegerTerm(value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert the specified value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>IntegerTerm</returns>
         public static implicit operator IntegerTerm(Int32 value)
         {
             return new IntegerTerm(value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert the specified value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>IntegerTerm</returns>
         public static implicit operator IntegerTerm(Int64 value)
         {
             return new IntegerTerm(value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert the specified value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>IntegerTerm</returns>
         public static implicit operator IntegerTerm(Int16? value)
         {
             return new IntegerTerm(value.Value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert the specified value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>IntegerTerm</returns>
         public static implicit operator IntegerTerm(Int32? value)
         {
             return new IntegerTerm(value.Value);
         }
 
+        /// <summary>
+        /// Implicit operator to convert the specified value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>IntegerTerm</returns>
         public static implicit operator IntegerTerm(Int64? value)
         {
             return new IntegerTerm(value.Value);

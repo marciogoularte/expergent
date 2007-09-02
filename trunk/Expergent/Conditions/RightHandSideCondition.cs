@@ -25,8 +25,18 @@ using Expergent.Terms;
 
 namespace Expergent.Conditions
 {
+    ///<summary>A condition suitable for the right hand side (consequent) of a production
+    ///</summary>
     public abstract class RightHandSideCondition : Condition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RightHandSideCondition"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public RightHandSideCondition(string label, ConditionType type, Term id, Term attribute, Term value)
             : base(label, type, id, attribute, value)
         {

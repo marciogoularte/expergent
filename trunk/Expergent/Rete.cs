@@ -28,6 +28,7 @@ using Expergent.Conditions;
 using Expergent.Interfaces;
 using Expergent.Neo;
 using Expergent.Terms;
+using Neo.Framework;
 
 namespace Expergent
 {
@@ -180,7 +181,7 @@ namespace Expergent
         /// descendents to delete all the tokens involving it (all the necessary "root" tokens involving it are
         /// also conveniently on a list):
         /// </summary>
-        /// <param name="w">The WME.</param>
+        /// <param name="wme">The wme.</param>
         public void RemoveWME(WME wme)
         {
             int pos = _working_memory.IndexOf(wme);
@@ -588,7 +589,7 @@ namespace Expergent
         /// <summary>
         /// The function for creating new negative nodes is similar to the ones for creating beta memories
         /// and join nodes. However, one additional consideration is important with negative conditions,
-        /// and also with conjunctive negations. Any time there is a variable <v> which is tested in a negative
+        /// and also with conjunctive negations. Any time there is a variable &lt;v&gt; which is tested in a negative
         /// condition and bound in one or more other (positive) conditions, at least one of these positive
         /// conditions must come before the negative condition. Recall that when we add a production to
         /// the network, the network-construction routines are given a list of its conditions in some order. If
@@ -1584,29 +1585,50 @@ namespace Expergent
 
             if (w.Value.TermType == TermType.EntityObject)
             {
-                EntityObjectTerm eot = (EntityObjectTerm) w.Value;
-                if (eot.Value.MyFactsHaveBeenAsserted == false)
+                IFactProvider eo = (IFactProvider)w.Value.Value;
+                if (eo.MyFactsHaveBeenAsserted == false)
                 {
-                    foreach (WME wme in eot.Value.GenerateFactsForRelatedObject(w.Attribute.Value.ToString(), w.Identifier.Value as IFactProvider))
+                    foreach (WME wme in eo.GenerateFactsForRelatedObject(w.Attribute.Value.ToString(), w.Identifier.Value as IFactProvider))
                     {
                         AddWME(wme);
                     }
                 }
+
+                //EntityObjectTerm eot = (EntityObjectTerm) w.Value;
+                //if (eot.Value.MyFactsHaveBeenAsserted == false)
+                //{
+                //    foreach (WME wme in eot.Value.GenerateFactsForRelatedObject(w.Attribute.Value.ToString(), w.Identifier.Value as IFactProvider))
+                //    {
+                //        AddWME(wme);
+                //    }
+                //}
             }
 
             if (w.Value.TermType == TermType.ObjectRelation)
             {
-                ObjectRelationTerm eot = (ObjectRelationTerm) w.Value;
-                foreach (RulesEnabledEntityObject eo in eot.Value)
+                ObjectRelationBase orb = (ObjectRelationBase)w.Value.Value;
+                foreach (RulesEnabledEntityObject eo in orb)
                 {
                     if (eo.MyFactsHaveBeenAsserted == false)
                     {
-                        foreach (WME wme in eo.GenerateFactsForObjectInCollection(w.Attribute.Value.ToString(), eot.Value))
+                        foreach (WME wme in eo.GenerateFactsForObjectInCollection(w.Attribute.Value.ToString(), orb))
                         {
                             AddWME(wme);
                         }
                     }
                 }
+
+                //ObjectRelationTerm eot = (ObjectRelationTerm) w.Value;
+                //foreach (RulesEnabledEntityObject eo in eot.Value)
+                //{
+                //    if (eo.MyFactsHaveBeenAsserted == false)
+                //    {
+                //        foreach (WME wme in eo.GenerateFactsForObjectInCollection(w.Attribute.Value.ToString(), eot.Value))
+                //        {
+                //            AddWME(wme);
+                //        }
+                //    }
+                //}
             }
 
             // *** End Neo Integration *** 

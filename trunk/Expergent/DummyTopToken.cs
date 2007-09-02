@@ -35,50 +35,85 @@ namespace Expergent
     /// </summary>
     public class DummyTopToken : Token
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DummyTopToken"/> class.
+        /// </summary>
         public DummyTopToken()
         {
             _wme = new WME("null");
         }
 
+        /// <summary>
+        /// points to the higher token, for items 1...i-1
+        /// </summary>
+        /// <value>The parent.</value>
         public override Token Parent
         {
             get { return _parent; }
             set { _parent = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the WME.
+        /// </summary>
+        /// <value>The WME.</value>
         public override WME WME
         {
             get { return _wme; }
             set { _wme = value; }
         }
 
+        /// <summary>
+        /// points to the memory this token is in
+        /// </summary>
+        /// <value>The node.</value>
         public override ReteNode Node
         {
             get { return _node; }
             set { _node = value; }
         }
 
+        /// <summary>
+        /// the ones with parent=this token
+        /// </summary>
+        /// <value>The children.</value>
         public override LinkedList<Token> Children
         {
             get { return _children; }
         }
 
+        /// <summary>
+        /// used only on tokens in negative nodes
+        /// </summary>
+        /// <value>The join results.</value>
         public override LinkedList<NegativeJoinResult> JoinResults
         {
             get { return _join_results; }
         }
 
+        /// <summary>
+        /// similar to join-results but for NCC nodes
+        /// </summary>
+        /// <value>The NCC results.</value>
         public override LinkedList<Token> NCCResults
         {
             get { return _ncc_results; }
         }
 
+        /// <summary>
+        /// Gets or sets the owner.
+        /// </summary>
+        /// <value>The owner.</value>
         public override Token Owner
         {
             get { return _owner; }
             set { _owner = value; }
         }
 
+        /// <summary>
+        /// Gets the <see cref="Expergent.WME"/> with the specified item.
+        /// </summary>
+        /// <value></value>
         public override WME this[int item]
         {
             get { return WME; }
@@ -86,6 +121,10 @@ namespace Expergent
 
         #region IVisitable Members
 
+        /// <summary>
+        /// Accepts the specified visitor.
+        /// </summary>
+        /// <param name="visitor">The visitor.</param>
         public override void Accept(IVisitor visitor)
         {
             visitor.OnTopToken(this);

@@ -27,6 +27,8 @@ using System.Collections.Generic;
 
 namespace Expergent.Terms
 {
+    ///<summary>Factory pattern for creating terms
+    ///</summary>
     public sealed class TermFactory
     {
         private static readonly TermFactory instance = new TermFactory();
@@ -58,11 +60,20 @@ namespace Expergent.Terms
             _typeDictionary.Add(typeof (Guid), typeof (GuidTerm));
         }
 
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        /// <value>The instance.</value>
         public static TermFactory Instance
         {
             get { return instance; }
         }
 
+        /// <summary>
+        /// Creates the specified Term.
+        /// </summary>
+        /// <param name="obj">The obj.</param>
+        /// <returns></returns>
         public Term Create(object obj)
         {
             if (obj == null)

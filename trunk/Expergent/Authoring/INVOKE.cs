@@ -26,13 +26,28 @@ using Expergent.Terms;
 
 namespace Expergent.Authoring
 {
+    ///<summary>An Invoke Condition
+    ///</summary>
     public class INVOKE : InvokeCondition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="INVOKE"/> class.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public INVOKE(Term id, StringTerm attribute, Term value)
             : base("InvokeCondition", id, attribute, value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="INVOKE"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public INVOKE(string label, Term id, StringTerm attribute, Term value)
             : base(label, id, attribute, value)
         {

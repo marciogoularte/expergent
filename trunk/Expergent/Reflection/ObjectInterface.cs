@@ -83,8 +83,9 @@ namespace Expergent.Reflection
         /// <summary>
         /// use the objectmaptable to create the facts
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="objectMapTable"></param>
+        /// <param name="obj">The obj.</param>
+        /// <param name="objectMapTable">The object map table.</param>
+        /// <param name="parentObj">The parent obj.</param>
         /// <returns></returns>
         public List<WME> createFactSetFromObjectInstance(Object obj, ObjectMapTable objectMapTable, Object parentObj)
         {
@@ -93,7 +94,7 @@ namespace Expergent.Reflection
             WME cliteral = null;
             List<WME> cliteralList = new List<WME>();
 
-            /// TODO:  Fix it
+            // TODO:  Fix it
             if (obj == null)
                 return cliteralList;
 

@@ -28,19 +28,42 @@ using Expergent.Terms;
 
 namespace Expergent.MutexEvaluators
 {
+    ///<summary>An Abstract Base Mutex Evaluator
+    ///</summary>
     public abstract class AbstractBaseMutexEvaluator : IMutexEvaluator
     {
         #region Fields
 
+        /// <summary>
+        /// The Conditional
+        /// </summary>
         protected int _conditional;
+
+        /// <summary>
+        /// The predicate
+        /// </summary>
         protected Term _predicate;
+
+        /// <summary>
+        /// The subject
+        /// </summary>
         protected int _subject;
+
+        /// <summary>
+        /// Sorts terms into pairs
+        /// </summary>
         protected Dictionary<object, List<WME>> _sorter;
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbstractBaseMutexEvaluator"/> class.
+        /// </summary>
+        /// <param name="conditional">The conditional.</param>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="subject">The subject.</param>
         public AbstractBaseMutexEvaluator(int conditional, Term predicate, int subject) : this()
         {
             _conditional = conditional;
@@ -48,6 +71,9 @@ namespace Expergent.MutexEvaluators
             _subject = subject;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbstractBaseMutexEvaluator"/> class.
+        /// </summary>
         public AbstractBaseMutexEvaluator()
         {
             _sorter = new Dictionary<object, List<WME>>();
@@ -59,24 +85,42 @@ namespace Expergent.MutexEvaluators
 
         #region Abstract Members
 
+        /// <summary>
+        /// Performs the evaluation.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="o1">The o1.</param>
+        /// <returns>The result</returns>
         public abstract bool PerformEvaluation(Term o, Term o1);
 
         #endregion
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets or sets the conditional.
+        /// </summary>
+        /// <value>The conditional.</value>
         public int Conditional
         {
             get { return _conditional; }
             set { _conditional = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the predicate.
+        /// </summary>
+        /// <value>The predicate.</value>
         public Term Predicate
         {
             get { return _predicate; }
             set { _predicate = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the subject.
+        /// </summary>
+        /// <value>The subject.</value>
         public int Subject
         {
             get { return _subject; }
@@ -87,6 +131,11 @@ namespace Expergent.MutexEvaluators
 
         #region Public Methods
 
+        /// <summary>
+        /// Evaluates the specified items.
+        /// </summary>
+        /// <param name="items">The items.</param>
+        /// <returns></returns>
         public List<Activation> Evaluate(IEnumerable<Token> items)
         {
             List<Activation> outlist = new List<Activation>();

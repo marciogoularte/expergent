@@ -28,25 +28,43 @@ using System.Xml;
 
 namespace Expergent.Reflection
 {
+    ///<summary>Abstract representation of business objects
+    ///</summary>
     public class ObjectMapTable
     {
         #region properties
 
+        /// <summary>
+        /// Gets the status.
+        /// </summary>
+        /// <value>The status.</value>
         public virtual int Status
         {
             get { return status; }
         }
 
+        /// <summary>
+        /// Gets the object map hashtable.
+        /// </summary>
+        /// <value>The object map hashtable.</value>
         public virtual Hashtable ObjectMapHashtable
         {
             get { return objectMapHashTable; }
         }
 
+        /// <summary>
+        /// Gets the predicate map hashtable.
+        /// </summary>
+        /// <value>The predicate map hashtable.</value>
         public virtual Hashtable PredicateMapHashtable
         {
             get { return predicateMapHashTable; }
         }
 
+        /// <summary>
+        /// Gets the map list.
+        /// </summary>
+        /// <value>The map list.</value>
         public ArrayList MapList
         {
             get { return _objectMapList; }
@@ -56,6 +74,9 @@ namespace Expergent.Reflection
 
         #region constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObjectMapTable"/> class.
+        /// </summary>
         public ObjectMapTable()
         {
             _objectMapList = new ArrayList();
@@ -64,6 +85,10 @@ namespace Expergent.Reflection
             status = 0;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObjectMapTable"/> class.
+        /// </summary>
+        /// <param name="bufferedReader">The buffered reader.</param>
         public ObjectMapTable(TextReader bufferedReader)
             : this()
         {
@@ -95,6 +120,10 @@ namespace Expergent.Reflection
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObjectMapTable"/> class.
+        /// </summary>
+        /// <param name="s">The s.</param>
         public ObjectMapTable(String s)
             : this()
         {
@@ -134,34 +163,62 @@ namespace Expergent.Reflection
 
         #region methods
 
+        /// <summary>
+        /// Adds the entry.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <param name="s1">The s1.</param>
         public virtual void addEntry(String s, String s1)
         {
             objectMapHashTable[s] = s1;
             predicateMapHashTable[s1] = s;
         }
 
+        /// <summary>
+        /// Removes the entry.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <param name="s1">The s1.</param>
         public void removeEntry(String s, String s1)
         {
             objectMapHashTable.Remove(s);
             predicateMapHashTable.Remove(s1);
         }
 
+        /// <summary>
+        /// Clears this instance.
+        /// </summary>
         public virtual void clear()
         {
             objectMapHashTable.Clear();
             predicateMapHashTable.Clear();
         }
 
+        /// <summary>
+        /// Gets the name of the predicate.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <returns></returns>
         public virtual String getPredicateName(String s)
         {
             return (String) objectMapHashTable[s];
         }
 
+        /// <summary>
+        /// Gets the name of the object.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <returns></returns>
         public virtual String getObjectName(String s)
         {
             return (String) predicateMapHashTable[s];
         }
 
+        /// <summary>
+        /// Gets the name of the object mappings by class.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <returns></returns>
         public ArrayList getObjectMappingsByClassName(String s)
         {
             ArrayList classMapping = new ArrayList();
@@ -177,6 +234,12 @@ namespace Expergent.Reflection
             return classMapping;
         }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
         public override String ToString()
         {
             return string.Format("{0}\n{1}end\n", objectMapHashTable, predicateMapHashTable);

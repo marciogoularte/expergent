@@ -27,7 +27,7 @@ using Expergent.Interfaces;
 namespace Expergent
 {
     /// <summary>
-    /// 
+    /// A negated conjunctive condition node
     /// </summary>
     /// <remarks>
     /// In this section, we show how to implement negated conjunctive conditions (NCC's), also called

@@ -27,7 +27,7 @@ using Expergent.Interfaces;
 namespace Expergent
 {
     /// <summary>
-    /// 
+    /// An NCC partner node
     /// </summary>
     /// <remarks>
     /// An NCC partner node stores a pointer to the corresponding NCC node, plus a count of the

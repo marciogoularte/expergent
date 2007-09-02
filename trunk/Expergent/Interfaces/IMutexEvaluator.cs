@@ -26,6 +26,8 @@ using Expergent.Terms;
 
 namespace Expergent.Interfaces
 {
+    ///<summary>Interface for all Mutex Evaluators
+    ///</summary>
     public interface IMutexEvaluator
     {
         /// <summary>

@@ -26,13 +26,27 @@ using Expergent.Terms;
 
 namespace Expergent.Builtins
 {
+    ///<summary>Equals
+    ///</summary>
     public class funcEquals : IBuiltIn
     {
+        /// <summary>
+        /// Evaluates the specified Terms.
+        /// </summary>
+        /// <param name="subject">The subject.</param>
+        /// <param name="obj">The obj.</param>
+        /// <returns>bool</returns>
         public bool Evaluate(Term subject, Term obj)
         {
             return subject.Equals(obj);
         }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
         public override string ToString()
         {
             return "funcEquals";

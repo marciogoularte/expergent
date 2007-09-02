@@ -26,15 +26,27 @@ using Expergent.Terms;
 
 namespace Expergent.Builtins
 {
+    ///<summary>Constant value substitutor
+    ///</summary>
     public class ConstantSubstitutor : ISubstitutor, IVisitable
     {
         private Term _obj;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConstantSubstitutor"/> class.
+        /// </summary>
+        /// <param name="value">The value.</param>
         public ConstantSubstitutor(Term value)
         {
             _obj = value;
         }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
         public override string ToString()
         {
             return _obj.ToString();
@@ -42,11 +54,20 @@ namespace Expergent.Builtins
 
         #region ISubstitutor Members
 
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        /// <param name="t">The t.</param>
+        /// <returns>Term</returns>
         public Term GetValue(Token t)
         {
             return _obj;
         }
 
+        /// <summary>
+        /// Gets the type of the substituter.
+        /// </summary>
+        /// <value>The type of the substituter.</value>
         public SubstituterType SubstituterType
         {
             get { return SubstituterType.Constant; }
@@ -56,6 +77,10 @@ namespace Expergent.Builtins
 
         #region IVisitable Members
 
+        /// <summary>
+        /// Accepts the specified visitor.
+        /// </summary>
+        /// <param name="visitor">The visitor.</param>
         public void Accept(IVisitor visitor)
         {
             visitor.OnConstantSubstitutor(this);

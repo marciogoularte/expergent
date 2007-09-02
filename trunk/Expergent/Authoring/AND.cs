@@ -26,12 +26,27 @@ using Expergent.Terms;
 
 namespace Expergent.Authoring
 {
+    ///<summary>A Positive Condition
+    ///</summary>
     public class AND : PositiveCondition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AND"/> class.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public AND(Term id, Term attribute, Term value) : base("PositiveCondition", id, attribute, value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AND"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public AND(string label, Term id, Term attribute, Term value) : base(label, id, attribute, value)
         {
         }

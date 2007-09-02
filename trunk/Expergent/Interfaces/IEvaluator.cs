@@ -25,6 +25,8 @@ using Expergent.Terms;
 
 namespace Expergent.Interfaces
 {
+    ///<summary>The IEvaluator Interface
+    ///</summary>
     public interface IEvaluator
     {
         /// <summary>

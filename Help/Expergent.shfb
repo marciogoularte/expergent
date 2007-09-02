@@ -1,0 +1,85 @@
+﻿<project schemaVersion="1.4.0.2">
+    <assemblies>
+        <assembly assemblyPath="..\Library\ConnectionFactory.dll" xmlCommentsPath="..\Library\ConnectionFactory.xml" commentsOnly="False" />
+        <assembly assemblyPath="D:\Src\Google\Expergent\trunk\Expergent\bin\Release\Expergent.dll" xmlCommentsPath="D:\Src\Google\Expergent\trunk\Expergent\bin\Release\Expergent.dll.xml" commentsOnly="False" />
+        <assembly assemblyPath="D:\Src\Google\Expergent\trunk\Expergent.Runtime\bin\Release\Expergent.Runtime.dll" xmlCommentsPath="D:\Src\Google\Expergent\trunk\Expergent.Runtime\bin\Release\Expergent.Runtime.dll.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\Library\log4net.dll" xmlCommentsPath="..\Library\log4net.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\trunk\Expergent\bin\Release\Neo.dll" xmlCommentsPath="..\trunk\Expergent\bin\Release\Neo.xml" commentsOnly="False" />
+    </assemblies>
+    <namespaceSummaries>
+        <namespaceSummaryItem name="" isDocumented="False" />
+        <namespaceSummaryItem name="ConnectionFactory" isDocumented="False" />
+        <namespaceSummaryItem name="Expergent" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.Authoring" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.Base" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.Builtins" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.Conditions" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.Configuration" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.ConflictResolvers" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.Evaluators" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.Exceptions" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.Interfaces" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.MutexEvaluators" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.Neo" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.Reflection" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.Runtime" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.Terms" isDocumented="True" />
+        <namespaceSummaryItem name="Expergent.Visitors" isDocumented="True" />
+        <namespaceSummaryItem name="log4net" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.Appender" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.Config" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.Core" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.DateFormatter" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.Filter" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.Layout" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.Layout.Pattern" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.ObjectRenderer" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.Plugin" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.Repository" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.Repository.Hierarchy" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.Util" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.Util.PatternStringConverters" isDocumented="False" />
+        <namespaceSummaryItem name="log4net.Util.TypeConverters" isDocumented="False" />
+        <namespaceSummaryItem name="Neo.Core" isDocumented="False" />
+        <namespaceSummaryItem name="Neo.Core.Parser" isDocumented="False" />
+        <namespaceSummaryItem name="Neo.Core.Qualifiers" isDocumented="False" />
+        <namespaceSummaryItem name="Neo.Core.Transactions" isDocumented="False" />
+        <namespaceSummaryItem name="Neo.Core.Util" isDocumented="False" />
+        <namespaceSummaryItem name="Neo.Database" isDocumented="False" />
+        <namespaceSummaryItem name="Neo.Framework" isDocumented="False" />
+        <namespaceSummaryItem name="Neo.SqlClient" isDocumented="False" />
+        <namespaceSummaryItem name="NSort.Generic" isDocumented="True" />
+    </namespaceSummaries>
+    <ProjectSummary />
+    <MissingTags>Summary, Parameter, Returns, Value, Remarks, AutoDocumentCtors, Namespace</MissingTags>
+    <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Internals, Protected, SealedProtected</VisibleItems>
+    <HtmlHelp1xCompilerPath path="" />
+    <HtmlHelp2xCompilerPath path="" />
+    <OutputPath>.\</OutputPath>
+    <SandcastlePath path="" />
+    <WorkingPath path="" />
+    <CleanIntermediates>True</CleanIntermediates>
+    <HelpFileFormat>HtmlHelp1x</HelpFileFormat>
+    <PurgeDuplicateTopics>True</PurgeDuplicateTopics>
+    <CppCommentsFixup>False</CppCommentsFixup>
+    <FrameworkVersion>2.0.50727</FrameworkVersion>
+    <BinaryTOC>True</BinaryTOC>
+    <IncludeFavorites>True</IncludeFavorites>
+    <Preliminary>False</Preliminary>
+    <RootNamespaceContainer>False</RootNamespaceContainer>
+    <RootNamespaceTitle />
+    <HelpTitle>Expergent - a Sandcastle documented class library</HelpTitle>
+    <HtmlHelpName>Expergent</HtmlHelpName>
+    <Language>en-US</Language>
+    <CopyrightHref />
+    <CopyrightText />
+    <FeedbackEMailAddress />
+    <HeaderText />
+    <FooterText />
+    <ProjectLinkType>Local</ProjectLinkType>
+    <SdkLinkType>Msdn</SdkLinkType>
+    <PresentationStyle>vs2005</PresentationStyle>
+    <NamingMethod>Guid</NamingMethod>
+    <SyntaxFilters>Standard</SyntaxFilters>
+    <ContentPlacement>AboveNamespaces</ContentPlacement>
+</project>

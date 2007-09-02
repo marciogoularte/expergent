@@ -27,10 +27,16 @@ using Neo.Framework;
 
 namespace Expergent.Neo
 {
-    public class ObjectRelationTerm : GenericTerm<ObjectRelationBase>, IEnumerable
+    ///<summary>
+    ///</summary>
+    public class ObjectRelationTerm : Term, IEnumerable
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObjectRelationTerm"/> class.
+        /// </summary>
+        /// <param name="objectRelation">The object relation.</param>
         public ObjectRelationTerm(ObjectRelationBase objectRelation) : base(objectRelation)
         {
             _termType = TermType.ObjectRelation;
@@ -40,15 +46,34 @@ namespace Expergent.Neo
 
         #region Overrides
 
+        /// <summary>
+        /// Method for creating a copy of this term.
+        /// </summary>
+        /// <returns></returns>
         public override Term Copy()
         {
             return new ObjectRelationTerm(Value);
+        }
+
+        /// <summary>
+        /// Gets or sets the underlying value for this Term.
+        /// </summary>
+        /// <value>The value.</value>
+        public new ObjectRelationBase Value
+        {
+            get { return (ObjectRelationBase)_value; }
+            set { _value = value; }
         }
 
         #endregion
 
         #region Implicit Conversions
 
+        /// <summary>
+        /// Implicit operator that converts a value to a term.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>ObjectRelationTerm</returns>
         public static implicit operator ObjectRelationTerm(ObjectRelationBase value)
         {
             return new ObjectRelationTerm(value);
@@ -58,6 +83,12 @@ namespace Expergent.Neo
 
         #region IEnumerable Members
 
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator"></see> object that can be used to iterate through the collection.
+        /// </returns>
         public IEnumerator GetEnumerator()
         {
             return Value.GetEnumerator();

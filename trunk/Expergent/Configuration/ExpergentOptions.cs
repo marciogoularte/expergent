@@ -23,17 +23,29 @@
 
 namespace Expergent.Configuration
 {
+    ///<summary>Wrapper for Expergent Options
+    ///</summary>
     public class ExpergentOptions
     {
         private string ruleFolder;
         private bool loadRulesFromAssemblies;
 
+        /// <summary>
+        /// Gets or sets the rule folder.
+        /// </summary>
+        /// <value>The rule folder.</value>
         public string RuleFolder
         {
             get { return ruleFolder; }
             set { ruleFolder = value; }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to load the rules from assemblies.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if [load rules from assemblies]; otherwise, <c>false</c>.
+        /// </value>
         public bool LoadRulesFromAssemblies
         {
             get { return loadRulesFromAssemblies; }

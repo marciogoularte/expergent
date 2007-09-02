@@ -26,8 +26,16 @@ using Expergent.Terms;
 
 namespace Expergent.Builtins
 {
+    ///<summary>NotEquals
+    ///</summary>
     public class funcNotEquals : IBuiltIn
     {
+        /// <summary>
+        /// Evaluates the specified terms.
+        /// </summary>
+        /// <param name="subject">The subject.</param>
+        /// <param name="obj">The obj.</param>
+        /// <returns>bool</returns>
         public bool Evaluate(Term subject, Term obj)
         {
             return !subject.Equals(obj);

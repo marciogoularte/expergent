@@ -27,7 +27,7 @@ using Expergent.Interfaces;
 namespace Expergent
 {
     /// <summary>
-    /// 
+    /// Used to collect wme's and run a builtin evaluation upon them.
     /// </summary>
     public class BuiltinMemory : ReteNode
     {

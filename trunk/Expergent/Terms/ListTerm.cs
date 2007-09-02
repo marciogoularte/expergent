@@ -27,8 +27,14 @@ using System.Text;
 
 namespace Expergent.Terms
 {
+    ///<summary>A List Term
+    ///</summary>
     public class ListTerm : Term
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListTerm"/> class.
+        /// </summary>
+        /// <param name="obj">The obj.</param>
         public ListTerm(ICollection obj)
         {
             _termType = TermType.List;
@@ -36,17 +42,31 @@ namespace Expergent.Terms
                 _value = obj;
         }
 
+        /// <summary>
+        /// Gets or sets the underlying value for this Term.
+        /// </summary>
+        /// <value>The value.</value>
         public new IList Value
         {
             get { return new ArrayList(_value as ICollection); }
             set { _value = value; }
         }
 
+        /// <summary>
+        /// Method for creating a copy of this term.
+        /// </summary>
+        /// <returns></returns>
         public override Term Copy()
         {
             throw new Exception("The method or operation is not implemented.");
         }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();

@@ -40,12 +40,20 @@ namespace NSort.Generic
         private IComparer<T> comparer;
         private ISwap<T> swapper;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SwapSorter&lt;T&gt;"/> class.
+        /// </summary>
         public SwapSorter()
         {
             comparer = Comparer<T>.Default;
             swapper = new DefaultSwap<T>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SwapSorter&lt;T&gt;"/> class.
+        /// </summary>
+        /// <param name="comparer">The comparer.</param>
+        /// <param name="swapper">The swapper.</param>
         public SwapSorter(IComparer<T> comparer, ISwap<T> swapper)
         {
             if (comparer == null)
@@ -81,7 +89,7 @@ namespace NSort.Generic
         /// Gets or set the swapper object
         /// </summary>
         /// <value>
-        /// The <see cref="ISwap"/> swapper.
+        /// The swapper.
         /// </value>
         /// <exception cref="ArgumentNullException">Swapper is a null reference</exception>
         public ISwap<T> Swapper
@@ -95,6 +103,10 @@ namespace NSort.Generic
             }
         }
 
+        /// <summary>
+        /// Sorts the specified list.
+        /// </summary>
+        /// <param name="list">The list.</param>
         public abstract void Sort(IList<T> list);
     }
 }

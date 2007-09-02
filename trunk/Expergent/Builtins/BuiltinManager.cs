@@ -26,6 +26,8 @@ using Expergent.Interfaces;
 
 namespace Expergent.Builtins
 {
+    ///<summary>Manages known builtins
+    ///</summary>
     public sealed class BuiltinManager
     {
         private static readonly BuiltinManager instance = new BuiltinManager();
@@ -45,11 +47,19 @@ namespace Expergent.Builtins
             _builtins.Add("isInList", new isInList());
         }
 
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        /// <value>The instance.</value>
         public static BuiltinManager Instance
         {
             get { return instance; }
         }
 
+        /// <summary>
+        /// A Dictionary of known builtins keyed by name.
+        /// </summary>
+        /// <value>The builtins.</value>
         public Dictionary<string, IBuiltIn> Builtins
         {
             get { return _builtins; }

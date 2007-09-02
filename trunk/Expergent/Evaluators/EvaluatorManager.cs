@@ -26,6 +26,8 @@ using Expergent.Interfaces;
 
 namespace Expergent.Evaluators
 {
+    ///<summary>Provides a dictionary of known Evaluators
+    ///</summary>
     public sealed class EvaluatorManager
     {
         private static readonly EvaluatorManager instance = new EvaluatorManager();
@@ -46,11 +48,19 @@ namespace Expergent.Evaluators
             _evaluators.Add("NotEquals", new NotEquals());
         }
 
+        /// <summary>
+        /// Gets the EvaluatorManager Instance.
+        /// </summary>
+        /// <value>The instance.</value>
         public static EvaluatorManager Instance
         {
             get { return instance; }
         }
 
+        /// <summary>
+        /// Gets the known Evaluators Dictionary keyed by name.
+        /// </summary>
+        /// <value>The evaluators.</value>
         public Dictionary<string, IEvaluator> Evaluators
         {
             get { return _evaluators; }

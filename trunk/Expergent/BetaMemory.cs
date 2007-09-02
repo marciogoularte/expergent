@@ -34,7 +34,14 @@ namespace Expergent
     {
         #region Fields
 
+        /// <summary>
+        /// List of tokens bound to this beta
+        /// </summary>
         protected LinkedList<Token> _items;
+
+        /// <summary>
+        /// All children of this node
+        /// </summary>
         protected LinkedList<ReteNode> _all_children;
 
         #endregion

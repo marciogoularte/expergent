@@ -328,6 +328,11 @@ namespace Expergent
             _mutexesNew.Add(mutex);
         }
 
+        /// <summary>
+        /// Prints the network.
+        /// </summary>
+        /// <param name="s">The file path.</param>
+        /// <param name="append">if set to <c>true</c> [append].</param>
         public void PrintNetwork(string s, bool append)
         {
             NetworkPrinter printer = new NetworkPrinter();

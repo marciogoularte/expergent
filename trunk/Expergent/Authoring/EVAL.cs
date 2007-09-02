@@ -27,13 +27,28 @@ using Expergent.Terms;
 
 namespace Expergent.Authoring
 {
+    ///<summary>A Function Condition
+    ///</summary>
     public class EVAL : FunctionCondition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EVAL"/> class.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public EVAL(Term id, IBuiltIn attribute, Term value)
             : base("FunctionCondition", id, new FuncTerm(attribute.ToString(), attribute), value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EVAL"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public EVAL(string label, Term id, IBuiltIn attribute, Term value)
             : base(label, id, new FuncTerm(attribute.ToString(), attribute), value)
         {

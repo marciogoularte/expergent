@@ -30,6 +30,12 @@ namespace NSort.Generic
     /// </summary>
     public class DefaultSwap<T> : ISwap<T>
     {
+        /// <summary>
+        /// Swaps the specified array.
+        /// </summary>
+        /// <param name="array">The array.</param>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
         public void Swap(IList<T> array, int left, int right)
         {
             T swap = array[left];
@@ -37,11 +43,23 @@ namespace NSort.Generic
             array[right] = swap;
         }
 
+        /// <summary>
+        /// Sets the specified array.
+        /// </summary>
+        /// <param name="array">The array.</param>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
         public void Set(IList<T> array, int left, int right)
         {
             array[left] = array[right];
         }
 
+        /// <summary>
+        /// Sets the specified array.
+        /// </summary>
+        /// <param name="array">The array.</param>
+        /// <param name="left">The left.</param>
+        /// <param name="obj">The obj.</param>
         public void Set(IList<T> array, int left, T obj)
         {
             array[left] = obj;

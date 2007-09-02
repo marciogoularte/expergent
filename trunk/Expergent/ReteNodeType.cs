@@ -23,16 +23,36 @@
 
 namespace Expergent
 {
+    ///<summary>The Node Type
+    ///</summary>
     public enum ReteNodeType
     {
+        ///<summary>BetaMemory
+        ///</summary>
         BetaMemory,
+        ///<summary>Join
+        ///</summary>
         Join,
+        ///<summary>Negative
+        ///</summary>
         Negative,
+        ///<summary>NCC
+        ///</summary>
         NCC,
+        ///<summary>NCCPartner
+        ///</summary>
         NCCPartner,
+        ///<summary>Production
+        ///</summary>
         Production,
+        ///<summary>Dummy
+        ///</summary>
         Dummy,
+        ///<summary>Builtin
+        ///</summary>
         Builtin,
+        ///<summary>Mutex
+        ///</summary>
         Mutex
     }
 }

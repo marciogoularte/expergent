@@ -24,7 +24,7 @@
 namespace Expergent
 {
     /// <summary>
-    /// 
+    /// Defines an Override winner and loser
     /// </summary>
     public class Override
     {

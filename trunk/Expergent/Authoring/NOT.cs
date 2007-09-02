@@ -26,24 +26,54 @@ using Expergent.Terms;
 
 namespace Expergent.Authoring
 {
+    ///<summary> a Negative Condition
+    ///</summary>
     public class NOT : Condition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NOT"/> class.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public NOT(Term id, Term attribute, Term value)
             : base("NegativeCondition", ConditionType.Negative, id, attribute, value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NOT"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
         public NOT(string label, Term id, Term attribute, Term value)
             : base(label, ConditionType.Negative, id, attribute, value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NOT"/> class.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="subConditions">The sub conditions.</param>
         public NOT(Term id, Term attribute, Term value, params LeftHandSideCondition[] subConditions)
             : base("NCCCondition", ConditionType.NCC, id, attribute, value)
         {
             _subconditions.AddRange(subConditions);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NOT"/> class.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="attribute">The attribute.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="subConditions">The sub conditions.</param>
         public NOT(string label, Term id, Term attribute, Term value, params LeftHandSideCondition[] subConditions)
             : base(label, ConditionType.NCC, id, attribute, value)
         {

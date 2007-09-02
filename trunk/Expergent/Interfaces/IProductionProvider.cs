@@ -26,6 +26,8 @@ using System.Collections.Generic;
 
 namespace Expergent.Interfaces
 {
+    ///<summary>The IProductionProvider Interface
+    ///</summary>
     public interface IProductionProvider
     {
         /// <summary>

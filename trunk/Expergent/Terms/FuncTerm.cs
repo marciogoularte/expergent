@@ -26,19 +26,29 @@ using Expergent.Interfaces;
 
 namespace Expergent.Terms
 {
-    [Serializable]
+    ///<summary>A Functional Term
+    ///</summary>
     public class FuncTerm : Term
     {
         private IBuiltIn _builtin;
 
         #region constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FuncTerm"/> class.
+        /// </summary>
+        /// <param name="s">The s.</param>
         public FuncTerm(String s)
         {
             TermType = TermType.Function;
             _value = s;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FuncTerm"/> class.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <param name="builtin">The builtin.</param>
         public FuncTerm(String s, IBuiltIn builtin) : this(s)
         {
             _builtin = builtin;
@@ -48,12 +58,20 @@ namespace Expergent.Terms
 
         #region properties
 
+        /// <summary>
+        /// Gets or sets the builtin.
+        /// </summary>
+        /// <value>The builtin.</value>
         public IBuiltIn Builtin
         {
             get { return _builtin; }
             set { _builtin = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the underlying value for this Term.
+        /// </summary>
+        /// <value>The value.</value>
         public new string Value
         {
             get { return _value.ToString(); }
@@ -64,11 +82,21 @@ namespace Expergent.Terms
 
         #region methods
 
+        /// <summary>
+        /// Serves as a hash function for a particular type. <see cref="M:System.Object.GetHashCode"></see> is suitable for use in hashing algorithms and data structures like a hash table.
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object"></see>.
+        /// </returns>
         public override int GetHashCode()
         {
             return 0;
         }
 
+        /// <summary>
+        /// Method for creating a copy of this term.
+        /// </summary>
+        /// <returns></returns>
         public override Term Copy()
         {
             return new FuncTerm(Value, _builtin);

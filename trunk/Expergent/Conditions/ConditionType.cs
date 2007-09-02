@@ -23,15 +23,41 @@
 
 namespace Expergent.Conditions
 {
+    ///<summary>The Condition Type
+    ///</summary>
     public enum ConditionType
     {
+        /// <summary>
+        /// Assert
+        /// </summary>
         Assert,
+        /// <summary>
+        /// Function
+        /// </summary>
         Function,
+        /// <summary>
+        /// Invoke
+        /// </summary>
         Invoke,
+        /// <summary>
+        /// NCC
+        /// </summary>
         NCC,
+        /// <summary>
+        /// Negative
+        /// </summary>
         Negative,
+        /// <summary>
+        /// Positive
+        /// </summary>
         Positive,
+        /// <summary>
+        /// Set
+        /// </summary>
         Set,
+        /// <summary>
+        /// Retract
+        /// </summary>
         Retract
     }
 }

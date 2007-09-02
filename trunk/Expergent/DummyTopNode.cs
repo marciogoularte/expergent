@@ -92,6 +92,10 @@ namespace Expergent
 
         #region IVisitable Members
 
+        /// <summary>
+        /// Accepts the specified visitor.
+        /// </summary>
+        /// <param name="visitor">The visitor.</param>
         public override void Accept(IVisitor visitor)
         {
             visitor.OnTopNode(this);
