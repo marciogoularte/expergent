@@ -49,9 +49,27 @@ namespace Expergent.Interfaces
         String Label { get; }
 
         /// <summary>
-        /// Gets the rule list.
+        /// Gets the list of Productions.
         /// </summary>
-        /// <value>The rule list.</value>
-        List<Production> RuleList { get; }
+        /// <returns>Productions</returns>
+        List<Production> GetProductions();
+
+        /// <summary>
+        /// Gets the list of overrides.
+        /// </summary>
+        /// <returns></returns>
+        List<Override> GetOverrides();
+
+        /// <summary>
+        /// Gets the list of mutexes.
+        /// </summary>
+        /// <returns></returns>
+        List<Mutex> GetMutexes();
+
+        /// <summary>
+        /// Gets the list of aggregators.
+        /// </summary>
+        /// <returns></returns>
+        List<Aggregator> GetAggregators();
     }
 }

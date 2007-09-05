@@ -206,7 +206,7 @@ namespace Expergent
         #endregion
 
         /// <summary>
-        /// Gets the <see cref="Expergent.Terms.Term"/> at the specified index.
+        /// Gets the Term at the specified index.
         /// </summary>
         /// <value></value>
         public Term this[int index]
