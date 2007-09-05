@@ -78,7 +78,7 @@ namespace Expergent.Terms
         {
             if (obj == null)
             {
-                return new NullTerm(null);
+                return new NullTerm();
             }
 
             Term arg = obj as Term;

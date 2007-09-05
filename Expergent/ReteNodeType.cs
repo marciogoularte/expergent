@@ -53,6 +53,10 @@ namespace Expergent
         Builtin,
         ///<summary>Mutex
         ///</summary>
-        Mutex
+        Mutex,
+        /// <summary>
+        /// Aggregator
+        /// </summary>
+        Aggregator
     }
 }

@@ -192,9 +192,12 @@ namespace Expergent
         /// </returns>
         public bool Contains(object obj)
         {
+            if (obj == null) 
+                return false;
+
             foreach (Term o in _fields)
             {
-                if (o == obj)
+                if (obj.Equals(o))
                     return true;
             }
             return false;

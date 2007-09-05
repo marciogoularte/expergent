@@ -104,6 +104,26 @@ namespace Expergent.Terms
 
         #endregion
 
+        /// <summary>
+        /// Implicit operator to convert a value to a Variable.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>StringTerm</returns>
+        public static implicit operator Variable(String value)
+        {
+            return new Variable(value);
+        }
+
+        /// <summary>
+        /// Implicit operator to convert a value to a Variable.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>StringTerm</returns>
+        public static implicit operator Variable(char value)
+        {
+            return new Variable(new string(value, 1));
+        }
+
         #region IVisitable Members
 
         /// <summary>

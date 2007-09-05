@@ -126,6 +126,14 @@ namespace Expergent
             m.MutexNode = new_production;
         }
 
+        public void AddAggregator(Aggregator m)
+        {
+            AggregatorNode new_production = new AggregatorNode(m.label);
+            new_production.Aggregator = m;
+            AddProduction(new_production, m.lhs);
+            m.AggregatorNode = new_production;
+        }
+
         /// <summary>
         /// Removes the production.
         /// </summary>
@@ -293,9 +301,63 @@ namespace Expergent
                 case ReteNodeType.Mutex:
                     mutex_node_activation(new_node as MutexNode, tok, w);
                     break;
+                case ReteNodeType.Aggregator:
+                    aggregator_node_activation(new_node as AggregatorNode, tok, w);
+                    break;
                 default:
                     throw new ApplicationException("Unknown left_activation type: " + new_node.GetType().Name);
             }
+        }
+
+        private void aggregator_node_activation(AggregatorNode node, Token tok, WME w)
+        {
+
+            Token new_token = make_token(node, tok, w);
+            node.Items.AddFirst(new_token);
+
+            //int lhsCnt = node.Aggregator.lhs.Count - 1;
+
+            //foreach (RightHandSideCondition rhsCondition in node.Aggregator.rhs)
+            //{
+            //    WME newfact = new WME();
+            //    for (int f = 0; f < 3; f++)
+            //    {
+            //        Term term = rhsCondition.Fields[f];
+            //        if (term.TermType == TermType.Variable)
+            //        {
+            //            for (int i = lhsCnt; i >= 0; i--)
+            //            {
+            //                Condition lhsCondition = node.Aggregator.lhs[i];
+            //                if (lhsCondition.ConditionType == ConditionType.Positive)
+            //                {
+            //                    int pos = lhsCondition.Contains(term);
+            //                    if (pos >= 0)
+            //                    {
+            //                        Token tok2 = new_token.GetTokenUp(lhsCnt - i);
+            //                        newfact.Fields[f] = tok2.WME[pos];
+            //                        i = -1;
+            //                    }
+            //                }
+            //            }
+
+            //            if (newfact.Fields[f] == null)
+            //            {
+            //                newfact.Fields[f] = new NullTerm();
+            //            }
+
+            //        }
+            //        else
+            //        {
+            //            newfact.Fields[f] = term;
+            //        }
+            //    }
+            //    make_token(node, tok, newfact);
+            //    Activation newact = new Activation(newfact, rhsCondition.ConditionType);
+            //    if (node.Aggregator.InferredFacts.Contains(newact) == false)
+            //    {
+            //        node.Aggregator.InferredFacts.Add(newact);
+            //    }
+            //}
         }
 
         /// <summary>

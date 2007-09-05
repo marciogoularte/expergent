@@ -243,6 +243,20 @@ namespace Expergent.Base
         {
         }
 
+        /// <summary>
+        /// Called when [aggregator] is visited.
+        /// </summary>
+        /// <param name="aggregator">The aggregator.</param>
+        public virtual void OnAggregator(Aggregator aggregator)
+        {}
+
+        /// <summary>
+        /// Called when [aggregator node] is visited.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        public virtual void OnAggregatorNode(AggregatorNode node)
+        {}
+
         #endregion
     }
 }

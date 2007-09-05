@@ -80,6 +80,7 @@
     <Compile Include="OrderItem.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Status.cs" />
+    <Compile Include="TestCases\AggregatorTests.cs" />
     <Compile Include="TestCases\MainModule.cs" />
     <Compile Include="TestCases\NeoTests.cs" />
     <Compile Include="TestCases\ScenarioTests.cs" />
