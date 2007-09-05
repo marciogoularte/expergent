@@ -245,6 +245,30 @@ namespace Expergent.Visitors
         }
 
         /// <summary>
+        /// Called when [aggregator] is visited.
+        /// </summary>
+        /// <param name="aggregator">The aggregator.</param>
+        public override void OnAggregator(Aggregator aggregator)
+        {
+            _sb.AppendLine(aggregator.ToString());
+        }
+
+        /// <summary>
+        /// Called when [aggregator node] is visited.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        public override void OnAggregatorNode(AggregatorNode node)
+        {
+            _sb.Append(_indentString).AppendLine(string.Format("Aggregator Node: {0}", node));
+            _sb.Append(_indentString).AppendLine("");
+            _sb.Append(_indentString).AppendLine("    ====== Inferred Facts ======");
+            foreach (Activation activation in node.Aggregator.InferredFacts)
+            {
+                _sb.Append(_indentString).AppendLine(string.Format("    {0}", activation.InferredFact));
+            }
+        }
+
+        /// <summary>
         /// Called when [mutex node] is visited.
         /// </summary>
         /// <param name="node">The node.</param>

@@ -60,6 +60,7 @@ namespace Expergent
         private bool loadRulesFromAssemblies;
         private static ExpergentOptions options;
         private Production[] _prods;
+        private List<Aggregator> _aggregators;
 
         #endregion
 
@@ -77,7 +78,7 @@ namespace Expergent
             _rete = new Rete();
             //_rete.OnActivation += new ActivationDelegate(OnActivationHandler);
             _overrides = new List<Override>();
-            _mutexesNew = new List<Mutex>();
+            _mutexesNew = new List<Mutex>(); _aggregators = new List<Aggregator>();
             _conflictResolutionStrategy = new SalienceResolver();
             _actionsTaken = new List<WME>();
             _actionsSkipped = new List<WME>();
@@ -215,14 +216,19 @@ namespace Expergent
             {
                 _rete.AddMutex(mut);
             }
+            foreach (Aggregator ag in _aggregators)
+            {
+                _rete.AddAggregator(ag);
+            }
             foreach (WME wme in _initialFacts)
             {
                 _rete.AddWME(wme);
             }
             EvaluateOverrides();
-            //ResolveMutexes();
+            EvaluateAggregators();
             ResolveConflicts();
             Activate();
+            
             ResolveMutexes();
         }
 
@@ -329,6 +335,15 @@ namespace Expergent
         }
 
         /// <summary>
+        /// Adds the aggregator to the internal list.
+        /// </summary>
+        /// <param name="aggregator">The aggregator.</param>
+        public void AddAggregator(Aggregator aggregator)
+        {
+            _aggregators.Add(aggregator);
+        }
+
+        /// <summary>
         /// Prints the network.
         /// </summary>
         /// <param name="s">The file path.</param>
@@ -359,6 +374,21 @@ namespace Expergent
                 if (mutex.Activated)
                     ApplyMutexResults(mutex);
             }
+        }
+
+        private void EvaluateAggregators()
+        {
+            foreach (Aggregator aggregator in _aggregators)
+            {
+                if (aggregator.Activated)
+                    ApplyAggregatorResults(aggregator);
+            }
+        }
+
+        private void ApplyAggregatorResults(Aggregator aggregator)
+        {
+            aggregator.Evaluate();
+            DoIt(aggregator.InferredFacts);
         }
 
         /// <summary>

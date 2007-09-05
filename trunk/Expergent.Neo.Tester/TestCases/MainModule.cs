@@ -20,6 +20,7 @@ namespace BooRulesTests
 
             RunNeoTests();
             RunScenarioTests();
+            RunAggregatorTests();
 
             Program program = new Program();
             program.Main();
@@ -48,6 +49,17 @@ namespace BooRulesTests
         {
             ScenarioTests st = new ScenarioTests();
             st.RetractRule();
+        }
+
+        private static void RunAggregatorTests()
+        {
+            AggregatorTests tests = new AggregatorTests();
+            tests.FirstAggTest();
+            tests.SecondAggTest();
+            tests.TestOfSum();
+            tests.TestOfAverage();
+            tests.TestOfMin();
+            tests.TestOfMax();
         }
     }
 }

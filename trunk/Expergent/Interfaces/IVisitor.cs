@@ -186,5 +186,17 @@ namespace Expergent.Interfaces
         /// </summary>
         /// <param name="node">The node.</param>
         void OnMutexNode(MutexNode node);
+
+        /// <summary>
+        /// Called when [aggregator] is visited.
+        /// </summary>
+        /// <param name="aggregator">The aggregator.</param>
+        void OnAggregator(Aggregator aggregator);
+
+        /// <summary>
+        /// Called when [aggregator node] is visited.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        void OnAggregatorNode(AggregatorNode node);
     }
 }

@@ -33,9 +33,9 @@ namespace Expergent.Terms
         /// Initializes a new instance of the <see cref="NullTerm"/> class.
         /// </summary>
         /// <param name="obj">The obj.</param>
-        public NullTerm(object obj)
+        public NullTerm()
         {
-            if (obj != null) throw new NullReferenceException("obj must be null.");
+            //if (obj != null) throw new NullReferenceException("obj must be null.");
             _termType = TermType.Null;
             _value = null;
         }
@@ -56,7 +56,7 @@ namespace Expergent.Terms
         /// <returns></returns>
         public override Term Copy()
         {
-            return new NullTerm(null);
+            return new NullTerm();
         }
 
         /// <summary>
@@ -90,7 +90,14 @@ namespace Expergent.Terms
         /// </returns>
         public override bool Equals(object obj)
         {
-            return obj == null;
+            if (obj == null)
+                return true;
+            NullTerm other = obj as NullTerm;
+            if (other != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
