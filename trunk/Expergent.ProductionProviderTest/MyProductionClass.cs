@@ -37,30 +37,52 @@ namespace Expergent.ProductionProviderTest
             get { return _label; }
         }
 
-        public List<Production> RuleList
+        #endregion
+
+        #region IProductionProvider Members
+
+        public List<Production> GetProductions()
         {
-            get
-            {
-                List<Production> list = new List<Production>();
+            List<Production> list = new List<Production>();
 
-                Production WhatsMyName = new Production("WhatsMyName");
-                WhatsMyName.Salience = 1;
-                Variable customer_var = new Variable("Customer");
-                Variable customer_name = new Variable("Customer.Name");
-                Variable site_status = new Variable("Customer.Status");
-                Variable site_status_name = new Variable("Customer.Status.Name");
+            Production WhatsMyName = new Production("WhatsMyName");
+            WhatsMyName.Salience = 1;
+            Variable customer_var = new Variable("Customer");
+            Variable customer_name = new Variable("Customer.Name");
+            Variable site_status = new Variable("Customer.Status");
+            Variable site_status_name = new Variable("Customer.Status.Name");
 
-                WhatsMyName.AddConditionToLHS(new PositiveCondition("C1", customer_var, "$Customer.Name", customer_name));
-                WhatsMyName.AddConditionToLHS(new FunctionCondition("F1", customer_name, new FuncTerm("funcEquals", new funcEquals()), "Joe Blow"));
-                WhatsMyName.AddConditionToLHS(new PositiveCondition("C2", customer_var, "$Customer.Status", site_status));
-                WhatsMyName.AddConditionToLHS(new PositiveCondition("C3", site_status, "$Customer.Status.Name", site_status_name));
-                WhatsMyName.AddConditionToLHS(new FunctionCondition("F2", site_status_name, new FuncTerm("funcEquals", new funcEquals()), "Active"));
-                WhatsMyName.AddConditionToRHS(new SetCondition(customer_var, "Remarks", customer_name));
-               
-                list.Add(WhatsMyName);
+            WhatsMyName.AddConditionToLHS(new PositiveCondition("C1", customer_var, "$Customer.Name", customer_name));
+            WhatsMyName.AddConditionToLHS(new FunctionCondition("F1", customer_name, new FuncTerm("funcEquals", new funcEquals()), "Joe Blow"));
+            WhatsMyName.AddConditionToLHS(new PositiveCondition("C2", customer_var, "$Customer.Status", site_status));
+            WhatsMyName.AddConditionToLHS(new PositiveCondition("C3", site_status, "$Customer.Status.Name", site_status_name));
+            WhatsMyName.AddConditionToLHS(new FunctionCondition("F2", site_status_name, new FuncTerm("funcEquals", new funcEquals()), "Active"));
+            WhatsMyName.AddConditionToRHS(new SetCondition(customer_var, "Remarks", customer_name));
 
-                return list;
-            }
+            list.Add(WhatsMyName);
+
+            return list;
+        }
+
+        public List<Override> GetOverrides()
+        {
+            List<Override> list = new List<Override>();
+
+            return list;
+        }
+
+        public List<Mutex> GetMutexes()
+        {
+            List<Mutex> list = new List<Mutex>();
+
+            return list;
+        }
+
+        public List<Aggregator> GetAggregators()
+        {
+            List<Aggregator> list = new List<Aggregator>();
+
+            return list;
         }
 
         #endregion

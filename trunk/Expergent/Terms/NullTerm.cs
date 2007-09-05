@@ -32,7 +32,6 @@ namespace Expergent.Terms
         /// <summary>
         /// Initializes a new instance of the <see cref="NullTerm"/> class.
         /// </summary>
-        /// <param name="obj">The obj.</param>
         public NullTerm()
         {
             //if (obj != null) throw new NullReferenceException("obj must be null.");

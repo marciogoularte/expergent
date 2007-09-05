@@ -78,7 +78,8 @@ namespace Expergent
             _rete = new Rete();
             //_rete.OnActivation += new ActivationDelegate(OnActivationHandler);
             _overrides = new List<Override>();
-            _mutexesNew = new List<Mutex>(); _aggregators = new List<Aggregator>();
+            _mutexesNew = new List<Mutex>();
+            _aggregators = new List<Aggregator>();
             _conflictResolutionStrategy = new SalienceResolver();
             _actionsTaken = new List<WME>();
             _actionsSkipped = new List<WME>();
@@ -201,9 +202,21 @@ namespace Expergent
 
                 foreach (IProductionProvider ruleSetProvider in ProductionLoader.Instance.RuleSets)
                 {
-                    foreach (Production prod in ruleSetProvider.RuleList)
+                    foreach (Aggregator aggregator in ruleSetProvider.GetAggregators())
                     {
-                        AddProduction(prod);
+                        AddAggregator(aggregator);
+                    }
+                    foreach (Production production in ruleSetProvider.GetProductions())
+                    {
+                        AddProduction(production);
+                    }
+                    foreach (Override @override in ruleSetProvider.GetOverrides())
+                    {
+                        AddOverride(@override);
+                    }
+                    foreach (Mutex mutex in ruleSetProvider.GetMutexes())
+                    {
+                        AddMutex(mutex);
                     }
                 }
             }
@@ -228,7 +241,7 @@ namespace Expergent
             EvaluateAggregators();
             ResolveConflicts();
             Activate();
-            
+
             ResolveMutexes();
         }
 

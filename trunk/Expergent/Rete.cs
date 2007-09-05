@@ -126,6 +126,10 @@ namespace Expergent
             m.MutexNode = new_production;
         }
 
+        /// <summary>
+        /// Adds the aggregator.
+        /// </summary>
+        /// <param name="m">The m.</param>
         public void AddAggregator(Aggregator m)
         {
             AggregatorNode new_production = new AggregatorNode(m.label);
