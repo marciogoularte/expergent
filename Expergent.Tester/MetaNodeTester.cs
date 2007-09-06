@@ -169,7 +169,8 @@ namespace Expergent.Tester
             BestDiscount.AddConditionToLHS(new PositiveCondition("C1", customer, "give discount", discount));
             //BestDiscount.AddConditionToLHS(new condition("C2", ConditionType.Function, customer, "funcMax", discount));
             BestDiscount.AddConditionToRHS(new InvokeCondition("R1", customer, "Customer.GiveDiscount", discount));
-            BestDiscount.AddEvaluator(new Max(), customer, new StringTerm("give discount"), discount);
+            //BestDiscount.AddEvaluator(new Max(), customer, new StringTerm("give discount"), discount);
+            BestDiscount.Evaluator = new Max(customer, new StringTerm("give discount"), discount);
             agenda.AddMutex(BestDiscount);
 
             WME wme1 = new WME("W1");

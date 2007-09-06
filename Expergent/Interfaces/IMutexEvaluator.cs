@@ -22,7 +22,6 @@
 #endregion
 
 using System.Collections.Generic;
-using Expergent.Terms;
 
 namespace Expergent.Interfaces
 {
@@ -46,21 +45,33 @@ namespace Expergent.Interfaces
         bool PerformEvaluation(Term o, Term o1);
 
         /// <summary>
-        /// Gets or sets the conditional.
+        /// Gets or sets the conditional position.
         /// </summary>
-        /// <value>The conditional.</value>
-        int Conditional { get; set; }
+        /// <value>The conditional position.</value>
+        int ConditionalPosition { get; set; }
+
+        /// <summary>
+        /// Gets or sets the subject position.
+        /// </summary>
+        /// <value>The subject position.</value>
+        int SubjectPosition { get; set; }
 
         /// <summary>
         /// Gets or sets the predicate.
         /// </summary>
         /// <value>The predicate.</value>
-        Term Predicate { get; set; }
+        Term PredicateTerm { get; set; }
 
         /// <summary>
-        /// Gets or sets the subject.
+        /// Gets or sets the subject term.
         /// </summary>
-        /// <value>The subject.</value>
-        int Subject { get; set; }
+        /// <value>The subject term.</value>
+        Term SubjectTerm { get; set; }
+
+        /// <summary>
+        /// Gets or sets the conditional term.
+        /// </summary>
+        /// <value>The conditional term.</value>
+        Term ConditionalTerm { get; set; }
     }
 }

@@ -29,25 +29,31 @@ import Boo.Lang.Compiler.TypeSystem
 import Boo.Lang.Compiler.Ast.Visitors
 import UsefulMacro
 
-class RULEMacro(UsefulMacroBase):
+class AGGREGATORMacro(UsefulMacroBase):
+    
+    static final Usage = "Usage: AGGREGATOR Label='A1', GroupBy='Customer', AggregatorFunction=Count('$Customer.Orders.Order', '$Customer.Orders.Count'), ConditionType=ConditionType.Assert :"
+    
     override def Expand(macro as MacroStatement) as Statement:
         Init(macro)
+        if not CheckUsage(macro):
+            Errors.Add(CompilerErrorFactory.CustomError(macro.LexicalInfo, Usage))
+            return null
         //System.Diagnostics.Debugger.Launch()
         label as string
-        if macro.ContainsAnnotation(Consts.RULENAME):
-            label = macro[Consts.RULENAME] as string
+        if macro.ContainsAnnotation(Consts.AGGREGATORNAME):
+            label = macro[Consts.AGGREGATORNAME] as string
         else:
-            label = SafeIdentifierName(opt("Label", L("Rule${Helpers.Counter}")).ToString())
-            macro[Consts.RULENAME] = label
+            label = SafeIdentifierName(opt("Label", L("Aggregator${Helpers.Counter}")).ToString())
+            macro[Consts.AGGREGATORNAME] = label
         
         block = Block()
-        block.Annotate("RULE")
-        label = SafeIdentifierName(opt("Label", L("Rule${Helpers.Counter}")).ToString())
-        sal = opt("Salience", L(1))
-        rule = BinaryExpression(BinaryOperatorType.Assign, ReferenceExpression(label), MethodInvocationExpression(ReferenceExpression('Production')))
+        block.Annotate("AGGREGATOR")
+        rule = BinaryExpression(BinaryOperatorType.Assign, ReferenceExpression(label), MethodInvocationExpression(ReferenceExpression('Aggregator')))
         block.Add(rule)
         block.Add(BinaryExpression(BinaryOperatorType.Assign, CreateReferenceExpression(label + '.Label'), L(label)      ))
-        block.Add(BinaryExpression(BinaryOperatorType.Assign, CreateReferenceExpression(label + '.Salience'), sal      ))
+        block.Add(BinaryExpression(BinaryOperatorType.Assign, CreateReferenceExpression(label + '.GroupBy'), opt("GroupBy", L("GroupBy")) ))
+        block.Add(BinaryExpression(BinaryOperatorType.Assign, CreateReferenceExpression(label + '.AggregatorFunction'), opt("AggregatorFunction", L("AggregatorFunction")) ))
+        block.Add(BinaryExpression(BinaryOperatorType.Assign, CreateReferenceExpression(label + '.ConditionType'), opt("ConditionType", L("ConditionType")) ))
         for stmt as Statement in macro.Block.Statements:
             block.Add(stmt)
             
@@ -57,3 +63,7 @@ class RULEMacro(UsefulMacroBase):
         block.Add(mie)
         return block
         
+    def CheckUsage(macro as MacroStatement):
+        if len(macro.Arguments) != 4: return false
+        if len(macro.Block.Statements) > 1: return false
+        return true

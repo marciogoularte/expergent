@@ -22,7 +22,6 @@
 #endregion
 
 using System;
-using Expergent.Terms;
 
 namespace Expergent.MutexEvaluators
 {
@@ -30,6 +29,16 @@ namespace Expergent.MutexEvaluators
     ///</summary>
     public class Max : AbstractBaseMutexEvaluator
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Max"/> class.
+        /// </summary>
+        /// <param name="conditional">The conditional.</param>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="subject">The subject.</param>
+        public Max(Term conditional, Term predicate, Term subject) : base(conditional, predicate, subject)
+        {
+        }
+
         /// <summary>
         /// Performs the evaluation.
         /// </summary>
