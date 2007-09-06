@@ -129,6 +129,7 @@
     <Compile Include="ItemInAlphaMemory.cs" />
     <Compile Include="JoinNode.cs" />
     <Compile Include="Mutex.cs" />
+    <Compile Include="MutexEvaluators\Min.cs" />
     <Compile Include="MutexNode.cs" />
     <Compile Include="Neo\EntityObjectTerm.cs" />
     <Compile Include="Neo\ObjectRelationTerm.cs" />

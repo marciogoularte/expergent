@@ -25,17 +25,19 @@ using System;
 
 namespace Expergent.MutexEvaluators
 {
-    ///<summary>Compares two terms for the larger of the two.
+    ///<summary>Compares two terms for the smaller of the two.
     ///</summary>
-    public class Max : AbstractBaseMutexEvaluator
+    public class Min : AbstractBaseMutexEvaluator
     {
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Max"/> class.
+        /// Initializes a new instance of the <see cref="Min"/> class.
         /// </summary>
         /// <param name="conditional">The conditional.</param>
         /// <param name="predicate">The predicate.</param>
         /// <param name="subject">The subject.</param>
-        public Max(Term conditional, Term predicate, Term subject) : base(conditional, predicate, subject)
+        public Min(Term conditional, Term predicate, Term subject)
+            : base(conditional, predicate, subject)
         {
         }
 
@@ -49,7 +51,7 @@ namespace Expergent.MutexEvaluators
         {
             try
             {
-                return Convert.ToDouble(subject.Value) > Convert.ToDouble(obj.Value);
+                return Convert.ToDouble(subject.Value) < Convert.ToDouble(obj.Value);
             }
             catch
             {
