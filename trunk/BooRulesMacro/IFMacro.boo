@@ -31,35 +31,54 @@ import UsefulMacro
 
 class IFMacro(UsefulMacroBase):
 	
-	_rule as MacroStatement
-	_ruleSet as MacroStatement
-	_rulename as string
 	static final Usage = "Usage: IF:"
 				
 	override def Expand(macro as MacroStatement):
 		Init(macro)
-		_ruleSet = GetParentMacroByName("RULESET", macro)
-		assert _ruleSet is not null
-		_rule = GetParentMacroByName("RULE", macro)
-		assert _rule is not null
-		
-		if _rule.ContainsAnnotation(Consts.RULENAME):
-			_rulename = _rule[Consts.RULENAME] as string
-		else:
-			_rulename = SafeIdentifierName(opt(_rule, "Label", L("Rule${Helpers.Counter}")).ToString())
-			_rule[Consts.RULENAME] = _rulename
-		
 		//System.Diagnostics.Debugger.Launch()
-		
 		if not CheckUsage(macro):
-			Errors.Add(
-				CompilerErrorFactory.CustomError(macro.LexicalInfo, Usage))
+			Errors.Add(CompilerErrorFactory.CustomError(macro.LexicalInfo, Usage))
 			return null
-		block = Block()
 		
-		for stmt in macro.Block.Statements:
-			if stmt isa ExpressionStatement:
-				AddProductions(block, stmt as ExpressionStatement)		
+		block = Block()
+		parent = GetParentMacro(macro)
+		rulename as string
+		if parent.Name.Equals("RULE", System.StringComparison.InvariantCultureIgnoreCase):
+			if parent.ContainsAnnotation(Consts.RULENAME):
+				rulename = parent[Consts.RULENAME] as string
+			else:
+				rulename = SafeIdentifierName(opt(parent, "Label", L("Rule${Helpers.Counter}")).ToString())
+				parent[Consts.RULENAME] = rulename
+		
+			for stmt in macro.Block.Statements:
+				if stmt isa ExpressionStatement:
+					AddProductions(block, stmt as ExpressionStatement, rulename)	
+		
+		elif parent.Name.Equals("MUTEX", System.StringComparison.InvariantCultureIgnoreCase):
+			if parent.ContainsAnnotation(Consts.MUTEXNAME):
+				rulename = parent[Consts.MUTEXNAME] as string
+			else:
+				rulename = SafeIdentifierName(opt(parent, "Label", L("Mutex${Helpers.Counter}")).ToString())
+				parent[Consts.MUTEXNAME] = rulename
+		
+			for stmt in macro.Block.Statements:
+				if stmt isa ExpressionStatement:
+					AddMutexes(block, stmt as ExpressionStatement, rulename)
+			
+		elif parent.Name.Equals("AGGREGATOR", System.StringComparison.InvariantCultureIgnoreCase):
+			if parent.ContainsAnnotation(Consts.AGGREGATORNAME):
+				rulename = parent[Consts.AGGREGATORNAME] as string
+			else:
+				rulename = SafeIdentifierName(opt(parent, "Label", L("Aggregator${Helpers.Counter}")).ToString())
+				parent[Consts.AGGREGATORNAME] = rulename
+		
+			for stmt in macro.Block.Statements:
+				if stmt isa ExpressionStatement:
+					AddAggregators(block, stmt as ExpressionStatement, rulename)
+			
+		elif parent.Name.Equals("OVERRIDE", System.StringComparison.InvariantCultureIgnoreCase):
+			Errors.Add(CompilerErrorFactory.CustomError(macro.LexicalInfo, "An Override does not take any conditions."))
+			return null
 		
 		return block
 		
@@ -68,7 +87,7 @@ class IFMacro(UsefulMacroBase):
 		if len(macro.Block.Statements) == 0: return false
 		return true
 
-	def AddProductions(block as Block, st as ExpressionStatement):
+	def AddProductions(block as Block, st as ExpressionStatement, rulename as string):
 		stmt = st.Expression as MethodInvocationExpression
 		if stmt:
 			for i in range(stmt.Arguments.Count):
@@ -76,11 +95,11 @@ class IFMacro(UsefulMacroBase):
 				if refarg:
 					if refarg.ToString().StartsWith("?"):
 						objVar as string
-						if _ruleSet.ContainsAnnotation(refarg.Name):
-							objVar = _ruleSet[refarg.Name] as string
+						if block.ContainsAnnotation(refarg.Name):
+							objVar = block[refarg.Name] as string
 						else:
 							objVar = SafeIdentifierName(refarg.Name) + "_var"
-							_ruleSet[refarg.Name] = objVar
+							block[refarg.Name] = objVar
 							block.Add(BinaryExpression(BinaryOperatorType.Assign, ReferenceExpression(objVar), MethodInvocationExpression(ReferenceExpression('Variable'), L(refarg.Name))))
 						
 						stmt.Arguments.Replace(refarg, ReferenceExpression(objVar))
@@ -93,6 +112,64 @@ class IFMacro(UsefulMacroBase):
 			
 			mie = MethodInvocationExpression()
 			mie.Arguments.Add(stmt)
-			mie.Target = CreateReferenceExpression("${_rulename}.AddConditionToLHS")
+			mie.Target = CreateReferenceExpression("${rulename}.AddConditionToLHS")
+			
+			block.Add(mie)
+
+	def AddAggregators(block as Block, st as ExpressionStatement, rulename as string):
+		stmt = st.Expression as MethodInvocationExpression
+		if stmt:
+			for i in range(stmt.Arguments.Count):
+				refarg = stmt.Arguments[i] as ReferenceExpression
+				if refarg:
+					if refarg.ToString().StartsWith("?"):
+						objVar as string
+						if block.ContainsAnnotation(refarg.Name):
+							objVar = block[refarg.Name] as string
+						else:
+							objVar = SafeIdentifierName(refarg.Name) + "_var"
+							block[refarg.Name] = objVar
+							block.Add(BinaryExpression(BinaryOperatorType.Assign, ReferenceExpression(objVar), MethodInvocationExpression(ReferenceExpression('Variable'), L(refarg.Name))))
+						
+						stmt.Arguments.Replace(refarg, ReferenceExpression(objVar))
+
+					elif refarg.ToString().StartsWith("$"):
+						if IsValidReference(refarg.ToString()):
+							stmt.Arguments.Replace(refarg, L(refarg.ToString()))
+						else:
+							Errors.Add(CompilerErrorFactory.CustomError(refarg.LexicalInfo, _errorMessage))
+			
+			mie = MethodInvocationExpression()
+			mie.Arguments.Add(stmt)
+			mie.Target = CreateReferenceExpression("${rulename}.AddConditionToLHS")
+			
+			block.Add(mie)
+
+	def AddMutexes(block as Block, st as ExpressionStatement, rulename as string):
+		stmt = st.Expression as MethodInvocationExpression
+		if stmt:
+			for i in range(stmt.Arguments.Count):
+				refarg = stmt.Arguments[i] as ReferenceExpression
+				if refarg:
+					if refarg.ToString().StartsWith("?"):
+						objVar as string
+						if block.ContainsAnnotation(refarg.Name):
+							objVar = block[refarg.Name] as string
+						else:
+							objVar = SafeIdentifierName(refarg.Name) + "_var"
+							block[refarg.Name] = objVar
+							block.Add(BinaryExpression(BinaryOperatorType.Assign, ReferenceExpression(objVar), MethodInvocationExpression(ReferenceExpression('Variable'), L(refarg.Name))))
+						
+						stmt.Arguments.Replace(refarg, ReferenceExpression(objVar))
+
+					elif refarg.ToString().StartsWith("$"):
+						if IsValidReference(refarg.ToString()):
+							stmt.Arguments.Replace(refarg, L(refarg.ToString()))
+						else:
+							Errors.Add(CompilerErrorFactory.CustomError(refarg.LexicalInfo, _errorMessage))
+			
+			mie = MethodInvocationExpression()
+			mie.Arguments.Add(stmt)
+			mie.Target = CreateReferenceExpression("${rulename}.AddConditionToLHS")
 			
 			block.Add(mie)

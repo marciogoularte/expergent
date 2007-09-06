@@ -39,12 +39,10 @@ namespace Expergent
         private List<LeftHandSideCondition> _lhs;
         private List<RightHandSideCondition> _rhs;
         private string _label;
-        private Dictionary<string, int> _variableList;
         private List<Activation> _inferredFacts;
         private ProductionStatus _status;
         private MutexNode _mutexNode;
         private IMutexEvaluator _evaluator;
-        private List<Activation> _items;
 
         #endregion
 
@@ -57,7 +55,6 @@ namespace Expergent
         {
             _lhs = new List<LeftHandSideCondition>();
             _rhs = new List<RightHandSideCondition>();
-            _variableList = new Dictionary<string, int>();
             _inferredFacts = new List<Activation>();
             _status = ProductionStatus.Ready;
         }
@@ -81,20 +78,19 @@ namespace Expergent
         /// Gets or sets the label.
         /// </summary>
         /// <value>The label.</value>
-        public string label
+        public string Label
         {
             get { return _label; }
             set { _label = value; }
         }
 
         /// <summary>
-        /// Gets or sets the inferred facts.
+        /// Gets the inferred facts.
         /// </summary>
         /// <value>The inferred facts.</value>
         public List<Activation> InferredFacts
         {
             get { return _inferredFacts; }
-            set { _inferredFacts = value; }
         }
 
         /// <summary>
@@ -107,7 +103,7 @@ namespace Expergent
         }
 
         /// <summary>
-        /// Gets or sets the status.
+        /// Gets or sets the Production Status.
         /// </summary>
         /// <value>The status.</value>
         public ProductionStatus Status
@@ -130,30 +126,10 @@ namespace Expergent
         /// Gets or sets the mutex evaluator.
         /// </summary>
         /// <value>The mutex evaluator.</value>
-        public IMutexEvaluator MutexEvaluator
+        public IMutexEvaluator Evaluator
         {
             get { return _evaluator; }
             set { _evaluator = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the items.
-        /// </summary>
-        /// <value>The items.</value>
-        public List<Activation> Items
-        {
-            get { return _items; }
-            set { _items = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the variable list.
-        /// </summary>
-        /// <value>The variable list.</value>
-        public Dictionary<string, int> VariableList
-        {
-            get { return _variableList; }
-            set { _variableList = value; }
         }
 
         #endregion
@@ -206,7 +182,6 @@ namespace Expergent
         public void AddConditionToLHS(LeftHandSideCondition cond)
         {
             _lhs.Add(cond);
-            addVariablesToBindingList(cond);
         }
 
         /// <summary>
@@ -227,23 +202,10 @@ namespace Expergent
             {
                 throw new ApplicationException("Mutex evaluator has not been set.");
             }
-            _items = _evaluator.Evaluate(_mutexNode.Items);
-            BindRHS();
-        }
-
-        /// <summary>
-        /// Adds the evaluator.
-        /// </summary>
-        /// <param name="mutexEvaluator">The mutex evaluator.</param>
-        /// <param name="conditional">The conditional.</param>
-        /// <param name="predicate">The predicate.</param>
-        /// <param name="subject">The subject.</param>
-        public void AddEvaluator(IMutexEvaluator mutexEvaluator, Term conditional, Term predicate, Term subject)
-        {
-            mutexEvaluator.Conditional = GetTermPositionFromConditions(conditional);
-            mutexEvaluator.Predicate = predicate;
-            mutexEvaluator.Subject = GetTermPositionFromConditions(subject);
-            _evaluator = mutexEvaluator;
+            _evaluator.ConditionalPosition = GetTermPositionFromConditions(_evaluator.ConditionalTerm);
+            _evaluator.SubjectPosition = GetTermPositionFromConditions(_evaluator.SubjectTerm);
+            List<Activation> items = _evaluator.Evaluate(_mutexNode.Items);
+            BindRHS(items);
         }
 
         #endregion
@@ -251,27 +213,12 @@ namespace Expergent
         #region Private
 
         /// <summary>
-        /// Adds the variables to binding list.
-        /// </summary>
-        /// <param name="cond">The cond.</param>
-        private void addVariablesToBindingList(Condition cond)
-        {
-            foreach (Term o in cond.Fields)
-            {
-                if (o.TermType == TermType.Variable)
-                {
-                    _variableList[o.ToString()] = _lhs.Count;
-                }
-            }
-        }
-
-        /// <summary>
         /// Binds the RHS.
         /// </summary>
-        private void BindRHS()
+        private void BindRHS(List<Activation> items)
         {
             int lhsCnt = _lhs.Count - 1;
-            foreach (Activation act in _items)
+            foreach (Activation act in items)
             {
                 foreach (RightHandSideCondition condition in _rhs)
                 {

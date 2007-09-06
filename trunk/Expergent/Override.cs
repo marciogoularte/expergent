@@ -30,6 +30,7 @@ namespace Expergent
     {
         private string _winner;
         private string _loser;
+        private string _label;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Override"/> class.
@@ -67,6 +68,16 @@ namespace Expergent
         {
             get { return _loser; }
             set { _loser = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the label.
+        /// </summary>
+        /// <value>The label.</value>
+        public string Label
+        {
+            get { return _label; }
+            set { _label = value; }
         }
     }
 }

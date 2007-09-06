@@ -24,7 +24,6 @@
 using System.Collections.Generic;
 using Expergent.Conditions;
 using Expergent.Interfaces;
-using Expergent.Terms;
 
 namespace Expergent.MutexEvaluators
 {
@@ -35,17 +34,17 @@ namespace Expergent.MutexEvaluators
         #region Fields
 
         /// <summary>
-        /// The Conditional
+        /// The conditional's position
         /// </summary>
         protected int _conditional;
 
         /// <summary>
-        /// The predicate
+        /// The predicate term
         /// </summary>
         protected Term _predicate;
 
         /// <summary>
-        /// The subject
+        /// The subject's position
         /// </summary>
         protected int _subject;
 
@@ -54,9 +53,19 @@ namespace Expergent.MutexEvaluators
         /// </summary>
         protected Dictionary<object, List<WME>> _sorter;
 
+        /// <summary>
+        /// The conditional term
+        /// </summary>
+        protected Term _conditionalTerm;
+
+        /// <summary>
+        /// The subject term
+        /// </summary>
+        protected Term _subjectTerm;
+
         #endregion
 
-        #region Constructors
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractBaseMutexEvaluator"/> class.
@@ -64,18 +73,11 @@ namespace Expergent.MutexEvaluators
         /// <param name="conditional">The conditional.</param>
         /// <param name="predicate">The predicate.</param>
         /// <param name="subject">The subject.</param>
-        public AbstractBaseMutexEvaluator(int conditional, Term predicate, int subject) : this()
+        public AbstractBaseMutexEvaluator(Term conditional, Term predicate, Term subject)
         {
-            _conditional = conditional;
+            _conditionalTerm = conditional;
             _predicate = predicate;
-            _subject = subject;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AbstractBaseMutexEvaluator"/> class.
-        /// </summary>
-        public AbstractBaseMutexEvaluator()
-        {
+            _subjectTerm = subject;
             _sorter = new Dictionary<object, List<WME>>();
         }
 
@@ -88,43 +90,63 @@ namespace Expergent.MutexEvaluators
         /// <summary>
         /// Performs the evaluation.
         /// </summary>
-        /// <param name="o">The o.</param>
-        /// <param name="o1">The o1.</param>
+        /// <param name="lsTerm">The leftside term.</param>
+        /// <param name="rsTerm">The rightside term.</param>
         /// <returns>The result</returns>
-        public abstract bool PerformEvaluation(Term o, Term o1);
+        public abstract bool PerformEvaluation(Term lsTerm, Term rsTerm);
 
         #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets the conditional.
+        /// Gets or sets the conditional position.
         /// </summary>
         /// <value>The conditional.</value>
-        public int Conditional
+        public int ConditionalPosition
         {
             get { return _conditional; }
             set { _conditional = value; }
         }
 
         /// <summary>
-        /// Gets or sets the predicate.
+        /// Gets or sets the subject position.
+        /// </summary>
+        /// <value>The subject.</value>
+        public int SubjectPosition
+        {
+            get { return _subject; }
+            set { _subject = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the conditional term.
+        /// </summary>
+        /// <value>The conditional term.</value>
+        public Term ConditionalTerm
+        {
+            get { return _conditionalTerm; }
+            set { _conditionalTerm = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the predicate term.
         /// </summary>
         /// <value>The predicate.</value>
-        public Term Predicate
+        public Term PredicateTerm
         {
             get { return _predicate; }
             set { _predicate = value; }
         }
 
         /// <summary>
-        /// Gets or sets the subject.
+        /// Gets or sets the subject term.
         /// </summary>
-        /// <value>The subject.</value>
-        public int Subject
+        /// <value>The subject term.</value>
+        public Term SubjectTerm
         {
-            get { return _subject; }
-            set { _subject = value; }
+            get { return _subjectTerm; }
+            set { _subjectTerm = value; }
         }
 
         #endregion

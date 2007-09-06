@@ -31,7 +31,7 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Expergent">
-      <HintPath>..\Expergent\bin\Debug\Expergent.dll</HintPath>
+      <HintPath>..\Expergent\bin\Release\Expergent.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
   </ItemGroup>
@@ -48,6 +48,9 @@
     <Compile Include="RULEMacro.boo" />
     <Compile Include="IFMacro.boo" />
     <Compile Include="THENMacro.boo" />
+    <Compile Include="MUTEXMacro.boo" />
+    <Compile Include="OVERRIDEMacro.boo" />
+    <Compile Include="AGGREGATORMacro.boo" />
   </ItemGroup>
   <Import Project="$(BooBinPath)\Boo.Microsoft.Build.targets" />
 </Project>

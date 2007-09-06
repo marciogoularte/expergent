@@ -120,7 +120,7 @@ namespace Expergent
         /// <param name="m">The Mutex.</param>
         public void AddMutex(Mutex m)
         {
-            MutexNode new_production = new MutexNode(m.label);
+            MutexNode new_production = new MutexNode(m.Label);
             new_production.Mutex = m;
             AddProduction(new_production, m.lhs);
             m.MutexNode = new_production;
@@ -132,7 +132,7 @@ namespace Expergent
         /// <param name="m">The m.</param>
         public void AddAggregator(Aggregator m)
         {
-            AggregatorNode new_production = new AggregatorNode(m.label);
+            AggregatorNode new_production = new AggregatorNode(m.Label);
             new_production.Aggregator = m;
             AddProduction(new_production, m.lhs);
             m.AggregatorNode = new_production;

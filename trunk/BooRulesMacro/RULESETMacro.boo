@@ -32,14 +32,14 @@ import UsefulMacro
 class RULESETMacro(UsefulMacroBase):
 
     internal class MacroExpander(DepthFirstTransformer):
-        _int as Property
+        _int as Method
         
-        def constructor(prop as Property):
+        def constructor(prop as Method):
             _int = prop
         
         override def OnBlock(node as Block):
             for stmt as Statement in node.Statements:
-                _int.Getter.Body.Add(stmt)
+                _int.Body.Add(stmt)
 
     override def Expand(macro as MacroStatement) as Statement:
         Init(macro)
@@ -62,28 +62,104 @@ class RULESETMacro(UsefulMacroBase):
         AddFieldAndProperty("EffectiveDate", "System.DateTime", "effectiveDate")
         AddFieldAndProperty("TerminationDate", "System.DateTime", "terminationDate")
         
-        ruleListProperty = Property("RuleList")
-        listRef = GenericTypeReference()
-        listRef.Name = "List"
-        listRef.GenericArguments.Add(SimpleTypeReference("Production"))
-        ruleListProperty.Type = listRef
-        ruleListProperty.Getter = Method("get")
+        AddGetProductionsMethod(macro.Block)
+        AddGetAggregatorsMethod(macro.Block)
+        AddGetMutexesMethod(macro.Block)
+        AddGetOverridesMethod(macro.Block)
         
-        
-        xc = GenericReferenceExpression()
-        xc.GenericArguments.Add(SimpleTypeReference("Production"))
-        xc.Target = ReferenceExpression('List')
-        ruleListProperty.Getter.Body.Add(BinaryExpression(BinaryOperatorType.Assign, ReferenceExpression('list'), MethodInvocationExpression(xc)))
-        _class.Members.Add(ruleListProperty)
-        
-        block = macro.Block
-
-        mr = MacroExpander(ruleListProperty)
-        mr.Visit(block)
-        
-        ruleListProperty.Getter.Body.Add(ReturnStatement(ReferenceExpression('list')))
-
         return _block
         
     private def ProcessRuleBlock(block as Block, property as Property):
         assert block.Statements.Count == 0
+        
+    private def AddGetProductionsMethod(block as Block):
+        listRef = GenericTypeReference()
+        listRef.Name = "List"
+        listRef.GenericArguments.Add(SimpleTypeReference("Production"))
+        
+        method = Method("GetProductions")
+        method.ReturnType = listRef
+        
+        xc = GenericReferenceExpression()
+        xc.GenericArguments.Add(SimpleTypeReference("Production"))
+        xc.Target = ReferenceExpression('List')
+        method.Body.Add(BinaryExpression(BinaryOperatorType.Assign, ReferenceExpression('list'), MethodInvocationExpression(xc)))
+        _class.Members.Add(method)
+        
+        bf = BlockFinder("RULE")
+        bf.Visit(block)
+        
+        for childBlock as Block in bf.Blocks:
+            mr = MacroExpander(method)
+            mr.Visit(childBlock)
+        
+        method.Body.Add(ReturnStatement(ReferenceExpression('list')))
+        
+    private def AddGetAggregatorsMethod(block as Block):
+        listRef = GenericTypeReference()
+        listRef.Name = "List"
+        listRef.GenericArguments.Add(SimpleTypeReference("Aggregator"))
+        
+        method = Method("GetAggregators")
+        method.ReturnType = listRef
+        
+        xc = GenericReferenceExpression()
+        xc.GenericArguments.Add(SimpleTypeReference("Aggregator"))
+        xc.Target = ReferenceExpression('List')
+        method.Body.Add(BinaryExpression(BinaryOperatorType.Assign, ReferenceExpression('list'), MethodInvocationExpression(xc)))
+        _class.Members.Add(method)
+        
+        bf = BlockFinder("AGGREGATOR")
+        bf.Visit(block)
+        
+        for childBlock as Block in bf.Blocks:
+            mr = MacroExpander(method)
+            mr.Visit(childBlock)
+        
+        method.Body.Add(ReturnStatement(ReferenceExpression('list')))
+        
+    private def AddGetMutexesMethod(block as Block):
+        listRef = GenericTypeReference()
+        listRef.Name = "List"
+        listRef.GenericArguments.Add(SimpleTypeReference("Mutex"))
+        
+        method = Method("GetMutexes")
+        method.ReturnType = listRef
+        
+        xc = GenericReferenceExpression()
+        xc.GenericArguments.Add(SimpleTypeReference("Mutex"))
+        xc.Target = ReferenceExpression('List')
+        method.Body.Add(BinaryExpression(BinaryOperatorType.Assign, ReferenceExpression('list'), MethodInvocationExpression(xc)))
+        _class.Members.Add(method)
+        
+        bf = BlockFinder("MUTEX")
+        bf.Visit(block)
+        
+        for childBlock as Block in bf.Blocks:
+            mr = MacroExpander(method)
+            mr.Visit(childBlock)
+        
+        method.Body.Add(ReturnStatement(ReferenceExpression('list')))
+        
+    private def AddGetOverridesMethod(block as Block):
+        listRef = GenericTypeReference()
+        listRef.Name = "List"
+        listRef.GenericArguments.Add(SimpleTypeReference("Override"))
+        
+        method = Method("GetOverrides")
+        method.ReturnType = listRef
+        
+        xc = GenericReferenceExpression()
+        xc.GenericArguments.Add(SimpleTypeReference("Override"))
+        xc.Target = ReferenceExpression('List')
+        method.Body.Add(BinaryExpression(BinaryOperatorType.Assign, ReferenceExpression('list'), MethodInvocationExpression(xc)))
+        _class.Members.Add(method)
+        
+        bf = BlockFinder("OVERRIDE")
+        bf.Visit(block)
+        
+        for childBlock as Block in bf.Blocks:
+            mr = MacroExpander(method)
+            mr.Visit(childBlock)
+        
+        method.Body.Add(ReturnStatement(ReferenceExpression('list')))

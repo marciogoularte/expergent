@@ -27,7 +27,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="Boo.Lang.Useful" />
     <Reference Include="Expergent">
-      <HintPath>..\Expergent\bin\Debug\Expergent.dll</HintPath>
+      <HintPath>..\Expergent\bin\Release\Expergent.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
   </ItemGroup>

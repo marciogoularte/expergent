@@ -42,7 +42,11 @@ class Helpers:
 			return ++counter
 
 class Consts():
+	public static final RULESETNAME = "boorules.rulesetname"
 	public static final RULENAME = "boorules.rulename"
+	public static final MUTEXNAME = "boorules.mutexname"
+	public static final OVERRIDENAME = "boorules.overridename"
+	public static final AGGREGATORNAME = "boorules.aggregatorname"
 
 static def SafeIdentifierName(input as string):
 	input = ReplaceOperatorsWithEnglish(input)

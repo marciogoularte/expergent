@@ -91,7 +91,7 @@ namespace Expergent
         /// Gets or sets the label.
         /// </summary>
         /// <value>The label.</value>
-        public string label
+        public string Label
         {
             get { return _label; }
             set { _label = value; }
