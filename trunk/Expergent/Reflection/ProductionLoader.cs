@@ -23,57 +23,74 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using Expergent.Interfaces;
 
 namespace Expergent.Reflection
 {
+    /// <summary>
+    /// Loads compiled production assemblies
+    /// </summary>
     internal class ProductionLoader
     {
-        private FileSystemWatcher ruleFolderWatcher;
-        private String viewRootDir;
-        private List<Assembly> assemblies;
-        private event FileSystemEventHandler ViewChangedImpl;
-        private List<Type> registeredTypes;
-        private static readonly ProductionLoader instance = new ProductionLoader();
+        #region Fields
+
+        private FileSystemWatcher _ruleFolderWatcher;
+        private String _rulesDirectory;
+        private List<Assembly> _assemblies;
+        private event FileSystemEventHandler _rulesChangedImpl;
+        private List<Type> _registeredTypes;
+        private static readonly ProductionLoader _instance = new ProductionLoader();
         private List<IProductionProvider> _ruleSets;
 
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes the <see cref="ProductionLoader"/> class.
+        /// </summary>
         static ProductionLoader()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProductionLoader"/> class.
+        /// </summary>
         private ProductionLoader()
         {
-            registeredTypes = new List<Type>();
+            _registeredTypes = new List<Type>();
         }
 
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the ProductionLoader Singleton Instance.
+        /// </summary>
+        /// <value>The instance.</value>
         public static ProductionLoader Instance
         {
-            get { return instance; }
+            get { return _instance; }
         }
 
         /// <summary>
-        /// Gets/sets the root directory of views, 
+        /// Gets or sets the Rules Directory, 
         /// obtained from the configuration.
         /// </summary>
-        public String ViewRootDir
+        public String RulesDirectory
         {
-            get { return viewRootDir; }
-            set { viewRootDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, value); }
+            get { return _rulesDirectory; }
+            set { _rulesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, value); }
         }
 
-        //public List<Assembly> Assemblies
-        //{
-        //    get
-        //    {
-        //        if (assemblies != null)
-        //            return assemblies;
-        //        LoadAssemblies();
-        //        return assemblies;
-        //    }
-        //}
-
+        /// <summary>
+        /// Gets the rule sets.
+        /// </summary>
+        /// <value>The rule sets.</value>
         public List<IProductionProvider> RuleSets
         {
             get
@@ -86,12 +103,49 @@ namespace Expergent.Reflection
             }
         }
 
+        #endregion
+
+        #region Events
+        
+        /// <summary>
+        /// When any change is made to the rules folder, this event is raised
+        /// </summary>
+        public event FileSystemEventHandler RuleChanged
+        {
+            add
+            {
+                lock (this)
+                {
+                    if (_ruleFolderWatcher == null)
+                    {
+                        InitViewFolderWatch();
+                    }
+                    _rulesChangedImpl += value;
+                }
+            }
+            remove
+            {
+                lock (this)
+                {
+                    _rulesChangedImpl -= value;
+                    if (_rulesChangedImpl == null)
+                    {
+                        DisposeViewFolderWatch();
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Private Methods
+
         private List<IProductionProvider> LoadRuleSetsFromAssemblies()
         {
             List<IProductionProvider> lst = new List<IProductionProvider>();
-            if (assemblies == null)
+            if (_assemblies == null)
                 LoadAssemblies();
-            foreach (Assembly c in assemblies)
+            foreach (Assembly c in _assemblies)
             {
                 lst.AddRange(LoadRuleSetFromAssembly(c));
             }
@@ -104,9 +158,9 @@ namespace Expergent.Reflection
             TypeFilter filter = new TypeFilter(IsIRuleSetProvider);
             foreach (Type t in c.GetTypes())
             {
-                if ((t.IsClass) && (t.IsAbstract == false) && (t.FindInterfaces(filter, null).Length > 0) && (registeredTypes.Contains(t) == false))
+                if ((t.IsClass) && (t.IsAbstract == false) && (t.FindInterfaces(filter, null).Length > 0) && (_registeredTypes.Contains(t) == false))
                 {
-                    registeredTypes.Add(t);
+                    _registeredTypes.Add(t);
                     lst.Add((IProductionProvider) Activator.CreateInstance(t));
                 }
             }
@@ -114,12 +168,12 @@ namespace Expergent.Reflection
         }
 
         /// <summary>
-        /// Determines whether the supplied type is a concrete subclass of <c>IEntityMap</c>
+        /// Determines whether the supplied type is a concrete subclass of <c>IProductionProvider</c>
         /// </summary>
         /// <param name="typeObj">Class to be checked</param>
         /// <param name="criteriaObj">Not used</param>
-        /// <returns><c>true</c> if this is a concrete class and a subclass of <c>IEntityMap</c></returns>
-        public bool IsIRuleSetProvider(Type typeObj, Object criteriaObj)
+        /// <returns><c>true</c> if this is a concrete class and a subclass of <c>IProductionProvider</c></returns>
+        private bool IsIRuleSetProvider(Type typeObj, Object criteriaObj)
         {
             return (typeObj.IsInterface) && (typeObj == typeof (IProductionProvider));
         }
@@ -127,7 +181,7 @@ namespace Expergent.Reflection
         private void LoadAssemblies()
         {
             List<Assembly> lst = new List<Assembly>();
-            DirectoryInfo ruleDir = new DirectoryInfo(viewRootDir);
+            DirectoryInfo ruleDir = new DirectoryInfo(_rulesDirectory);
             if (ruleDir.Exists)
             {
                 foreach (FileInfo c in ruleDir.GetFiles("*.dll"))
@@ -136,68 +190,44 @@ namespace Expergent.Reflection
                     {
                         lst.Add(Assembly.LoadFile(c.FullName));
                     }
-                    catch //(Exception e)
+                    catch (Exception e)
                     {
-                        //Logging.Instance.TheLogger.Info(string.Format("Skipping {0} in rule loader.", c.FullName), e);
+                        Trace.WriteLine(string.Format("Skipping {0} in rule loader.\n{1}", c.FullName, e));
                     }
                 }
             }
-            assemblies = lst;
-        }
-
-        public event FileSystemEventHandler RuleChanged
-        {
-            add
-            {
-                //avoid concurrency problems with creating/removing the watcher
-                //in two threads in parallel. Unlikely, but better to be safe.
-                lock (this)
-                {
-                    //create the watcher if it doesn't exists
-                    if (ruleFolderWatcher == null)
-                    {
-                        InitViewFolderWatch();
-                    }
-                    ViewChangedImpl += value;
-                }
-            }
-            remove
-            {
-                //avoid concurrency problems with creating/removing the watcher
-                //in two threads in parallel. Unlikely, but better to be safe.
-                lock (this)
-                {
-                    ViewChangedImpl -= value;
-                    if (ViewChangedImpl == null) //no more subscribers.
-                    {
-                        DisposeViewFolderWatch();
-                    }
-                }
-            }
+            _assemblies = lst;
         }
 
         private void DisposeViewFolderWatch()
         {
-            ViewChangedImpl -= new FileSystemEventHandler(ruleFolderWatcher_Changed);
-            ruleFolderWatcher.Dispose();
+            _rulesChangedImpl -= new FileSystemEventHandler(ruleFolderWatcher_Changed);
+            _ruleFolderWatcher.Dispose();
         }
 
         private void InitViewFolderWatch()
         {
-            ruleFolderWatcher = new FileSystemWatcher(ViewRootDir);
-            ruleFolderWatcher.IncludeSubdirectories = true;
-            ruleFolderWatcher.Changed += new FileSystemEventHandler(ruleFolderWatcher_Changed);
-            ruleFolderWatcher.Created += new FileSystemEventHandler(ruleFolderWatcher_Changed);
-            ruleFolderWatcher.Deleted += new FileSystemEventHandler(ruleFolderWatcher_Changed);
-            ruleFolderWatcher.EnableRaisingEvents = true;
+            _ruleFolderWatcher = new FileSystemWatcher(RulesDirectory);
+            _ruleFolderWatcher.IncludeSubdirectories = true;
+            _ruleFolderWatcher.Changed += new FileSystemEventHandler(ruleFolderWatcher_Changed);
+            _ruleFolderWatcher.Created += new FileSystemEventHandler(ruleFolderWatcher_Changed);
+            _ruleFolderWatcher.Deleted += new FileSystemEventHandler(ruleFolderWatcher_Changed);
+            _ruleFolderWatcher.EnableRaisingEvents = true;
         }
 
         private void ruleFolderWatcher_Changed(object sender, FileSystemEventArgs e)
         {
-            if (ViewChangedImpl != null)
+            //force the productions to reload
+            _ruleSets = null;
+            _assemblies = null;
+
+            // tell any other subscribers
+            if (_rulesChangedImpl != null)
             {
-                ViewChangedImpl(this, e);
+                _rulesChangedImpl(this, e);
             }
         }
+
+        #endregion
     }
 }

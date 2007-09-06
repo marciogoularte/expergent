@@ -197,7 +197,7 @@ namespace Expergent
         {
             if (options.LoadRulesFromAssemblies && loadRulesFromAssemblies)
             {
-                ProductionLoader.Instance.ViewRootDir = options.RuleFolder;
+                ProductionLoader.Instance.RulesDirectory = options.RuleFolder;
                 ProductionLoader.Instance.RuleChanged += new FileSystemEventHandler(Instance_RuleChanged);
 
                 foreach (IProductionProvider ruleSetProvider in ProductionLoader.Instance.RuleSets)
