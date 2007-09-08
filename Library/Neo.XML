@@ -136,6 +136,104 @@
             <param name="q">The q.</param>
             <returns></returns>
         </member>
+        <member name="T:Neo.Framework.GenericObjectFactory`1">
+            <summary>Generic Wrapper around the FactoryMethods
+            </summary>
+            <typeparam name="T">An IEntityObject</typeparam>
+        </member>
+        <member name="M:Neo.Framework.GenericObjectFactory`1.#ctor(Neo.Core.ObjectContext,System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Neo.Framework.GenericObjectFactory`1"/> class.
+            </summary>
+            <param name="aContext">A context.</param>
+            <param name="objectType">Type of the object.</param>
+        </member>
+        <member name="M:Neo.Framework.GenericObjectFactory`1.FindFirst(System.String,System.Object[])">
+            <summary>
+            Finds the first.
+            </summary>
+            <param name="qualifierFormat">The qualifier format.</param>
+            <param name="parameters">The parameters.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neo.Framework.GenericObjectFactory`1.FindFirst(Neo.Core.Qualifier)">
+            <summary>
+            Finds the first.
+            </summary>
+            <param name="q">The q.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neo.Framework.GenericObjectFactory`1.CreateObject(System.Object[])">
+            <summary>
+            Creates the object.
+            </summary>
+            <param name="pkvalues">The pkvalues.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neo.Framework.GenericObjectFactory`1.FindObject(System.Object[])">
+            <summary>
+            Finds the object.
+            </summary>
+            <param name="pkvalues">The pkvalues.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neo.Framework.GenericObjectFactory`1.FindAllObjects">
+            <summary>
+            Finds all objects.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Neo.Framework.GenericObjectFactory`1.Find(Neo.Core.IFetchSpecification)">
+            <summary>
+            Finds the specified fetch spec.
+            </summary>
+            <param name="fetchSpec">The fetch spec.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neo.Framework.GenericObjectFactory`1.Find(Neo.Core.Qualifier)">
+            <summary>
+            Finds the specified qualifier.
+            </summary>
+            <param name="qualifier">The qualifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neo.Framework.GenericObjectFactory`1.Find(System.String,System.Object[])">
+            <summary>
+            Finds the specified qualifier format.
+            </summary>
+            <param name="qualifierFormat">The qualifier format.</param>
+            <param name="parameters">The parameters.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neo.Framework.GenericObjectFactory`1.FindWithLimit(System.Int32,System.String,System.Object[])">
+            <summary>
+            Finds the with limit.
+            </summary>
+            <param name="limit">The limit.</param>
+            <param name="qualifierFormat">The qualifier format.</param>
+            <param name="parameters">The parameters.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neo.Framework.GenericObjectFactory`1.FindUnique(System.String,System.Object[])">
+            <summary>
+            Finds the unique.
+            </summary>
+            <param name="qualifierFormat">The qualifier format.</param>
+            <param name="parameters">The parameters.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Neo.Framework.GenericObjectFactory`1.Context">
+            <summary>
+            Gets the current ObjectContext.
+            </summary>
+            <value>The context.</value>
+        </member>
+        <member name="P:Neo.Framework.GenericObjectFactory`1.EntityMap">
+            <summary>
+            Gets the EntityMap for this EntityObject.
+            </summary>
+            <value>The entity map.</value>
+        </member>
         <member name="T:Neo.Core.IEntityMap">
             <summary>
             Describes the mapping from ADO.NET concepts, such as DataTable and DataColumn, to
