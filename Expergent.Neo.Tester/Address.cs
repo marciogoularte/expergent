@@ -70,6 +70,14 @@ namespace CRMSample.Models
         {
         }
 
+        public override PropertyComparer SortOrder
+        {
+            get
+            {
+                return new PropertyComparer("AddressID", SortDirection.Ascending);
+            }
+        }
+
         /// <summary>Use this method to return a meaningful string representation of your object.</summary>
         public override string ToString()
         {
