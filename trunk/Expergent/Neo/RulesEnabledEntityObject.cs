@@ -170,12 +170,6 @@ namespace Expergent.Neo
         /// <param name="parent">The parent.</param>
         protected abstract void ExtendMakeFacts(List<WME> list, string parent);
 
-        /// <summary>
-        /// Gets the default sort order.
-        /// </summary>
-        /// <value>The sort order.</value>
-        public abstract PropertyComparer SortOrder {get;}
-
         #endregion
 
         /// <summary>
