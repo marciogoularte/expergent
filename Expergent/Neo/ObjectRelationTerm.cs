@@ -21,6 +21,7 @@
 
 #endregion
 
+using System;
 using System.Collections;
 using Expergent.Terms;
 using Neo.Framework;
@@ -29,6 +30,7 @@ namespace Expergent.Neo
 {
     ///<summary>
     ///</summary>
+    [Serializable]
     public class ObjectRelationTerm : Term, IEnumerable
     {
         #region Constructors

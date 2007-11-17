@@ -35,6 +35,7 @@ namespace Expergent.Neo
     /// <summary>
     /// Allows Neo EntityObjects to become rules enabled
     /// </summary>
+    [Serializable]
     public abstract class RulesEnabledEntityObject : EntityObject, IFactProvider
     {
         #region Fields
