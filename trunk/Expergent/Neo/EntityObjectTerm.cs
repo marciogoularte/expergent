@@ -21,6 +21,7 @@
 
 #endregion
 
+using System;
 using Expergent.Interfaces;
 using Expergent.Terms;
 
@@ -28,6 +29,7 @@ namespace Expergent.Neo
 {
     ///<summary>An Entity Object Term
     ///</summary>
+    [Serializable]
     public class EntityObjectTerm : Term
     {
         #region Constructors
