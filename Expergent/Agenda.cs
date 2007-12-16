@@ -195,7 +195,7 @@ namespace Expergent
         /// </summary>
         public void Run()
         {
-            if (options.LoadRulesFromAssemblies && loadRulesFromAssemblies)
+            if (options.LoadRulesFromAssemblies || loadRulesFromAssemblies)
             {
                 ProductionLoader.Instance.RulesDirectory = options.RuleFolder;
                 ProductionLoader.Instance.RuleChanged += new FileSystemEventHandler(Instance_RuleChanged);
@@ -276,7 +276,10 @@ namespace Expergent
         /// <param name="obj">The obj.</param>
         public void AddObject(IFactProvider obj)
         {
-            _initialFacts.AddRange(obj.GenerateFactsForRootObject());
+            if (obj != null)
+            {
+                _initialFacts.AddRange(obj.GenerateFactsForRootObject());
+            }
         }
 
         /// <summary>

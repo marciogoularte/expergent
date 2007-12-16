@@ -149,6 +149,10 @@ namespace Expergent//.Terms
         /// </returns>
         public override int GetHashCode()
         {
+            if (_value == null)
+            {
+                return 0;
+            }
             return _value.GetHashCode();
         }
 
