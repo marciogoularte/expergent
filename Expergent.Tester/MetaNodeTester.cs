@@ -114,7 +114,7 @@ namespace Expergent.Tester
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\BasicOverrideTest.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\BasicOverrideTest.log", false);
 
             Assert.IsTrue(agenda.ActivatedRuleCount == 2, "Rule did not fire.");
             Assert.IsTrue(agenda.InferredFacts.Count == 12, "Bad");
@@ -229,7 +229,7 @@ namespace Expergent.Tester
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\GiveBestDiscount.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\GiveBestDiscount.log", false);
 
             Assert.IsTrue(agenda.ActivatedRuleCount == 5, "Rule did not fire.");
             Assert.IsTrue(agenda.InferredFacts.Count == 21, "Bad");
@@ -330,7 +330,7 @@ namespace Expergent.Tester
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\BasicOverrideTest.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\BasicOverrideTest.log", false);
 
             Assert.IsTrue(agenda.ActivatedRuleCount == 1, "Rule did not fire.");
             Assert.IsTrue(agenda.InferredFacts.Count == 5, "Bad");

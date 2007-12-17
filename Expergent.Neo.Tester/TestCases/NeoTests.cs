@@ -57,7 +57,7 @@ namespace BooRulesTests.BooRulesTests
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\NeoFirstTest.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\NeoFirstTest.log", false);
 
             Assert.IsTrue(agenda.TotalFacts == 11, "Bad");
             Assert.IsTrue(agenda.ActionsTaken.Count == 1, "Bad");
@@ -103,7 +103,7 @@ namespace BooRulesTests.BooRulesTests
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\CollectionTest.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\CollectionTest.log", false);
 
             Assert.IsTrue(agenda.TotalFacts == 11, "Bad");
             Assert.IsTrue(agenda.ActionsTaken.Count == 1, "Bad");
@@ -144,7 +144,7 @@ namespace BooRulesTests.BooRulesTests
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\NeoTest2.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\NeoTest2.log", false);
 
             Assert.IsTrue(agenda.TotalFacts == 22, "Bad");
             Assert.IsTrue(agenda.ActionsTaken.Count == 6, "Bad");
@@ -183,7 +183,7 @@ namespace BooRulesTests.BooRulesTests
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\DigDeep.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\DigDeep.log", false);
 
             Assert.IsTrue(agenda.TotalFacts == 11);
             Assert.IsTrue(agenda.InferredFacts.Count == 0);
@@ -246,7 +246,7 @@ namespace BooRulesTests.BooRulesTests
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\TestRuleLoader.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\TestRuleLoader.log", false);
 
             Assert.IsTrue(agenda.TotalFacts == 11);
             Assert.IsTrue(agenda.InferredFacts.Count == 0);

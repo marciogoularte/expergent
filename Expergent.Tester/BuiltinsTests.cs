@@ -95,7 +95,7 @@ namespace Expergent.Tester
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\ListTest.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\ListTest.log", false);
 
             Assert.IsTrue(agenda.ActivatedRuleCount == 1, "Rule did not fire.");
             Assert.IsTrue(agenda.InferredFacts.Count == 1, "Bad");
@@ -191,7 +191,7 @@ namespace Expergent.Tester
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\ListTest2.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\ListTest2.log", false);
 
             Assert.IsTrue(agenda.ActivatedRuleCount == 1, "Rule did not fire.");
             Assert.IsTrue(agenda.InferredFacts.Count == 1, "Bad");

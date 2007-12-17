@@ -85,7 +85,7 @@ namespace Expergent.Tester
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\TestAgenda.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\TestAgenda.log", false);
 
             Assert.IsTrue(agenda.ActivatedRuleCount == 1, "Rule did not fire.");
             Assert.IsTrue(agenda.InferredFacts.Count == 1, "Bad");
