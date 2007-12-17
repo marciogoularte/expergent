@@ -54,7 +54,7 @@ namespace Expergent.Neo.Tester.TestCases
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\FirstAggTest.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\FirstAggTest.log", false);
 
             Assert.IsTrue(agenda.TotalFacts == 11, "Bad");
             Assert.IsTrue(agenda.ActionsTaken.Count == 1, "Bad");
@@ -92,7 +92,7 @@ namespace Expergent.Neo.Tester.TestCases
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\SecondAggTest.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\SecondAggTest.log", false);
 
             Assert.IsTrue(agenda.TotalFacts == 22, "Bad");
             Assert.IsTrue(agenda.ActionsTaken.Count == 2, "Bad");
@@ -135,7 +135,7 @@ namespace Expergent.Neo.Tester.TestCases
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\TestOfSum.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\TestOfSum.log", false);
 
             Assert.IsTrue(agenda.TotalFacts == 22, "Bad");
             Assert.IsTrue(agenda.ActionsTaken.Count == 2, "Bad");
@@ -178,7 +178,7 @@ namespace Expergent.Neo.Tester.TestCases
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\TestOfAverage.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\TestOfAverage.log", false);
 
             Assert.IsTrue(agenda.TotalFacts == 22, "Bad");
             Assert.IsTrue(agenda.ActionsTaken.Count == 2, "Bad");
@@ -221,7 +221,7 @@ namespace Expergent.Neo.Tester.TestCases
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\TestOfMin.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\TestOfMin.log", false);
 
             Assert.IsTrue(agenda.TotalFacts == 22, "Bad");
             Assert.IsTrue(agenda.ActionsTaken.Count == 2, "Bad");
@@ -264,7 +264,7 @@ namespace Expergent.Neo.Tester.TestCases
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\TestOfMax.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\TestOfMax.log", false);
 
             Assert.IsTrue(agenda.TotalFacts == 22, "Bad");
             Assert.IsTrue(agenda.ActionsTaken.Count == 2, "Bad");

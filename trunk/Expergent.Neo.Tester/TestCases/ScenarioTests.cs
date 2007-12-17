@@ -97,7 +97,7 @@ namespace Expergent.Neo.Tester.TestCases
 
             agenda.Run();
 
-            agenda.PrintNetwork(@"C:\Temp\RetractRule.log", false);
+            agenda.VisualizeNetworkToFile(@"C:\Temp\RetractRule.log", false);
 
             Assert.IsTrue(agenda.ActivatedRuleCount == 2, "Rule did not fire.");
             Assert.IsTrue(agenda.NotActivatedRuleCount == 1, "Rule should not have fired.");

@@ -76,7 +76,6 @@ namespace Expergent
             _inferredFacts = new List<WME>();
             _initialFacts = new List<WME>();
             _rete = new Rete();
-            //_rete.OnActivation += new ActivationDelegate(OnActivationHandler);
             _overrides = new List<Override>();
             _mutexesNew = new List<Mutex>();
             _aggregators = new List<Aggregator>();
@@ -112,11 +111,6 @@ namespace Expergent
         {
             get { return _notActivatedRuleCount; }
         }
-
-        //private void OnActivationHandler(object o, ActivationEvent e)
-        //{
-        //    throw new Exception("The method or operation is not implemented.");
-        //}
 
         /// <summary>
         /// Gets or sets the conflict resolution strategy.
@@ -195,6 +189,7 @@ namespace Expergent
         /// </summary>
         public void Run()
         {
+            DateTime now = DateTime.Now;
             if (options.LoadRulesFromAssemblies || loadRulesFromAssemblies)
             {
                 ProductionLoader.Instance.RulesDirectory = options.RuleFolder;
@@ -202,21 +197,24 @@ namespace Expergent
 
                 foreach (IProductionProvider ruleSetProvider in ProductionLoader.Instance.RuleSets)
                 {
-                    foreach (Aggregator aggregator in ruleSetProvider.GetAggregators())
+                    if (ruleSetProvider.EffectiveDate <= now && ruleSetProvider.TerminationDate > now)
                     {
-                        AddAggregator(aggregator);
-                    }
-                    foreach (Production production in ruleSetProvider.GetProductions())
-                    {
-                        AddProduction(production);
-                    }
-                    foreach (Override @override in ruleSetProvider.GetOverrides())
-                    {
-                        AddOverride(@override);
-                    }
-                    foreach (Mutex mutex in ruleSetProvider.GetMutexes())
-                    {
-                        AddMutex(mutex);
+                        foreach (Aggregator aggregator in ruleSetProvider.GetAggregators())
+                        {
+                            AddAggregator(aggregator);
+                        }
+                        foreach (Production production in ruleSetProvider.GetProductions())
+                        {
+                            AddProduction(production);
+                        }
+                        foreach (Override @override in ruleSetProvider.GetOverrides())
+                        {
+                            AddOverride(@override);
+                        }
+                        foreach (Mutex mutex in ruleSetProvider.GetMutexes())
+                        {
+                            AddMutex(mutex);
+                        } 
                     }
                 }
             }
@@ -360,20 +358,31 @@ namespace Expergent
         }
 
         /// <summary>
-        /// Prints the network.
+        /// Visualizes the network to file.
         /// </summary>
-        /// <param name="s">The file path.</param>
+        /// <param name="fileName">Name of the file.</param>
         /// <param name="append">if set to <c>true</c> [append].</param>
-        public void PrintNetwork(string s, bool append)
+        public void VisualizeNetworkToFile(string fileName, bool append)
         {
             NetworkPrinter printer = new NetworkPrinter();
             _rete.DummyTopNode.Accept(printer);
 
-            using (StreamWriter writer = new StreamWriter(s, append))
+            using (StreamWriter writer = new StreamWriter(fileName, append))
             {
                 writer.Write(printer.Output);
                 writer.Flush();
             }
+        }
+
+        /// <summary>
+        /// Visualizes the network.
+        /// </summary>
+        /// <returns></returns>
+        public string VisualizeNetwork()
+        {
+            NetworkPrinter printer = new NetworkPrinter();
+            _rete.DummyTopNode.Accept(printer);
+            return printer.Output;
         }
 
         #endregion
