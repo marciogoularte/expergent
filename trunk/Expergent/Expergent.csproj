@@ -181,6 +181,7 @@
     </Compile>
     <Compile Include="TestAtJoinNode.cs" />
     <Compile Include="Token.cs" />
+    <Compile Include="Visitors\HtmlNetworkPrinter.cs" />
     <Compile Include="Visitors\NetworkPrinter.cs" />
     <Compile Include="WME.cs" />
     <None Include="App.config" />

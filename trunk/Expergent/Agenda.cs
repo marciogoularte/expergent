@@ -26,6 +26,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using Expergent.Base;
 using Expergent.Conditions;
 using Expergent.Configuration;
 using Expergent.ConflictResolvers;
@@ -381,6 +382,13 @@ namespace Expergent
         public string VisualizeNetwork()
         {
             NetworkPrinter printer = new NetworkPrinter();
+            _rete.DummyTopNode.Accept(printer);
+            return printer.Output;
+        }
+
+        public string VisualizeNetworkInHtml()
+        {
+            HtmlNetworkPrinter printer = new HtmlNetworkPrinter();
             _rete.DummyTopNode.Accept(printer);
             return printer.Output;
         }
