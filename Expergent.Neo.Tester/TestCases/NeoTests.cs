@@ -16,7 +16,7 @@ namespace BooRulesTests.BooRulesTests
     public class NeoTests
     {
         private const string DataStore = "Neo.SqlClient.SqlDataStore, Neo";
-        private const string ConnectionString = @"data source=INDEPENDENCE\SQLEXPRESS;initial catalog=SampleCRM;user id=SampleCMSUser;password=password;persist security info=true";
+        private const string ConnectionString = @"data source=INDEPENDENCE;initial catalog=SampleCRM;user id=sampleuser;password=sampleuser1996;persist security info=true";
 
         [SetUp]
         public void SetUp()
