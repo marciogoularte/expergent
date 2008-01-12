@@ -23,7 +23,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using Expergent.Interfaces;
@@ -33,17 +32,17 @@ namespace Expergent.Reflection
     /// <summary>
     /// Loads compiled production assemblies
     /// </summary>
-    internal class ProductionLoader
+    internal class ProductionLoader : IDisposable
+
     {
         #region Fields
 
+        private static readonly ProductionLoader _instance = new ProductionLoader();
+        private readonly List<Type> _registeredTypes;
         private FileSystemWatcher _ruleFolderWatcher;
         private String _rulesDirectory;
-        private List<Assembly> _assemblies;
-        private event FileSystemEventHandler _rulesChangedImpl;
-        private List<Type> _registeredTypes;
-        private static readonly ProductionLoader _instance = new ProductionLoader();
         private List<IProductionProvider> _ruleSets;
+        private event FileSystemEventHandler _rulesChangedImpl;
 
         #endregion
 
@@ -62,6 +61,11 @@ namespace Expergent.Reflection
         private ProductionLoader()
         {
             _registeredTypes = new List<Type>();
+        }
+
+        ~ProductionLoader()
+        {
+            DisposeRuleFolderWatch();
         }
 
         #endregion
@@ -84,7 +88,7 @@ namespace Expergent.Reflection
         public String RulesDirectory
         {
             get { return _rulesDirectory; }
-            set { _rulesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, value); }
+            set { _rulesDirectory = value; }
         }
 
         /// <summary>
@@ -95,9 +99,17 @@ namespace Expergent.Reflection
         {
             get
             {
+                if (_ruleFolderWatcher == null)
+                {
+                    InitRuleFolderWatch();
+                }
+
                 if (_ruleSets == null)
                 {
-                    _ruleSets = LoadRuleSetsFromAssemblies();
+                    lock (this)
+                    {
+                        _ruleSets = LoadRuleSetsFromAssemblies();
+                    }
                 }
                 return _ruleSets;
             }
@@ -106,34 +118,14 @@ namespace Expergent.Reflection
         #endregion
 
         #region Events
-        
+
         /// <summary>
         /// When any change is made to the rules folder, this event is raised
         /// </summary>
         public event FileSystemEventHandler RuleChanged
         {
-            add
-            {
-                lock (this)
-                {
-                    if (_ruleFolderWatcher == null)
-                    {
-                        InitViewFolderWatch();
-                    }
-                    _rulesChangedImpl += value;
-                }
-            }
-            remove
-            {
-                lock (this)
-                {
-                    _rulesChangedImpl -= value;
-                    if (_rulesChangedImpl == null)
-                    {
-                        DisposeViewFolderWatch();
-                    }
-                }
-            }
+            add { _rulesChangedImpl += value; }
+            remove { _rulesChangedImpl -= value; }
         }
 
         #endregion
@@ -143,19 +135,19 @@ namespace Expergent.Reflection
         private List<IProductionProvider> LoadRuleSetsFromAssemblies()
         {
             List<IProductionProvider> lst = new List<IProductionProvider>();
-            if (_assemblies == null)
-                LoadAssemblies();
-            foreach (Assembly c in _assemblies)
+
+            foreach (Assembly c in AppDomain.CurrentDomain.GetAssemblies())
             {
                 lst.AddRange(LoadRuleSetFromAssembly(c));
             }
+
             return lst;
         }
 
         private List<IProductionProvider> LoadRuleSetFromAssembly(Assembly c)
         {
             List<IProductionProvider> lst = new List<IProductionProvider>();
-            TypeFilter filter = new TypeFilter(IsIRuleSetProvider);
+            TypeFilter filter = IsIRuleSetProvider;
             foreach (Type t in c.GetTypes())
             {
                 if ((t.IsClass) && (t.IsAbstract == false) && (t.FindInterfaces(filter, null).Length > 0) && (_registeredTypes.Contains(t) == false))
@@ -178,54 +170,44 @@ namespace Expergent.Reflection
             return (typeObj.IsInterface) && (typeObj == typeof (IProductionProvider));
         }
 
-        private void LoadAssemblies()
+        private void DisposeRuleFolderWatch()
         {
-            List<Assembly> lst = new List<Assembly>();
-            DirectoryInfo ruleDir = new DirectoryInfo(_rulesDirectory);
-            if (ruleDir.Exists)
-            {
-                foreach (FileInfo c in ruleDir.GetFiles("*.dll"))
-                {
-                    try
-                    {
-                        lst.Add(Assembly.LoadFile(c.FullName));
-                    }
-                    catch (Exception e)
-                    {
-                        Trace.WriteLine(string.Format("Skipping {0} in rule loader.\n{1}", c.FullName, e));
-                    }
-                }
-            }
-            _assemblies = lst;
-        }
-
-        private void DisposeViewFolderWatch()
-        {
-            _rulesChangedImpl -= new FileSystemEventHandler(ruleFolderWatcher_Changed);
+            _rulesChangedImpl -= ruleFolderWatcher_Changed;
             _ruleFolderWatcher.Dispose();
         }
 
-        private void InitViewFolderWatch()
+        private void InitRuleFolderWatch()
         {
             _ruleFolderWatcher = new FileSystemWatcher(RulesDirectory);
             _ruleFolderWatcher.IncludeSubdirectories = true;
-            _ruleFolderWatcher.Changed += new FileSystemEventHandler(ruleFolderWatcher_Changed);
-            _ruleFolderWatcher.Created += new FileSystemEventHandler(ruleFolderWatcher_Changed);
-            _ruleFolderWatcher.Deleted += new FileSystemEventHandler(ruleFolderWatcher_Changed);
+            _ruleFolderWatcher.Changed += ruleFolderWatcher_Changed;
+            _ruleFolderWatcher.Created += ruleFolderWatcher_Changed;
+            _ruleFolderWatcher.Deleted += ruleFolderWatcher_Changed;
             _ruleFolderWatcher.EnableRaisingEvents = true;
         }
 
         private void ruleFolderWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             //force the productions to reload
-            _ruleSets = null;
-            _assemblies = null;
+            lock (this)
+            {
+                _ruleSets = null;
+            }
 
             // tell any other subscribers
             if (_rulesChangedImpl != null)
             {
                 _rulesChangedImpl(this, e);
             }
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            DisposeRuleFolderWatch();
         }
 
         #endregion

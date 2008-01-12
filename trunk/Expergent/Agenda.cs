@@ -26,7 +26,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using Expergent.Base;
 using Expergent.Conditions;
 using Expergent.Configuration;
 using Expergent.ConflictResolvers;
@@ -45,23 +44,24 @@ namespace Expergent
     {
         #region Fields
 
-        private Dictionary<string, Production> _productions;
-        private Rete _rete;
-        private List<WME> _inferredFacts;
+        private readonly Dictionary<string, Production> _productions;
+        private readonly Rete _rete;
+        private readonly List<WME> _inferredFacts;
         private IComparer<Production> _conflictResolutionStrategy;
-        private List<WME> _initialFacts;
+        private readonly List<WME> _initialFacts;
         private int _productionCnt;
         private int _activatedRuleCount = 0;
         private int _notActivatedRuleCount = 0;
-        private List<Override> _overrides;
-        private List<Mutex> _mutexesNew;
+        private readonly List<Override> _overrides;
+        private readonly List<Mutex> _mutexesNew;
         private string agendaName;
-        private List<WME> _actionsTaken;
-        private List<WME> _actionsSkipped;
-        private bool loadRulesFromAssemblies;
+        private readonly List<WME> _actionsTaken;
+        private readonly List<WME> _actionsSkipped;
+        private bool? loadRulesFromAssemblies;
         private static ExpergentOptions options;
         private Production[] _prods;
-        private List<Aggregator> _aggregators;
+        private readonly List<Aggregator> _aggregators;
+        private string _rulesFolder;
 
         #endregion
 
@@ -90,7 +90,7 @@ namespace Expergent
 
         private void Instance_RuleChanged(object sender, FileSystemEventArgs e)
         {
-            throw new Exception("The method or operation is not implemented.");
+            // The idea here is to handle updates that occur in mid-process...
         }
 
         #region Public Properties
@@ -177,8 +177,18 @@ namespace Expergent
         /// </value>
         public bool LoadRulesFromAssemblies
         {
-            get { return loadRulesFromAssemblies; }
+            get { return loadRulesFromAssemblies.HasValue ? loadRulesFromAssemblies.Value : false; }
             set { loadRulesFromAssemblies = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the rules folder.
+        /// </summary>
+        /// <value>The rules folder.</value>
+        public string RulesFolder
+        {
+            get { return _rulesFolder; }
+            set { _rulesFolder = value; }
         }
 
         #endregion
@@ -191,10 +201,21 @@ namespace Expergent
         public void Run()
         {
             DateTime now = DateTime.Now;
-            if (options.LoadRulesFromAssemblies || loadRulesFromAssemblies)
+            if (loadRulesFromAssemblies.HasValue ? loadRulesFromAssemblies.Value : options.LoadRulesFromAssemblies )
             {
-                ProductionLoader.Instance.RulesDirectory = options.RuleFolder;
-                ProductionLoader.Instance.RuleChanged += new FileSystemEventHandler(Instance_RuleChanged);
+                if (String.IsNullOrEmpty(_rulesFolder))
+                {
+                    if (Path.IsPathRooted(options.RuleFolder))
+                    {
+                        _rulesFolder = options.RuleFolder;
+                    }
+                    else
+                    {
+                        _rulesFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, options.RuleFolder);
+                    }
+                }
+                ProductionLoader.Instance.RulesDirectory = RulesFolder;
+                ProductionLoader.Instance.RuleChanged += Instance_RuleChanged;
 
                 foreach (IProductionProvider ruleSetProvider in ProductionLoader.Instance.RuleSets)
                 {
@@ -218,6 +239,8 @@ namespace Expergent
                         } 
                     }
                 }
+
+                ProductionLoader.Instance.RuleChanged -= Instance_RuleChanged;
             }
 
             foreach (Production prod in _productions.Values)
@@ -386,6 +409,10 @@ namespace Expergent
             return printer.Output;
         }
 
+        /// <summary>
+        /// Visualizes the network in HTML.
+        /// </summary>
+        /// <returns></returns>
         public string VisualizeNetworkInHtml()
         {
             HtmlNetworkPrinter printer = new HtmlNetworkPrinter();
@@ -487,7 +514,7 @@ namespace Expergent
         /// Does it.
         /// </summary>
         /// <param name="activations">The activations.</param>
-        private void DoIt(List<Activation> activations)
+        private void DoIt(IEnumerable<Activation> activations)
         {
             foreach (Activation cond in activations)
             {
