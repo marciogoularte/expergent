@@ -39,12 +39,14 @@ namespace Expergent
     {
         #region Private Fields
 
-        private DummyTopNode _dummy_top_node;
-        private List<WME> _working_memory;
+        private readonly DummyTopNode _dummy_top_node;
+        private readonly List<WME> _working_memory;
         private int _next_beta_node = 0;
         private int _next_alpha_node = 0;
-        private Dictionary<int, Dictionary<int, Dictionary<int, AlphaMemory>>> _alpha_network;
-
+        private readonly Dictionary<int, Dictionary<int, Dictionary<int, AlphaMemory>>> _alpha_network;
+        private const int FIRST_LEVEL_ALPHA_HASH_INITIAL_SIZE = 131;
+        private const int SECOND_LEVEL_ALPHA_HASH_INITIAL_SIZE = 71;
+        private const int THIRD_LEVEL_ALPHA_HASH_INITIAL_SIZE = 29;
         #endregion
 
         #region Events
@@ -62,7 +64,7 @@ namespace Expergent
         {
             _working_memory = new List<WME>();
             _dummy_top_node = new DummyTopNode();
-            _alpha_network = new Dictionary<int, Dictionary<int, Dictionary<int, AlphaMemory>>>();
+            _alpha_network = new Dictionary<int, Dictionary<int, Dictionary<int, AlphaMemory>>>(FIRST_LEVEL_ALPHA_HASH_INITIAL_SIZE);
         }
 
         #endregion
@@ -263,7 +265,7 @@ namespace Expergent
         /// </summary>
         /// <param name="new_production">The new_production.</param>
         /// <param name="lhs">The LHS.</param>
-        private void AddProduction(ReteNode new_production, List<LeftHandSideCondition> lhs)
+        private void AddProduction(ReteNode new_production, IEnumerable<LeftHandSideCondition> lhs)
         {
             ReteNode current_node = build_or_share_network_for_conditions(_dummy_top_node, lhs, null);
             new_production.Parent = current_node;
@@ -494,7 +496,7 @@ namespace Expergent
         /// <param name="conds">The conds.</param>
         /// <param name="earlier_conds">The earlier_conds.</param>
         /// <returns></returns>
-        private ReteNode build_or_share_network_for_conditions(ReteNode parent, List<LeftHandSideCondition> conds, List<LeftHandSideCondition> earlier_conds)
+        private ReteNode build_or_share_network_for_conditions(ReteNode parent, IEnumerable<LeftHandSideCondition> conds, List<LeftHandSideCondition> earlier_conds)
         {
             List<LeftHandSideCondition> conds_higher_up;
 
@@ -540,7 +542,7 @@ namespace Expergent
         /// <param name="c">The c.</param>
         /// <param name="earlier_conds">The earlier_conds.</param>
         /// <returns></returns>
-        private BuiltinMemory build_builtin_node(ReteNode parent, Condition c, List<LeftHandSideCondition> earlier_conds)
+        private BuiltinMemory build_builtin_node(ReteNode parent, Condition c, IList<LeftHandSideCondition> earlier_conds)
         {
             BuiltinMemory new_node = new BuiltinMemory(c.ToString());
             new_node.Type = ReteNodeType.Builtin;
@@ -668,7 +670,7 @@ namespace Expergent
         /// <param name="am">The am.</param>
         /// <param name="tests">The tests.</param>
         /// <returns></returns>
-        private ReteNode build_or_share_negative_node(ReteNode parent, AlphaMemory am, LinkedList<TestAtJoinNode> tests)
+        private ReteNode build_or_share_negative_node(ReteNode parent, AlphaMemory am, ICollection<TestAtJoinNode> tests)
         {
             foreach (ReteNode child in parent.Children)
             {
@@ -730,7 +732,7 @@ namespace Expergent
         /// <param name="am">The am.</param>
         /// <param name="tests">The tests.</param>
         /// <returns></returns>
-        private ReteNode build_or_share_join_node(BetaMemory parent, AlphaMemory am, LinkedList<TestAtJoinNode> tests)
+        private ReteNode build_or_share_join_node(BetaMemory parent, AlphaMemory am, ICollection<TestAtJoinNode> tests)
         {
             foreach (ReteNode child in parent.AllChildren)
             {
@@ -850,7 +852,8 @@ namespace Expergent
         /// <summary>
         /// Finally, we have a helper function for creating a new alpha memory for a given condition,
         /// or finding an existing one to share. The implementation of this function depends on what type
-        /// of alpha net implementation is used. If we use a traditional data        /// ow network, as described in
+        /// of alpha net implementation is used. If we use a traditional data
+        /// ow network, as described in
         /// Section 2.2.1, then we simply start at the top of the alpha network and work our way down,
         /// sharing or building new constant test nodes:
         /// </summary>
@@ -891,7 +894,7 @@ namespace Expergent
                     am.ReferenceCount = 0;
                     am.Label = "A" + (++_next_alpha_node);
                     am.Conditions.Add(c.ToString());
-                    Dictionary<int, AlphaMemory> idDict = new Dictionary<int, AlphaMemory>();
+                    Dictionary<int, AlphaMemory> idDict = new Dictionary<int, AlphaMemory>(THIRD_LEVEL_ALPHA_HASH_INITIAL_SIZE);
                     idDict.Add(idHash, am);
                     valueDict.Add(valueHash, idDict);
                 }
@@ -902,10 +905,10 @@ namespace Expergent
                 am.ReferenceCount = 0;
                 am.Label = "A" + (++_next_alpha_node);
                 am.Conditions.Add(c.ToString());
-                Dictionary<int, AlphaMemory> idDict = new Dictionary<int, AlphaMemory>();
+                Dictionary<int, AlphaMemory> idDict = new Dictionary<int, AlphaMemory>(THIRD_LEVEL_ALPHA_HASH_INITIAL_SIZE);
                 idDict.Add(idHash, am);
 
-                Dictionary<int, Dictionary<int, AlphaMemory>> valueDict = new Dictionary<int, Dictionary<int, AlphaMemory>>();
+                Dictionary<int, Dictionary<int, AlphaMemory>> valueDict = new Dictionary<int, Dictionary<int, AlphaMemory>>(SECOND_LEVEL_ALPHA_HASH_INITIAL_SIZE);
                 valueDict.Add(valueHash, idDict);
 
                 _alpha_network.Add(attributeHash, valueDict);
@@ -966,7 +969,7 @@ namespace Expergent
         /// <param name="c">The c.</param>
         /// <param name="earlier_conds">The earlier_conds.</param>
         /// <returns></returns>
-        private LinkedList<TestAtJoinNode> get_join_tests_from_condition(Condition c, List<LeftHandSideCondition> earlier_conds)
+        private LinkedList<TestAtJoinNode> get_join_tests_from_condition(Condition c, IList<LeftHandSideCondition> earlier_conds)
         {
             LinkedList<TestAtJoinNode> result = new LinkedList<TestAtJoinNode>();
             int cntOfEarlierConditions = earlier_conds.Count - 1;
@@ -1775,7 +1778,7 @@ namespace Expergent
         /// <param name="t">The t.</param>
         /// <param name="w">The w.</param>
         /// <returns></returns>
-        private bool perform_join_tests(LinkedList<TestAtJoinNode> tests, Token t, WME w)
+        private bool perform_join_tests(IEnumerable<TestAtJoinNode> tests, Token t, WME w)
         {
             foreach (TestAtJoinNode this_test in tests)
             {
