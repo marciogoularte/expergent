@@ -141,6 +141,18 @@ namespace Expergent.Reflection
                 lst.AddRange(LoadRuleSetFromAssembly(c));
             }
 
+            if (String.IsNullOrEmpty(RulesDirectory) == false)
+            {
+                DirectoryInfo info = new DirectoryInfo(RulesDirectory);
+
+                if (info.Exists)
+                {
+                    foreach (FileInfo file in info.GetFiles("*.dll", SearchOption.TopDirectoryOnly))
+                    {
+                        lst.AddRange(LoadRuleSetFromAssembly(Assembly.LoadFile(file.FullName)));
+                    }
+                }
+            }
             return lst;
         }
 

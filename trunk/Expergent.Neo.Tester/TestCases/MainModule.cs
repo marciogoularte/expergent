@@ -17,11 +17,31 @@ namespace BooRulesTests
         {
             Console.WriteLine(argv);
             Console.WriteLine("Hello from Test World!");
+            try
+            {
+                RunNeoTests();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
-            RunNeoTests();
-            RunScenarioTests();
-            RunAggregatorTests();
-
+            try
+            {
+                RunScenarioTests();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            try
+            {
+                RunAggregatorTests();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             Program program = new Program();
             program.Main();
             
