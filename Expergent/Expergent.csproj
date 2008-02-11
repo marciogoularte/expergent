@@ -74,6 +74,18 @@
     <Compile Include="Authoring\NOT.cs" />
     <Compile Include="Authoring\RETRACT.cs" />
     <Compile Include="Authoring\SET.cs" />
+    <Compile Include="Collections\AbstractMap.cs" />
+    <Compile Include="Collections\CollectionsFactory.cs" />
+    <Compile Include="Collections\EqHashIndex.cs" />
+    <Compile Include="Collections\HashIndex.cs" />
+    <Compile Include="Collections\HashMap.cs" />
+    <Compile Include="Collections\IEntry.cs" />
+    <Compile Include="Collections\IMap.cs" />
+    <Compile Include="Collections\Index.cs" />
+    <Compile Include="Collections\Iterator.cs" />
+    <Compile Include="Collections\LinkedHashMap.cs" />
+    <Compile Include="Collections\NotEqHashIndex.cs" />
+    <Compile Include="Collections\ObjectEntry.cs" />
     <Compile Include="Conditions\AssertCondition.cs" />
     <Compile Include="Conditions\FunctionCondition.cs" />
     <Compile Include="Conditions\InvokeCondition.cs" />
@@ -159,6 +171,7 @@
     <Compile Include="Sorting\ISorter.cs" />
     <Compile Include="Sorting\ISwap.cs" />
     <Compile Include="Sorting\SwapSorter.cs" />
+    <Compile Include="Support.cs" />
     <Compile Include="Terms\BooleanTerm.cs" />
     <Compile Include="Terms\CollectionTerm.cs" />
     <Compile Include="Terms\DateTimeTerm.cs" />

@@ -34,6 +34,7 @@ namespace Expergent
     {
         private Variable _variable;
         private Term _substitutor;
+        private bool negated_Renamed_Field;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BindingPair"/> class.
@@ -82,6 +83,11 @@ namespace Expergent
             set { _substitutor = value; }
         }
 
+        public virtual bool negated
+        {
+            get { return this.negated_Renamed_Field; }
+            set { negated_Renamed_Field = value; }
+        }
         /// <summary>
         /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
         /// </summary>
