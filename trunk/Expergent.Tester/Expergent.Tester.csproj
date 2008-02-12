@@ -43,6 +43,7 @@
     <Compile Include="AgendaTests.cs" />
     <Compile Include="AlphaMemoryTests.cs" />
     <Compile Include="BuiltinsTests.cs" />
+    <Compile Include="CollectionsTester.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="MetaNodeTester.cs" />
     <Compile Include="ObjectGrapherTest.cs" />

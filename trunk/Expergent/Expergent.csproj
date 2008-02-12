@@ -51,6 +51,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Library\Neo.dll</HintPath>
     </Reference>
+    <Reference Include="PowerCollections, Version=1.0.2964.13583, Culture=neutral, PublicKeyToken=284e3d18c89f24cf, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Library\PowerCollections.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -76,15 +80,20 @@
     <Compile Include="Authoring\SET.cs" />
     <Compile Include="Collections\AbstractMap.cs" />
     <Compile Include="Collections\CollectionsFactory.cs" />
+    <Compile Include="Collections\EntryIterator.cs" />
     <Compile Include="Collections\EqHashIndex.cs" />
+    <Compile Include="Collections\EqualityEquals.cs" />
     <Compile Include="Collections\HashIndex.cs" />
     <Compile Include="Collections\HashMap.cs" />
     <Compile Include="Collections\IEntry.cs" />
+    <Compile Include="Collections\IIterator.cs" />
     <Compile Include="Collections\IMap.cs" />
     <Compile Include="Collections\Index.cs" />
-    <Compile Include="Collections\Iterator.cs" />
+    <Compile Include="Collections\InstanceEquals.cs" />
+    <Compile Include="Collections\IEntryIterator.cs" />
     <Compile Include="Collections\LinkedHashMap.cs" />
     <Compile Include="Collections\NotEqHashIndex.cs" />
+    <Compile Include="Collections\ObjectComparator.cs" />
     <Compile Include="Collections\ObjectEntry.cs" />
     <Compile Include="Conditions\AssertCondition.cs" />
     <Compile Include="Conditions\FunctionCondition.cs" />

@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 using Expergent.Interfaces;
+using Wintellect.PowerCollections;
 
 namespace Expergent
 {
@@ -37,11 +38,11 @@ namespace Expergent
     {
         #region Fields
 
-        private LinkedList<ItemInAlphaMemory> _items;
-        private LinkedList<ReteNode> _successors;
+        private readonly BigList<ItemInAlphaMemory> _items;
+        private readonly LinkedList<ReteNode> _successors;
         private int _reference_count;
         private string _label;
-        private List<string> _conditions;
+        private readonly List<string> _conditions;
 
         #endregion
 
@@ -52,7 +53,7 @@ namespace Expergent
         /// </summary>
         public AlphaMemory()
         {
-            _items = new LinkedList<ItemInAlphaMemory>();
+            _items = new BigList<ItemInAlphaMemory>();
             _successors = new LinkedList<ReteNode>();
             _conditions = new List<string>();
         }
@@ -74,7 +75,7 @@ namespace Expergent
         /// Gets the items.
         /// </summary>
         /// <value>The items.</value>
-        public LinkedList<ItemInAlphaMemory> Items
+        public BigList<ItemInAlphaMemory> Items
         {
             get { return _items; }
         }

@@ -1135,7 +1135,7 @@ namespace Expergent
             {
                 while (((BetaMemory) node).Items.Count > 0)
                 {
-                    delete_token_and_descendents(((BetaMemory) node).Items.First.Value);
+                    delete_token_and_descendents(((BetaMemory) node).Items[0]);
                 }
             }
             if (node.Type == ReteNodeType.Negative)
@@ -1499,8 +1499,7 @@ namespace Expergent
         private void beta_memory_left_activation(BetaMemory node, Token t, WME w)
         {
             Token new_token = make_token(node, t, w);
-            node.Items.AddFirst(new_token);
-
+            node.Items.Add(new_token);
 
             if (node.Children.Count > 0)
             {
@@ -1647,7 +1646,7 @@ namespace Expergent
             ItemInAlphaMemory new_item = new ItemInAlphaMemory();
             new_item.WME = w;
             new_item.AlphaMemory = node;
-            node.Items.AddFirst(new_item);
+            node.Items.Add(new_item);
             w.AlphaMemoryItems.AddFirst(new_item);
 
             // *** Neo Integration *** 

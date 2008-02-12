@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 using Expergent.Interfaces;
+using Wintellect.PowerCollections;
 
 namespace Expergent
 {
@@ -37,7 +38,7 @@ namespace Expergent
         /// <summary>
         /// List of tokens bound to this beta
         /// </summary>
-        protected LinkedList<Token> _items;
+        protected BigList<Token> _items;
 
         /// <summary>
         /// All children of this node
@@ -54,7 +55,7 @@ namespace Expergent
         public BetaMemory()
         {
             _type = ReteNodeType.BetaMemory; // "beta-memory";
-            _items = new LinkedList<Token>();
+            _items = new BigList<Token>();
             _all_children = new LinkedList<ReteNode>();
         }
 
@@ -66,7 +67,7 @@ namespace Expergent
         /// Gets the tokens attached to this node.
         /// </summary>
         /// <value>The items.</value>
-        public virtual LinkedList<Token> Items
+        public virtual BigList<Token> Items
         {
             get { return _items; }
         }
