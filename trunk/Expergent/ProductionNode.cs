@@ -21,8 +21,8 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Expergent.Interfaces;
+using Wintellect.PowerCollections;
 
 namespace Expergent
 {
@@ -55,7 +55,7 @@ namespace Expergent
     public class ProductionNode : ReteNode
     {
         private Production _production;
-        private LinkedList<Token> _items;
+        private readonly BigList<Token> _items;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductionNode"/> class.
@@ -63,7 +63,7 @@ namespace Expergent
         public ProductionNode()
         {
             _type = ReteNodeType.Production;
-            _items = new LinkedList<Token>();
+            _items = new BigList<Token>();
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Expergent
         /// Gets the items.
         /// </summary>
         /// <value>The items.</value>
-        public LinkedList<Token> Items
+        public BigList<Token> Items
         {
             get { return _items; }
         }

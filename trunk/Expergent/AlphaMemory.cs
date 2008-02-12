@@ -39,7 +39,7 @@ namespace Expergent
         #region Fields
 
         private readonly BigList<ItemInAlphaMemory> _items;
-        private readonly LinkedList<ReteNode> _successors;
+        private readonly BigList<ReteNode> _successors;
         private int _reference_count;
         private string _label;
         private readonly List<string> _conditions;
@@ -54,7 +54,7 @@ namespace Expergent
         public AlphaMemory()
         {
             _items = new BigList<ItemInAlphaMemory>();
-            _successors = new LinkedList<ReteNode>();
+            _successors = new BigList<ReteNode>();
             _conditions = new List<string>();
         }
 
@@ -84,7 +84,7 @@ namespace Expergent
         /// Gets the successors.
         /// </summary>
         /// <value>The successors.</value>
-        public LinkedList<ReteNode> Successors
+        public BigList<ReteNode> Successors
         {
             get { return _successors; }
         }

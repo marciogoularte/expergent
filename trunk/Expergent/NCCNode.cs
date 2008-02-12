@@ -21,8 +21,8 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Expergent.Interfaces;
+using Wintellect.PowerCollections;
 
 namespace Expergent
 {
@@ -37,7 +37,7 @@ namespace Expergent
     /// </remarks>
     public class NCCNode : ReteNode
     {
-        private LinkedList<Token> _items;
+        private readonly BigList<Token> _items;
         private NCCPartnerNode _partner;
 
         /// <summary>
@@ -46,14 +46,14 @@ namespace Expergent
         public NCCNode()
         {
             _type = ReteNodeType.NCC; // "NCC";
-            _items = new LinkedList<Token>();
+            _items = new BigList<Token>();
         }
 
         /// <summary>
         /// Gets the items.
         /// </summary>
         /// <value>The items.</value>
-        public LinkedList<Token> Items
+        public BigList<Token> Items
         {
             get { return _items; }
         }

@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 using Expergent.Interfaces;
+using Wintellect.PowerCollections;
 
 namespace Expergent
 {
@@ -52,7 +53,7 @@ namespace Expergent
         /// <summary>
         /// List of child nodes
         /// </summary>
-        protected LinkedList<ReteNode> _children;
+        protected BigList<ReteNode> _children;
         /// <summary>
         /// The node label
         /// </summary>
@@ -67,7 +68,7 @@ namespace Expergent
         /// </summary>
         public ReteNode()
         {
-            _children = new LinkedList<ReteNode>();
+            _children = new BigList<ReteNode>();
         }
 
         /// <summary>
@@ -97,7 +98,7 @@ namespace Expergent
         /// Gets the children nodes.
         /// </summary>
         /// <value>The children.</value>
-        public virtual LinkedList<ReteNode> Children
+        public virtual BigList<ReteNode> Children
         {
             get { return _children; }
         }

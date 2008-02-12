@@ -21,7 +21,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Expergent.Interfaces;
 using Wintellect.PowerCollections;
 
@@ -43,7 +42,7 @@ namespace Expergent
         /// <summary>
         /// All children of this node
         /// </summary>
-        protected LinkedList<ReteNode> _all_children;
+        protected BigList<ReteNode> _all_children;
 
         #endregion
 
@@ -56,7 +55,7 @@ namespace Expergent
         {
             _type = ReteNodeType.BetaMemory; // "beta-memory";
             _items = new BigList<Token>();
-            _all_children = new LinkedList<ReteNode>();
+            _all_children = new BigList<ReteNode>();
         }
 
         #endregion
@@ -76,7 +75,7 @@ namespace Expergent
         /// Gets all children.
         /// </summary>
         /// <value>All children.</value>
-        public virtual LinkedList<ReteNode> AllChildren
+        public virtual BigList<ReteNode> AllChildren
         {
             get { return _all_children; }
         }

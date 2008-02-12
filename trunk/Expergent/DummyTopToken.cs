@@ -74,33 +74,6 @@ namespace Expergent
         }
 
         /// <summary>
-        /// the ones with parent=this token
-        /// </summary>
-        /// <value>The children.</value>
-        public override LinkedList<Token> Children
-        {
-            get { return _children; }
-        }
-
-        /// <summary>
-        /// used only on tokens in negative nodes
-        /// </summary>
-        /// <value>The join results.</value>
-        public override LinkedList<NegativeJoinResult> JoinResults
-        {
-            get { return _join_results; }
-        }
-
-        /// <summary>
-        /// similar to join-results but for NCC nodes
-        /// </summary>
-        /// <value>The NCC results.</value>
-        public override LinkedList<Token> NCCResults
-        {
-            get { return _ncc_results; }
-        }
-
-        /// <summary>
         /// Gets or sets the owner.
         /// </summary>
         /// <value>The owner.</value>
