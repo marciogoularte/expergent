@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 using Expergent.Interfaces;
+using Wintellect.PowerCollections;
 
 namespace Expergent
 {
@@ -33,11 +34,11 @@ namespace Expergent
     {
         #region Private Fields
 
-        private LinkedList<Token> _items;
+        private readonly BigList<Token> _items;
         private IBuiltIn _builtin;
         private ISubstitutor _rightArgument;
         private ISubstitutor _leftArgument;
-        private List<string> _results;
+        private readonly List<string> _results;
 
         #endregion
 
@@ -50,7 +51,7 @@ namespace Expergent
             _label = label;
             _type = ReteNodeType.Builtin;
             _results = new List<string>();
-            _items = new LinkedList<Token>();
+            _items = new BigList<Token>();
         }
 
         /// <summary>
@@ -94,7 +95,7 @@ namespace Expergent
         /// Gets the items.
         /// </summary>
         /// <value>The items.</value>
-        public virtual LinkedList<Token> Items
+        public virtual BigList<Token> Items
         {
             get { return _items; }
         }

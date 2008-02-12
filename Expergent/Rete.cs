@@ -29,6 +29,7 @@ using Expergent.Interfaces;
 using Expergent.Neo;
 using Expergent.Terms;
 using Neo.Framework;
+using Wintellect.PowerCollections;
 
 namespace Expergent
 {
@@ -39,14 +40,15 @@ namespace Expergent
     {
         #region Private Fields
 
-        private readonly DummyTopNode _dummy_top_node;
-        private readonly List<WME> _working_memory;
-        private int _next_beta_node = 0;
-        private int _next_alpha_node = 0;
-        private readonly Dictionary<int, Dictionary<int, Dictionary<int, AlphaMemory>>> _alpha_network;
         private const int FIRST_LEVEL_ALPHA_HASH_INITIAL_SIZE = 131;
         private const int SECOND_LEVEL_ALPHA_HASH_INITIAL_SIZE = 71;
         private const int THIRD_LEVEL_ALPHA_HASH_INITIAL_SIZE = 29;
+        private readonly Dictionary<int, Dictionary<int, Dictionary<int, AlphaMemory>>> _alpha_network;
+        private readonly DummyTopNode _dummy_top_node;
+        private readonly BigList<WME> _working_memory;
+        private int _next_alpha_node = 0;
+        private int _next_beta_node = 0;
+
         #endregion
 
         #region Events
@@ -62,7 +64,7 @@ namespace Expergent
         /// </summary>
         public Rete()
         {
-            _working_memory = new List<WME>();
+            _working_memory = new BigList<WME>();
             _dummy_top_node = new DummyTopNode();
             _alpha_network = new Dictionary<int, Dictionary<int, Dictionary<int, AlphaMemory>>>(FIRST_LEVEL_ALPHA_HASH_INITIAL_SIZE);
         }
@@ -84,7 +86,7 @@ namespace Expergent
         /// Gets the working memory.
         /// </summary>
         /// <value>The working memory.</value>
-        public List<WME> WorkingMemory
+        public BigList<WME> WorkingMemory
         {
             get { return _working_memory; }
         }
@@ -92,6 +94,15 @@ namespace Expergent
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Accepts the specified visitor.
+        /// </summary>
+        /// <param name="visitor">The visitor.</param>
+        public void Accept(IVisitor visitor)
+        {
+            visitor.OnRete(this);
+        }
 
         /// <summary>
         /// Adds a production.
@@ -224,7 +235,7 @@ namespace Expergent
             }
             while (w.Tokens.Count > 0)
             {
-                delete_token_and_descendents(w.Tokens.First.Value);
+                delete_token_and_descendents(w.Tokens[0]);
             }
 
 
@@ -243,19 +254,6 @@ namespace Expergent
             _working_memory.Remove(w);
         }
 
-        #region IVisitable Members
-
-        /// <summary>
-        /// Accepts the specified visitor.
-        /// </summary>
-        /// <param name="visitor">The visitor.</param>
-        public void Accept(IVisitor visitor)
-        {
-            visitor.OnRete(this);
-        }
-
-        #endregion
-
         #endregion
 
         #region Private Methods
@@ -269,7 +267,7 @@ namespace Expergent
         {
             ReteNode current_node = build_or_share_network_for_conditions(_dummy_top_node, lhs, null);
             new_production.Parent = current_node;
-            current_node.Children.AddFirst(new_production);
+            current_node.Children.AddToFront(new_production);
             update_new_node_with_matches_from_above(new_production);
         }
 
@@ -317,53 +315,8 @@ namespace Expergent
 
         private void aggregator_node_activation(AggregatorNode node, Token tok, WME w)
         {
-
             Token new_token = make_token(node, tok, w);
-            node.Items.AddFirst(new_token);
-
-            //int lhsCnt = node.Aggregator.lhs.Count - 1;
-
-            //foreach (RightHandSideCondition rhsCondition in node.Aggregator.rhs)
-            //{
-            //    WME newfact = new WME();
-            //    for (int f = 0; f < 3; f++)
-            //    {
-            //        Term term = rhsCondition.Fields[f];
-            //        if (term.TermType == TermType.Variable)
-            //        {
-            //            for (int i = lhsCnt; i >= 0; i--)
-            //            {
-            //                Condition lhsCondition = node.Aggregator.lhs[i];
-            //                if (lhsCondition.ConditionType == ConditionType.Positive)
-            //                {
-            //                    int pos = lhsCondition.Contains(term);
-            //                    if (pos >= 0)
-            //                    {
-            //                        Token tok2 = new_token.GetTokenUp(lhsCnt - i);
-            //                        newfact.Fields[f] = tok2.WME[pos];
-            //                        i = -1;
-            //                    }
-            //                }
-            //            }
-
-            //            if (newfact.Fields[f] == null)
-            //            {
-            //                newfact.Fields[f] = new NullTerm();
-            //            }
-
-            //        }
-            //        else
-            //        {
-            //            newfact.Fields[f] = term;
-            //        }
-            //    }
-            //    make_token(node, tok, newfact);
-            //    Activation newact = new Activation(newfact, rhsCondition.ConditionType);
-            //    if (node.Aggregator.InferredFacts.Contains(newact) == false)
-            //    {
-            //        node.Aggregator.InferredFacts.Add(newact);
-            //    }
-            //}
+            node.Items.AddToFront(new_token);
         }
 
         /// <summary>
@@ -387,7 +340,7 @@ namespace Expergent
         private void p_node_activation(ProductionNode node, Token tok, WME w)
         {
             Token new_token = make_token(node, tok, w);
-            node.Items.AddFirst(new_token);
+            node.Items.AddToFront(new_token);
 
             int lhsCnt = node.Production.Lhs.Count - 1;
 
@@ -480,7 +433,7 @@ namespace Expergent
             new_rete.Type = ReteNodeType.BetaMemory;
             new_rete.Parent = parent;
             new_rete.Label = "B" + (++_next_beta_node);
-            parent.Children.AddFirst(new_rete);
+            parent.Children.AddToFront(new_rete);
 
             update_new_node_with_matches_from_above(new_rete);
             return new_rete;
@@ -512,13 +465,13 @@ namespace Expergent
                 if (cond.ConditionType == ConditionType.Positive)
                 {
                     current_node = build_or_share_beta_memory_node(current_node);
-                    LinkedList<TestAtJoinNode> tests = get_join_tests_from_condition(cond, conds_higher_up);
+                    List<TestAtJoinNode> tests = get_join_tests_from_condition(cond, conds_higher_up);
                     AlphaMemory am = build_or_share_alpha_memory(cond);
                     current_node = build_or_share_join_node(current_node as BetaMemory, am, tests);
                 }
                 else if (cond.ConditionType == ConditionType.Negative)
                 {
-                    LinkedList<TestAtJoinNode> tests = get_join_tests_from_condition(cond, conds_higher_up);
+                    List<TestAtJoinNode> tests = get_join_tests_from_condition(cond, conds_higher_up);
                     AlphaMemory am = build_or_share_alpha_memory(cond);
                     current_node = build_or_share_negative_node(current_node, am, tests);
                 }
@@ -548,7 +501,7 @@ namespace Expergent
             new_node.Type = ReteNodeType.Builtin;
             new_node.Parent = parent;
 
-            parent.Children.AddFirst(new_node);
+            parent.Children.AddToFront(new_node);
 
             new_node.Builtin = ((FuncTerm) c.Attribute).Builtin;
 
@@ -643,9 +596,9 @@ namespace Expergent
             new_partner.Type = ReteNodeType.NCCPartner; // "NCC-partner";
             parent.IsHeadOfSubNetwork = true;
             new_node.Parent = parent;
-            parent.Children.AddLast(new_node);
+            parent.Children.Add(new_node);
             new_partner.Parent = bottom_of_subnetwork;
-            bottom_of_subnetwork.Children.AddFirst(new_partner);
+            bottom_of_subnetwork.Children.AddToFront(new_partner);
             new_node.Partner = new_partner;
             new_partner.NCCNode = new_node;
             new_partner.NumberOfConjuncts = c.SubConditions.Count;
@@ -696,15 +649,15 @@ namespace Expergent
             new_node.Type = ReteNodeType.Negative; // "negative";
             new_node.Parent = parent;
 
-            parent.Children.AddFirst(new_node);
+            parent.Children.AddToFront(new_node);
 
             foreach (TestAtJoinNode test in tests)
             {
-                new_node.Tests.AddLast(test);
+                new_node.Tests.Add(test);
             }
             new_node.AlphaMemory = am;
 
-            am.Successors.AddFirst(new_node);
+            am.Successors.AddToFront(new_node);
             ++am.ReferenceCount;
             new_node.NearestAncestorWithSameAmem = find_nearest_ancestor_with_same_amem(parent, am);
             update_new_node_with_matches_from_above(new_node);
@@ -774,17 +727,17 @@ namespace Expergent
             new_node.Type = ReteNodeType.Join; // "join";
             new_node.Parent = parent;
 
-            parent.Children.AddFirst(new_node);
+            parent.Children.AddToFront(new_node);
 
-            parent.AllChildren.AddFirst(new_node);
+            parent.AllChildren.AddToFront(new_node);
 
             foreach (TestAtJoinNode test in tests)
             {
-                new_node.Tests.AddLast(test);
+                new_node.Tests.Add(test);
             }
             new_node.AlphaMemory = am;
 
-            am.Successors.AddFirst(new_node);
+            am.Successors.AddToFront(new_node);
             ++am.ReferenceCount;
             new_node.NearestAncestorWithSameAmem = find_nearest_ancestor_with_same_amem(parent, am);
 
@@ -969,9 +922,9 @@ namespace Expergent
         /// <param name="c">The c.</param>
         /// <param name="earlier_conds">The earlier_conds.</param>
         /// <returns></returns>
-        private LinkedList<TestAtJoinNode> get_join_tests_from_condition(Condition c, IList<LeftHandSideCondition> earlier_conds)
+        private List<TestAtJoinNode> get_join_tests_from_condition(Condition c, IList<LeftHandSideCondition> earlier_conds)
         {
-            LinkedList<TestAtJoinNode> result = new LinkedList<TestAtJoinNode>();
+            List<TestAtJoinNode> result = new List<TestAtJoinNode>();
             int cntOfEarlierConditions = earlier_conds.Count - 1;
             for (int f = 0; f < 3; f++)
             {
@@ -994,7 +947,7 @@ namespace Expergent
                                     this_test.FieldOfArg2 = f2;
                                     this_test.NumberOfLevelsUp = (cntOfEarlierConditions - i);
                                     this_test.Evaluator = c.Evaluator;
-                                    result.AddLast(this_test);
+                                    result.Add(this_test);
                                     i = -1;
                                 }
                             }
@@ -1035,7 +988,6 @@ namespace Expergent
             {
                 case ReteNodeType.BetaMemory:
                     BetaMemory tmpBetaMem = (BetaMemory) parent;
-
                     foreach (Token tok in tmpBetaMem.Items)
                     {
                         left_activation(newNode, tok, new WME());
@@ -1043,18 +995,15 @@ namespace Expergent
                     break;
                 case ReteNodeType.Builtin:
                     BuiltinMemory tmpBiMem = (BuiltinMemory) parent;
-
                     foreach (Token tok in tmpBiMem.Items)
                     {
                         left_activation(newNode, tok, new WME());
                     }
                     break;
                 case ReteNodeType.Join:
-
-                    ReteNode[] saved_list_of_children = new ReteNode[parent.Children.Count];
-                    parent.Children.CopyTo(saved_list_of_children, 0); //.ToArray();
+                    BigList<ReteNode> saved_list_of_children = parent.Children.Clone();
                     parent.Children.Clear();
-                    parent.Children.AddFirst(newNode);
+                    parent.Children.AddToFront(newNode);
                     JoinNode tmpJNode = (JoinNode) parent;
                     if (tmpJNode.AlphaMemory != null)
                     {
@@ -1064,11 +1013,7 @@ namespace Expergent
                         }
                     }
                     parent.Children.Clear();
-
-                    foreach (ReteNode retenode in saved_list_of_children)
-                    {
-                        parent.Children.AddLast(retenode);
-                    }
+                    parent.Children.AddRange(saved_list_of_children);
                     break;
                 case ReteNodeType.Negative:
                     NegativeNode tmpNNode = (NegativeNode) parent;
@@ -1142,21 +1087,21 @@ namespace Expergent
             {
                 while (((NegativeNode) node).Items.Count > 0)
                 {
-                    delete_token_and_descendents(((NegativeNode) node).Items.First.Value);
+                    delete_token_and_descendents(((NegativeNode) node).Items[0]);
                 }
             }
             if (node.Type == ReteNodeType.NCC)
             {
                 while (((NCCNode) node).Items.Count > 0)
                 {
-                    delete_token_and_descendents(((NCCNode) node).Items.First.Value);
+                    delete_token_and_descendents(((NCCNode) node).Items[0]);
                 }
             }
             if (node.Type == ReteNodeType.NCCPartner)
             {
                 while (((NCCPartnerNode) node).NewResultBuffer.Count > 0)
                 {
-                    delete_token_and_descendents(((NCCPartnerNode) node).NewResultBuffer.First.Value);
+                    delete_token_and_descendents(((NCCPartnerNode) node).NewResultBuffer[0]);
                 }
             }
 
@@ -1165,7 +1110,7 @@ namespace Expergent
                 ProductionNode pNode = (ProductionNode) node;
                 while (pNode.Items.Count > 0)
                 {
-                    delete_token_and_descendents(pNode.Items.First.Value);
+                    delete_token_and_descendents(pNode.Items[0]);
                     //pNode.items.RemoveFirst();
                 }
 
@@ -1239,7 +1184,7 @@ namespace Expergent
         {
             while (tok.Children.Count > 0)
             {
-                delete_token_and_descendents(tok.Children.First.Value as Token);
+                delete_token_and_descendents(tok.Children[0]);
             }
 
             if (tok.Node.Type == ReteNodeType.NCCPartner)
@@ -1341,7 +1286,7 @@ namespace Expergent
         {
             while (t.Children.Count > 0)
             {
-                delete_token_and_descendents(t.Children.First.Value as Token);
+                delete_token_and_descendents(t.Children[0]);
             }
         }
 
@@ -1362,10 +1307,10 @@ namespace Expergent
             tok.Parent = parent;
             tok.WME = w;
             tok.Node = node;
-            parent.Children.AddFirst(tok);
+            parent.Children.AddToFront(tok);
             if (w != null)
             {
-                w.Tokens.AddFirst(tok);
+                w.Tokens.AddToFront(tok);
             }
             return tok;
         }
@@ -1416,12 +1361,12 @@ namespace Expergent
             }
             if (ancestor != null)
             {
-                LinkedListNode<ReteNode> isx = node.AlphaMemory.Successors.Find(ancestor);
-                node.AlphaMemory.Successors.AddBefore(isx, node);
+                int pos = node.AlphaMemory.Successors.IndexOf(ancestor);
+                node.AlphaMemory.Successors.Insert(pos, node);
             }
             else
             {
-                node.AlphaMemory.Successors.AddLast(node);
+                node.AlphaMemory.Successors.Add(node);
             }
             node.IsRightUnlinked = false;
         }
@@ -1439,12 +1384,12 @@ namespace Expergent
             }
             if (ancestor != null)
             {
-                LinkedListNode<ReteNode> isx = node.AlphaMemory.Successors.Find(ancestor);
-                node.AlphaMemory.Successors.AddBefore(isx, node);
+                int pos = node.AlphaMemory.Successors.IndexOf(ancestor);
+                node.AlphaMemory.Successors.Insert(pos, node);
             }
             else
             {
-                node.AlphaMemory.Successors.AddLast(node);
+                node.AlphaMemory.Successors.Add(node);
             }
             node.IsRightUnlinked = false;
         }
@@ -1472,8 +1417,8 @@ namespace Expergent
                     NegativeJoinResult jr = new NegativeJoinResult();
                     jr.Owner = t;
                     jr.WME = w;
-                    t.JoinResults.AddFirst(jr);
-                    w.NegativeJoinResults.AddFirst(jr);
+                    t.JoinResults.AddToFront(jr);
+                    w.NegativeJoinResults.AddToFront(jr);
                 }
             }
         }
@@ -1484,7 +1429,7 @@ namespace Expergent
         /// <param name="node">The node.</param>
         private void relink_to_beta_memory(JoinNode node)
         {
-            node.Parent.Children.AddFirst(node);
+            node.Parent.Children.AddToFront(node);
             node.IsLeftUnlinked = false;
         }
 
@@ -1501,18 +1446,11 @@ namespace Expergent
             Token new_token = make_token(node, t, w);
             node.Items.Add(new_token);
 
-            if (node.Children.Count > 0)
+            //The unlinking process changes the underlying collection so we need a new collection...
+            BigList<ReteNode> children = node.Children.Clone();
+            foreach (ReteNode child in children)
             {
-                LinkedListNode<ReteNode> llNode = node.Children.First;
-                while (llNode != null)
-                {
-                    LinkedListNode<ReteNode> tmpllNode = llNode.Next;
-                    left_activation(llNode.Value, new_token, null);
-                    if (llNode.Next != null)
-                        llNode = llNode.Next;
-                    else
-                        llNode = tmpllNode;
-                }
+                left_activation(child, new_token, null);
             }
         }
 
@@ -1533,7 +1471,7 @@ namespace Expergent
             // *** End Right Unlinking *** 
 
             Token new_token = make_token(node, t, w);
-            node.Items.AddFirst(new_token);
+            node.Items.AddToFront(new_token);
             foreach (ItemInAlphaMemory item in node.AlphaMemory.Items)
             {
                 if (perform_join_tests(node.Tests, new_token, item.WME))
@@ -1541,8 +1479,8 @@ namespace Expergent
                     NegativeJoinResult jr = new NegativeJoinResult();
                     jr.Owner = new_token;
                     jr.WME = w;
-                    new_token.JoinResults.AddFirst(jr);
-                    w.NegativeJoinResults.AddFirst(jr);
+                    new_token.JoinResults.AddToFront(jr);
+                    w.NegativeJoinResults.AddToFront(jr);
                 }
             }
             if (new_token.JoinResults.Count == 0)
@@ -1591,13 +1529,13 @@ namespace Expergent
             {
                 if (owner.Parent == owners_t && owner.WME == owners_w)
                 {
-                    owner.NCCResults.AddLast(new_result);
+                    owner.NCCResults.Add(new_result);
                     new_result.Owner = owner;
                     delete_descendents_of_token(owner);
                 }
                 else
                 {
-                    partner.NewResultBuffer.AddFirst(new_result);
+                    partner.NewResultBuffer.AddToFront(new_result);
                 }
             }
         }
@@ -1618,11 +1556,11 @@ namespace Expergent
         private void ncc_node_left_activation(NCCNode node, Token t, WME w)
         {
             Token new_token = make_token(node, t, w);
-            node.Items.AddFirst(new_token);
+            node.Items.AddToFront(new_token);
             foreach (Token result in node.Partner.NewResultBuffer)
             {
                 node.Partner.NewResultBuffer.Remove(result);
-                new_token.NCCResults.AddFirst(result);
+                new_token.NCCResults.AddToFront(result);
                 result.Owner = new_token;
             }
             if (new_token.NCCResults.Count == 0)
@@ -1647,13 +1585,13 @@ namespace Expergent
             new_item.WME = w;
             new_item.AlphaMemory = node;
             node.Items.Add(new_item);
-            w.AlphaMemoryItems.AddFirst(new_item);
+            w.AlphaMemoryItems.AddToFront(new_item);
 
             // *** Neo Integration *** 
 
             if (w.Value.TermType == TermType.EntityObject)
             {
-                IFactProvider eo = (IFactProvider)w.Value.Value;
+                IFactProvider eo = (IFactProvider) w.Value.Value;
                 if (eo.MyFactsHaveBeenAsserted == false)
                 {
                     foreach (WME wme in eo.GenerateFactsForRelatedObject(w.Attribute.Value.ToString(), w.Identifier.Value as IFactProvider))
@@ -1661,20 +1599,11 @@ namespace Expergent
                         AddWME(wme);
                     }
                 }
-
-                //EntityObjectTerm eot = (EntityObjectTerm) w.Value;
-                //if (eot.Value.MyFactsHaveBeenAsserted == false)
-                //{
-                //    foreach (WME wme in eot.Value.GenerateFactsForRelatedObject(w.Attribute.Value.ToString(), w.Identifier.Value as IFactProvider))
-                //    {
-                //        AddWME(wme);
-                //    }
-                //}
             }
 
             if (w.Value.TermType == TermType.ObjectRelation)
             {
-                ObjectRelationBase orb = (ObjectRelationBase)w.Value.Value;
+                ObjectRelationBase orb = (ObjectRelationBase) w.Value.Value;
                 foreach (RulesEnabledEntityObject eo in orb)
                 {
                     if (eo.MyFactsHaveBeenAsserted == false)
@@ -1685,31 +1614,16 @@ namespace Expergent
                         }
                     }
                 }
-
-                //ObjectRelationTerm eot = (ObjectRelationTerm) w.Value;
-                //foreach (RulesEnabledEntityObject eo in eot.Value)
-                //{
-                //    if (eo.MyFactsHaveBeenAsserted == false)
-                //    {
-                //        foreach (WME wme in eo.GenerateFactsForObjectInCollection(w.Attribute.Value.ToString(), eot.Value))
-                //        {
-                //            AddWME(wme);
-                //        }
-                //    }
-                //}
             }
 
             // *** End Neo Integration *** 
 
-            LinkedListNode<ReteNode> llNode = node.Successors.First;
-            while (llNode != null)
+            //The unlinking process changes the underlying collection so we need a new collection...
+            BigList<ReteNode> successors = node.Successors.Clone();
+
+            foreach (ReteNode successor in successors)
             {
-                LinkedListNode<ReteNode> tmpllNode = llNode.Next;
-                right_activation(llNode.Value, w);
-                if (llNode.Next != null)
-                    llNode = llNode.Next;
-                else
-                    llNode = tmpllNode;
+                right_activation(successor, w);
             }
         }
 
@@ -1758,8 +1672,7 @@ namespace Expergent
         private void builtin_node_left_activation(BuiltinMemory memory, Token tok, WME w)
         {
             Token new_token = make_token(memory, tok, w);
-            memory.Items.AddFirst(new_token);
-
+            memory.Items.AddToFront(new_token);
 
             if (memory.PerformEvaluation(new_token))
             {
@@ -1771,7 +1684,7 @@ namespace Expergent
         }
 
         /// <summary>
-        /// Perform_join_testses the specified tests.
+        /// Performs the specified tests.
         /// </summary>
         /// <param name="tests">The tests.</param>
         /// <param name="t">The t.</param>

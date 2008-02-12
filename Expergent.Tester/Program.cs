@@ -5,7 +5,7 @@ namespace Expergent.Tester
         public void Main()
         {
             TesterStub stub = new TesterStub();
-            stub.RunCollectionTests();
+
             stub.RunAlphaMemoryTests();
             stub.RunAgendaTests();
             stub.RunMetaTests();
@@ -17,11 +17,7 @@ namespace Expergent.Tester
 
     public class TesterStub
     {
-        public void RunCollectionTests()
-        {
-            CollectionsTester ctest = new CollectionsTester();
-            ctest.HashMapTest();
-        }
+        
 
         public void RunAlphaMemoryTests()
         {

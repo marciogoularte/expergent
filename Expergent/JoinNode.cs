@@ -49,7 +49,7 @@ namespace Expergent
         #region fields
 
         private AlphaMemory _amem;
-        private LinkedList<TestAtJoinNode> _tests;
+        private readonly List<TestAtJoinNode> _tests;
         private ReteNode _nearest_ancestor_with_same_amem;
         private bool _isRightUnlinked;
         private bool _isLeftUnlinked;
@@ -65,7 +65,7 @@ namespace Expergent
         public JoinNode()
         {
             _type = ReteNodeType.Join;
-            _tests = new LinkedList<TestAtJoinNode>();
+            _tests = new List<TestAtJoinNode>();
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace Expergent
         /// Gets the tests to perform
         /// </summary>
         /// <value>The tests.</value>
-        public LinkedList<TestAtJoinNode> Tests
+        public List<TestAtJoinNode> Tests
         {
             get { return _tests; }
         }

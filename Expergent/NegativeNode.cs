@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 using Expergent.Interfaces;
+using Wintellect.PowerCollections;
 
 namespace Expergent
 {
@@ -37,9 +38,9 @@ namespace Expergent
     /// </remarks>
     public class NegativeNode : ReteNode
     {
-        private LinkedList<Token> _items;
+        private readonly BigList<Token> _items;
         private AlphaMemory _amem;
-        private LinkedList<TestAtJoinNode> _tests;
+        private readonly List<TestAtJoinNode> _tests;
         private ReteNode _nearest_ancestor_with_same_amem;
         private bool _isRightUnlinked;
 
@@ -49,15 +50,15 @@ namespace Expergent
         public NegativeNode()
         {
             _type = ReteNodeType.Negative;
-            _items = new LinkedList<Token>();
-            _tests = new LinkedList<TestAtJoinNode>();
+            _items = new BigList<Token>();
+            _tests = new List<TestAtJoinNode>();
         }
 
         /// <summary>
         /// Gets the items.
         /// </summary>
         /// <value>The items.</value>
-        public LinkedList<Token> Items
+        public BigList<Token> Items
         {
             get { return _items; }
         }
@@ -76,7 +77,7 @@ namespace Expergent
         /// Gets the tests.
         /// </summary>
         /// <value>The tests.</value>
-        public LinkedList<TestAtJoinNode> Tests
+        public List<TestAtJoinNode> Tests
         {
             get { return _tests; }
         }

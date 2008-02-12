@@ -35,6 +35,10 @@
       <HintPath>..\..\Library\Neo.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.4.3.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="PowerCollections, Version=1.0.2964.13583, Culture=neutral, PublicKeyToken=284e3d18c89f24cf, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Library\PowerCollections.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -43,7 +47,6 @@
     <Compile Include="AgendaTests.cs" />
     <Compile Include="AlphaMemoryTests.cs" />
     <Compile Include="BuiltinsTests.cs" />
-    <Compile Include="CollectionsTester.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="MetaNodeTester.cs" />
     <Compile Include="ObjectGrapherTest.cs" />

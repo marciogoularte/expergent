@@ -21,8 +21,8 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Expergent.Interfaces;
+using Wintellect.PowerCollections;
 
 namespace Expergent
 {
@@ -41,7 +41,7 @@ namespace Expergent
     {
         private NCCNode _ncc_node;
         private int _number_of_conjuncts;
-        private LinkedList<Token> _new_result_buffer;
+        private readonly BigList<Token> _new_result_buffer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NCCPartnerNode"/> class.
@@ -49,7 +49,7 @@ namespace Expergent
         public NCCPartnerNode()
         {
             _type = ReteNodeType.NCCPartner;
-            _new_result_buffer = new LinkedList<Token>();
+            _new_result_buffer = new BigList<Token>();
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Expergent
         /// results for the match the NCC node hasn't heard about
         /// </summary>
         /// <value>The new result buffer.</value>
-        public LinkedList<Token> NewResultBuffer
+        public BigList<Token> NewResultBuffer
         {
             get { return _new_result_buffer; }
         }

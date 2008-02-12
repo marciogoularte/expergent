@@ -22,9 +22,8 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using Expergent.Interfaces;
-using Expergent.Terms;
+using Wintellect.PowerCollections;
 
 namespace Expergent
 {
@@ -36,10 +35,10 @@ namespace Expergent
         #region Fields
 
         private string _label;
-        private Term[] _fields;
-        private LinkedList<ItemInAlphaMemory> _alpha_mem_items;
-        private LinkedList<Token> _tokens;
-        private LinkedList<NegativeJoinResult> _negative_join_results;
+        private readonly Term[] _fields;
+        private readonly BigList<ItemInAlphaMemory> _alpha_mem_items;
+        private readonly BigList<Token> _tokens;
+        private readonly BigList<NegativeJoinResult> _negative_join_results;
 
         #endregion
 
@@ -60,9 +59,9 @@ namespace Expergent
         {
             _label = label;
             _fields = new Term[3];
-            _alpha_mem_items = new LinkedList<ItemInAlphaMemory>();
-            _tokens = new LinkedList<Token>();
-            _negative_join_results = new LinkedList<NegativeJoinResult>();
+            _alpha_mem_items = new BigList<ItemInAlphaMemory>();
+            _tokens = new BigList<Token>();
+            _negative_join_results = new BigList<NegativeJoinResult>();
         }
 
         /// <summary>
@@ -158,7 +157,7 @@ namespace Expergent
         /// the ones containing this WME
         /// </summary>
         /// <value>The alpha memory items.</value>
-        public LinkedList<ItemInAlphaMemory> AlphaMemoryItems
+        public BigList<ItemInAlphaMemory> AlphaMemoryItems
         {
             get { return _alpha_mem_items; }
         }
@@ -167,7 +166,7 @@ namespace Expergent
         /// the ones with wme=this WME
         /// </summary>
         /// <value>The tokens.</value>
-        public LinkedList<Token> Tokens
+        public BigList<Token> Tokens
         {
             get { return _tokens; }
         }
@@ -178,7 +177,7 @@ namespace Expergent
         /// removals.
         /// </summary>
         /// <value>The negative join results.</value>
-        public LinkedList<NegativeJoinResult> NegativeJoinResults
+        public BigList<NegativeJoinResult> NegativeJoinResults
         {
             get { return _negative_join_results; }
         }

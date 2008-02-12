@@ -21,8 +21,8 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Expergent.Interfaces;
+using Wintellect.PowerCollections;
 
 namespace Expergent
 {
@@ -51,17 +51,17 @@ namespace Expergent
         /// <summary>
         /// the ones with parent=this token
         /// </summary>
-        protected LinkedList<Token> _children;
+        protected BigList<Token> _children;
 
         /// <summary>
         /// used only on tokens in negative nodes
         /// </summary>
-        protected LinkedList<NegativeJoinResult> _join_results;
+        protected BigList<NegativeJoinResult> _join_results;
 
         /// <summary>
         /// similar to join-results but for NCC nodes
         /// </summary>
-        protected LinkedList<Token> _ncc_results;
+        protected BigList<Token> _ncc_results;
 
         /// <summary>
         /// The owner of this token
@@ -77,9 +77,9 @@ namespace Expergent
         /// </summary>
         public Token()
         {
-            _children = new LinkedList<Token>();
-            _join_results = new LinkedList<NegativeJoinResult>();
-            _ncc_results = new LinkedList<Token>();
+            _children = new BigList<Token>();
+            _join_results = new BigList<NegativeJoinResult>();
+            _ncc_results = new BigList<Token>();
         }
 
         #endregion
@@ -120,7 +120,7 @@ namespace Expergent
         /// the ones with parent=this token
         /// </summary>
         /// <value>The children.</value>
-        public virtual LinkedList<Token> Children
+        public virtual BigList<Token> Children
         {
             get { return _children; }
         }
@@ -129,7 +129,7 @@ namespace Expergent
         /// used only on tokens in negative nodes
         /// </summary>
         /// <value>The join results.</value>
-        public virtual LinkedList<NegativeJoinResult> JoinResults
+        public virtual BigList<NegativeJoinResult> JoinResults
         {
             get { return _join_results; }
         }
@@ -138,7 +138,7 @@ namespace Expergent
         /// similar to join-results but for NCC nodes
         /// </summary>
         /// <value>The NCC results.</value>
-        public virtual LinkedList<Token> NCCResults
+        public virtual BigList<Token> NCCResults
         {
             get { return _ncc_results; }
         }
