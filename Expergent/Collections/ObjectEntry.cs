@@ -2,15 +2,15 @@ using System;
 
 namespace Expergent.Collections
 {
-    public class ObjectEntry : IEntry
+    public class ObjectEntry<K, V> : IEntry<K, V>
     {
         private readonly int hashCode_Renamed_Field;
-        private Object key;
+        private K key;
 
-        private IEntry next;
-        private Object value_Renamed;
+        private IEntry<K, V> next;
+        private V value_Renamed;
 
-        public ObjectEntry(Object key, Object value_Renamed, int hashCode)
+        public ObjectEntry(K key, V value_Renamed, int hashCode)
         {
             this.key = key;
             this.value_Renamed = value_Renamed;
@@ -19,19 +19,19 @@ namespace Expergent.Collections
 
         #region IEntry Members
 
-        public virtual Object Value
+        public virtual V Value
         {
             get { return value_Renamed; }
 
             set { value_Renamed = value; }
         }
 
-        public virtual Object Key
+        public virtual K Key
         {
             get { return key; }
         }
 
-        public virtual IEntry Next
+        public virtual IEntry<K, V> Next
         {
             get { return next; }
 
@@ -41,8 +41,8 @@ namespace Expergent.Collections
 
         public virtual void Clear()
         {
-            key = null;
-            value_Renamed = null;
+            key = default(K);// null;
+            value_Renamed = default(V); 
             next.Clear();
         }
 
@@ -59,7 +59,7 @@ namespace Expergent.Collections
             {
                 return true;
             }
-            ObjectEntry other = (ObjectEntry) object_Renamed;
+            ObjectEntry<K, V> other = (ObjectEntry<K, V>)object_Renamed;
             return key.Equals(other.key) && value_Renamed.Equals(other.value_Renamed);
         }
     }
