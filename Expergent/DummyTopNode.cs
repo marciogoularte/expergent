@@ -21,7 +21,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Expergent.Interfaces;
 
 namespace Expergent
@@ -40,57 +39,8 @@ namespace Expergent
         /// </summary>
         public DummyTopNode()
         {
-            _items.AddLast(new DummyTopToken());
+            _items.Add(new DummyTopToken());
         }
-
-        /// <summary>
-        /// Gets the tokens attached to this node.
-        /// </summary>
-        /// <value>The items.</value>
-        public override LinkedList<Token> Items
-        {
-            get { return _items; }
-        }
-
-        /// <summary>
-        /// Gets all children.
-        /// </summary>
-        /// <value>All children.</value>
-        public override LinkedList<ReteNode> AllChildren
-        {
-            get { return _all_children; }
-        }
-
-        /// <summary>
-        /// Gets or sets the ReteNodeType.
-        /// </summary>
-        /// <value>The type.</value>
-        public override ReteNodeType Type
-        {
-            get { return _type; }
-            set { _type = value; }
-        }
-
-        /// <summary>
-        /// Gets the children nodes.
-        /// </summary>
-        /// <value>The children.</value>
-        public override LinkedList<ReteNode> Children
-        {
-            get { return _children; }
-        }
-
-        /// <summary>
-        /// Gets or sets the parent node.
-        /// </summary>
-        /// <value>The parent.</value>
-        public override ReteNode Parent
-        {
-            get { return _parent; }
-            set { _parent = value; }
-        }
-
-        #region IVisitable Members
 
         /// <summary>
         /// Accepts the specified visitor.
@@ -100,7 +50,5 @@ namespace Expergent
         {
             visitor.OnTopNode(this);
         }
-
-        #endregion
     }
 }
