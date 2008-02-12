@@ -11,15 +11,15 @@ namespace Expergent.Collections
     /// JavaSpaces.
     /// 
     /// </author>
-    public interface IMap
+    public interface IMap<K, V>
     {
         bool Empty { get; }
         int Count { get; }
-        bool ContainsKey(object key);
-        object Get(object key);
-        object Put(object key, object val);
-        object Remove(object key);
+        bool ContainsKey(K key);
+        V Get(K key);
+        V Put(K key, V val);
+        V Remove(K key);
         void Clear();
-        Iterator KeysIterator();
+        IEntryIterator<K, V> EntryIterator();
     }
 }

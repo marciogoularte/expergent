@@ -1,5 +1,3 @@
-using System;
-
 namespace Expergent.Collections
 {
     /// <author>  Peter Lin
@@ -11,42 +9,42 @@ namespace Expergent.Collections
     /// extra stuff doesn't make too big of a difference.
     /// 
     /// </author>
-    public class HashMap : AbstractMap
+    public class HashMap<K, V> : AbstractMap<K, V>
     {
         public HashMap() : base(101, 0.75f)
         {
         }
 
-        public override bool ContainsKey(Object key)
+        public override bool ContainsKey(K key)
         {
-            return Get(key) != null;
+            return Get(key).Equals(null) == false;
         }
 
-        public override Object Get(Object key)
+        public override V Get(K key)
         {
             int hashCode = comparator.hashCodeOf(key);
             int index = indexOf(hashCode, table.Length);
 
-            ObjectEntry current = (ObjectEntry) table[index];
+            ObjectEntry<K, V> current = (ObjectEntry<K, V>) table[index];
             while (current != null)
             {
                 if (hashCode == current.GetHashCode() && comparator.equal(key, current.Key))
                 {
                     return current.Value;
                 }
-                current = (ObjectEntry) current.Next;
+                current = (ObjectEntry<K, V>) current.Next;
             }
-            return null;
+            return default(V);
         }
 
         /// <summary> 
         /// </summary>
-        public override Object Put(Object key, Object value_Renamed)
+        public override V Put(K key, V value_Renamed)
         {
             return Put(key, value_Renamed, false);
         }
 
-        public virtual Object Put(Object key, Object value_Renamed, bool checkExists)
+        public virtual V Put(K key, V value_Renamed, bool checkExists)
         {
             int hashCode = comparator.hashCodeOf(key);
             int index = indexOf(hashCode, table.Length);
@@ -54,44 +52,44 @@ namespace Expergent.Collections
             // scan the linked entries to see if it exists
             if (checkExists)
             {
-                IEntry current = table[index];
+                IEntry<K, V> current = table[index];
                 while (current != null)
                 {
                     if (hashCode == current.GetHashCode() && key.Equals(current.Key))
                     {
-                        Object oldValue = current.Value;
+                        V oldValue = current.Value;
                         current.Value = value_Renamed;
                         return oldValue;
                     }
-                    current = (ObjectEntry) current.Next;
+                    current = (ObjectEntry<K, V>) current.Next;
                 }
             }
 
             // create a new ObjectEntry
-            ObjectEntry entry = new ObjectEntry(key, value_Renamed, hashCode);
+            ObjectEntry<K, V> entry = new ObjectEntry<K, V>(key, value_Renamed, hashCode);
             // in case there is already an entry with the same hashcode,
             // set it as the next entry for the new one. this means the older
             // entries are pushed down the bucket
             entry.Next = table[index];
             table[index] = entry;
 
-            if (size_Renamed_Field++ >= threshold)
+            if (cnt++ >= threshold)
             {
                 resize(2*table.Length);
             }
-            return null;
+            return default(V);
         }
 
-        public override Object Remove(Object key)
+        public override V Remove(K key)
         {
             int hashCode = comparator.hashCodeOf(key);
             int index = indexOf(hashCode, table.Length);
 
-            ObjectEntry previous = (ObjectEntry) table[index];
-            ObjectEntry current = previous;
+            ObjectEntry<K, V> previous = (ObjectEntry<K, V>) table[index];
+            ObjectEntry<K, V> current = previous;
             while (current != null)
             {
-                ObjectEntry next = (ObjectEntry) current.Next;
+                ObjectEntry<K, V> next = (ObjectEntry<K, V>) current.Next;
                 if (hashCode == current.GetHashCode() && comparator.equal(key, current.Key))
                 {
                     if (previous == current)
@@ -103,13 +101,13 @@ namespace Expergent.Collections
                         previous.Next = next;
                     }
                     current.Next = null;
-                    size_Renamed_Field--;
+                    cnt--;
                     return current.Value;
                 }
                 previous = current;
                 current = next;
             }
-            return null;
+            return default(V);
         }
     }
 }

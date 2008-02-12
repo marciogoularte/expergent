@@ -2,16 +2,16 @@ using System;
 
 namespace Expergent.Collections
 {
-    public abstract class AbstractMap : IMap
+    public abstract class AbstractMap<K, V> : IMap<K, V>
     {
         internal const int MAX_CAPACITY = 1 << 30;
 
         protected internal ObjectComparator comparator;
 
-        private EntryIterator eIterator;
+        private EntryIterator<K, V> eIterator;
         protected internal float loadFactor;
-        protected internal int size_Renamed_Field;
-        protected internal IEntry[] table;
+        protected internal int cnt;
+        protected internal IEntry<K, V>[] table;
         protected internal int threshold;
 
         /// <summary> 
@@ -20,30 +20,29 @@ namespace Expergent.Collections
         {
             loadFactor = factor;
             threshold = (int) (capacity*loadFactor);
-            table = new IEntry[capacity];
+            table = new IEntry<K, V>[capacity];
             comparator = EqualityEquals.Instance;
         }
 
-        #region IMap Members
+        #region IMap<K,V> Members
 
         public virtual bool Empty
         {
-            get { return size_Renamed_Field == 0; }
+            get { return cnt == 0; }
         }
 
         public virtual int Count
         {
-            get { return size_Renamed_Field; }
+            get { return cnt; }
         }
 
+        public abstract bool ContainsKey(K key);
 
-        public abstract bool ContainsKey(object key);
+        public abstract V Get(K key);
 
-        public abstract object Get(object key);
+        public abstract V Put(K key, V value_Renamed);
 
-        public abstract object Put(object key, object value_Renamed);
-
-        public abstract object Remove(object key);
+        public abstract V Remove(K key);
 
         /// <summary> clear aggressively clears the table and nulls the
         /// references.
@@ -55,7 +54,7 @@ namespace Expergent.Collections
                 if (table[idx] != null)
                 {
                     // we clear the table
-                    IEntry e = table[idx];
+                    IEntry<K, V> e = table[idx];
                     e.Clear();
                 }
             }
@@ -63,11 +62,11 @@ namespace Expergent.Collections
             eIterator.reset();
         }
 
-        public virtual Iterator KeysIterator()
+        public virtual IEntryIterator<K, V> EntryIterator()
         {
             if (eIterator == null)
             {
-                eIterator = new EntryIterator(this);
+                eIterator = new EntryIterator<K, V>(this);
             }
             eIterator.reset();
             return eIterator;
@@ -82,7 +81,7 @@ namespace Expergent.Collections
 
         protected internal virtual void resize(int newCapacity)
         {
-            IEntry[] oldTable = table;
+            IEntry<K, V>[] oldTable = table;
             int oldCapacity = oldTable.Length;
             if (oldCapacity == MAX_CAPACITY)
             {
@@ -90,17 +89,17 @@ namespace Expergent.Collections
                 return;
             }
 
-            IEntry[] newTable = new IEntry[newCapacity];
+            IEntry<K, V>[] newTable = new IEntry<K, V>[newCapacity];
 
             for (int i = 0; i < table.Length; i++)
             {
-                IEntry entry = table[i];
+                IEntry<K, V> entry = table[i];
                 if (entry == null)
                 {
                     continue;
                 }
                 table[i] = null;
-                IEntry next = null;
+                IEntry<K, V> next = null;
                 while (entry != null)
                 {
                     next = entry.Next;
@@ -116,172 +115,5 @@ namespace Expergent.Collections
             table = newTable;
             threshold = (int) (newCapacity*loadFactor);
         }
-
-        #region Nested type: EntryIterator
-
-        public class EntryIterator : Iterator
-        {
-            private IEntry entry;
-            private readonly AbstractMap hashMap;
-
-            private int length;
-
-            //private IEntry next_Renamed_Field;
-            private int row;
-            private IEntry[] table;
-
-            public EntryIterator(AbstractMap map)
-            {
-                hashMap = map;
-            }
-
-            #region Iterator Members
-
-            public virtual object Next()
-            {
-                if (entry == null)
-                {
-                    // keep skipping rows until we come to the end, or find one that is populated
-                    while (entry == null)
-                    {
-                        row++;
-                        if (row == length)
-                        {
-                            return null;
-                        }
-                        entry = table[row];
-                    }
-                }
-                else
-                {
-                    entry = entry.Next;
-                    if (entry == null)
-                    {
-                        entry = (IEntry) Next();
-                    }
-                }
-
-                return entry;
-            }
-
-            #endregion
-
-            public virtual void remove()
-            {
-                hashMap.Remove(entry);
-            }
-
-            public virtual void reset()
-            {
-                table = hashMap.table;
-                length = table.Length;
-                row = -1;
-                entry = null;
-                //next_Renamed_Field = null;
-            }
-        }
-
-        #endregion
-
-        #region Nested type: EqualityEquals
-
-        public class EqualityEquals : ObjectComparator
-        {
-            public static ObjectComparator INSTANCE;
-
-            static EqualityEquals()
-            {
-                INSTANCE = new EqualityEquals();
-            }
-
-            public static ObjectComparator Instance
-            {
-                get { return INSTANCE; }
-            }
-
-            #region ObjectComparator Members
-
-            public virtual int hashCodeOf(Object key)
-            {
-                return rehash(key.GetHashCode());
-            }
-
-            public virtual int rehash(int h)
-            {
-                h += ~(h << 9);
-                h ^= (Support.URShift(h, 14));
-                h += (h << 4);
-                h ^= (Support.URShift(h, 10));
-                return h;
-            }
-
-            public virtual bool equal(Object object1, Object object2)
-            {
-                return object1.Equals(object2);
-            }
-
-            #endregion
-        }
-
-        #endregion
-
-        #region Nested type: InstanceEquals
-
-        public class InstanceEquals : ObjectComparator
-        {
-            public static ObjectComparator INSTANCE;
-
-            static InstanceEquals()
-            {
-                INSTANCE = new InstanceEquals();
-            }
-
-            public static ObjectComparator Instance
-            {
-                get { return INSTANCE; }
-            }
-
-            #region ObjectComparator Members
-
-            public virtual int hashCodeOf(Object key)
-            {
-                return rehash(key.GetHashCode());
-            }
-
-            public virtual int rehash(int h)
-            {
-                h += ~(h << 9);
-                h ^= (Support.URShift(h, 14));
-                h += (h << 4);
-                h ^= (Support.URShift(h, 10));
-                return h;
-            }
-
-            public virtual bool equal(Object object1, Object object2)
-            {
-                return object1 == object2;
-            }
-
-            #endregion
-        }
-
-        #endregion
-
-        #region Nested type: ObjectComparator
-
-        /// <summary> Internal interface for comparing objects
-        /// </summary>
-        /// <author>  pete
-        /// *
-        /// 
-        /// </author>
-        public interface ObjectComparator
-        {
-            int hashCodeOf(Object object_Renamed);
-            int rehash(int hashCode);
-            bool equal(Object object1, Object object2);
-        }
-
-        #endregion
     }
 }

@@ -1,10 +1,10 @@
 namespace Expergent.Collections
 {
-    public interface IEntry
+    public interface IEntry<K, V>
     {
-        object Key { get; }
-        IEntry Next { get; set; }
-        object Value { get; set; }
+        K Key { get; }
+        IEntry<K, V> Next { get; set; }
+        V Value { get; set; }
         void Clear();
     }
 }
