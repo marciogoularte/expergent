@@ -96,6 +96,7 @@
     <Compile Include="Interfaces\IFactProvider.cs" />
     <Compile Include="Interfaces\IProductionProvider.cs" />
     <Compile Include="Interfaces\IVisitable.cs" />
+    <Compile Include="IWME.cs" />
     <Compile Include="MutexEvaluators\AbstractBaseMutexEvaluator.cs" />
     <Compile Include="Builtins\isInList.cs" />
     <Compile Include="Interfaces\IMutexEvaluator.cs" />

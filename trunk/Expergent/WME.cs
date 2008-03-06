@@ -30,7 +30,7 @@ namespace Expergent
     /// <summary>
     /// Working Memory Entity
     /// </summary>
-    public class WME : IVisitable
+    public class WME : IWME, IVisitable
     {
         #region Fields
 
@@ -39,6 +39,7 @@ namespace Expergent
         private readonly BigList<ItemInAlphaMemory> _alpha_mem_items;
         private readonly BigList<Token> _tokens;
         private readonly BigList<NegativeJoinResult> _negative_join_results;
+        private object _objectInstance;
 
         #endregion
 
@@ -180,6 +181,12 @@ namespace Expergent
         public BigList<NegativeJoinResult> NegativeJoinResults
         {
             get { return _negative_join_results; }
+        }
+
+        public object ObjectInstance
+        {
+            get { return _objectInstance; }
+            set { _objectInstance = value; }
         }
 
         /// <summary>
