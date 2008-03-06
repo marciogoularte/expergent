@@ -254,6 +254,17 @@ namespace Expergent
             _working_memory.Remove(w);
         }
 
+        /// <summary>
+        /// Modifies an existing WME.
+        /// </summary>
+        /// <param name="oldWME">The old WME.</param>
+        /// <param name="newWME">The new WME.</param>
+        public virtual void ModifyWME(WME oldWME, WME newWME)
+        {
+            RemoveWME(oldWME);
+            AddWME(newWME);
+        }
+
         #endregion
 
         #region Private Methods

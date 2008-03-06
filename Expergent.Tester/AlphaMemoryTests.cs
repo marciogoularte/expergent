@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using System.IO;
-using Expergent.Conditions;
-using NUnit.Framework;
 using Expergent.Builtins;
+using Expergent.Conditions;
 using Expergent.Evaluators;
 using Expergent.Terms;
 using Expergent.Visitors;
+using NUnit.Framework;
 
 namespace Expergent.Tester
 {
@@ -275,16 +276,109 @@ namespace Expergent.Tester
 
             rete.AddProduction(prod3);
 
-            WME[] wmes = new WME[]
-                {
-                    new WME("george", "gchild", "kendall"), new WME("kendall", "parent", "immanuel"), new WME("louis", "gparent", "richard"), new WME("jacques", "parent", "jean-francois"), new WME("friedrich", "parent", "louis"), new WME("louis", "gparent", "willard"), new WME("willard", "gchild", "ludwig"), new WME("miles", "parent", "ludwig"), new WME("ludwig", "gchild", "noam"), new WME("miles", "gparent", "wilhelm"), new WME("friedrich", "parent", "jean-francois"), new WME("bijan", "gchild", "george"), new WME("wilhelm", "gparent", "bertrand"), new WME("alan", "parent", "bijan"), new WME("kendall", "parent", "gottlob"), new WME("david", "gchild", "bertrand"),
-                    new WME("alan", "gchild", "henry"), new WME("kendall", "gparent", "louis"), new WME("willard", "gchild", "willard"), new WME("richard", "gchild", "pat"), new WME("miles", "parent", "friedrich"), new WME("noam", "gparent", "ludwig"), new WME("jean-francois", "gchild", "bertrand"), new WME("louis", "parent", "bijan"), new WME("willard", "parent", "kendall"), new WME("gottlob", "gparent", "kendall"), new WME("immanuel", "gchild", "wilhelm"), new WME("george", "parent", "drew"), new WME("friedrich", "gchild", "david"), new WME("gottlob", "gchild", "bertrand"), new WME("wilhelm", "parent", "ludwig"), new WME("henry", "gchild", "willard"),
-                    new WME("alan", "gchild", "richard"), new WME("george", "gchild", "miles"), new WME("george", "gparent", "willard"), new WME("alasdair", "gparent", "willard"), new WME("willard", "gparent", "immanuel"), new WME("jacques", "gparent", "george"), new WME("henry", "gchild", "rudolf"), new WME("wilhelm", "gparent", "miles"), new WME("noam", "gparent", "jean-francois"), new WME("pat", "gchild", "friedrich"), new WME("rudolf", "gchild", "david"), new WME("john", "gchild", "stanley"), new WME("jacques", "gchild", "bijan"), new WME("george", "parent", "miles"), new WME("louis", "parent", "drew"), new WME("rudolf", "parent", "jacques"),
-                    new WME("bertrand", "gparent", "ludwig"), new WME("gottlob", "parent", "john"), new WME("miles", "gchild", "miles"), new WME("bijan", "gchild", "noam"), new WME("jean-francois", "gparent", "george"), new WME("miles", "gparent", "henry"), new WME("kendall", "gchild", "ludwig"), new WME("louis", "gparent", "david"), new WME("noam", "parent", "george"), new WME("pat", "parent", "richard"), new WME("george", "parent", "ludwig"), new WME("george", "gparent", "alan"), new WME("pat", "gparent", "louis"), new WME("david", "parent", "friedrich"), new WME("wilhelm", "gchild", "alasdair"), new WME("pat", "gchild", "bertrand"),
-                    new WME("noam", "parent", "stanley"), new WME("friedrich", "gparent", "bijan"), new WME("willard", "gchild", "bertrand"), new WME("kendall", "gparent", "noam"), new WME("kendall", "gparent", "george"), new WME("drew", "parent", "gottlob"), new WME("david", "parent", "kendall"), new WME("alan", "gparent", "gottlob"), new WME("richard", "parent", "jacques"), new WME("alasdair", "gchild", "david"), new WME("richard", "parent", "bijan"), new WME("jean-francois", "gparent", "alan"), new WME("jacques", "gchild", "louis"), new WME("miles", "gchild", "jean-francois"), new WME("pat", "parent", "miles"), new WME("kendall", "parent", "gottlob"),
-                    new WME("gottlob", "parent", "willard"), new WME("jean-francois", "parent", "willard"), new WME("stanley", "gchild", "ludwig"), new WME("john", "gchild", "miles"), new WME("john", "parent", "jean-francois"), new WME("alan", "gchild", "louis"), new WME("stanley", "gchild", "wilhelm"), new WME("drew", "gparent", "miles"), new WME("jacques", "parent", "immanuel"), new WME("david", "gparent", "willard"), new WME("miles", "parent", "alasdair"), new WME("immanuel", "gparent", "ludwig"), new WME("kendall", "gparent", "henry"), new WME("immanuel", "gparent", "ludwig"), new WME("miles", "gchild", "john"), new WME("louis", "gchild", "alan"),
-                    new WME("willard", "parent", "alan"), new WME("kendall", "parent", "ludwig"), new WME("george", "gchild", "alasdair"), new WME("richard", "gparent", "bertrand")
-                };
+            List<WME> wmes = new List<WME>();
+
+            wmes.Add(new WME("george", "gchild", "kendall"));
+            wmes.Add(new WME("kendall", "parent", "immanuel"));
+            wmes.Add(new WME("louis", "gparent", "richard"));
+            wmes.Add(new WME("jacques", "parent", "jean-francois"));
+            wmes.Add(new WME("friedrich", "parent", "louis"));
+            wmes.Add(new WME("louis", "gparent", "willard"));
+            wmes.Add(new WME("willard", "gchild", "ludwig"));
+            wmes.Add(new WME("miles", "parent", "ludwig"));
+            wmes.Add(new WME("ludwig", "gchild", "noam"));
+            wmes.Add(new WME("miles", "gparent", "wilhelm"));
+            wmes.Add(new WME("friedrich", "parent", "jean-francois"));
+            wmes.Add(new WME("bijan", "gchild", "george"));
+            wmes.Add(new WME("wilhelm", "gparent", "bertrand"));
+            wmes.Add(new WME("alan", "parent", "bijan"));
+            wmes.Add(new WME("kendall", "parent", "gottlob"));
+            wmes.Add(new WME("david", "gchild", "bertrand"));
+            wmes.Add(new WME("alan", "gchild", "henry"));
+            wmes.Add(new WME("kendall", "gparent", "louis"));
+            wmes.Add(new WME("willard", "gchild", "willard"));
+            wmes.Add(new WME("richard", "gchild", "pat"));
+            wmes.Add(new WME("miles", "parent", "friedrich"));
+            wmes.Add(new WME("noam", "gparent", "ludwig"));
+            wmes.Add(new WME("jean-francois", "gchild", "bertrand"));
+            wmes.Add(new WME("louis", "parent", "bijan"));
+            wmes.Add(new WME("willard", "parent", "kendall"));
+            wmes.Add(new WME("gottlob", "gparent", "kendall"));
+            wmes.Add(new WME("immanuel", "gchild", "wilhelm"));
+            wmes.Add(new WME("george", "parent", "drew"));
+            wmes.Add(new WME("friedrich", "gchild", "david"));
+            wmes.Add(new WME("gottlob", "gchild", "bertrand"));
+            wmes.Add(new WME("wilhelm", "parent", "ludwig"));
+            wmes.Add(new WME("henry", "gchild", "willard"));
+            wmes.Add(new WME("alan", "gchild", "richard"));
+            wmes.Add(new WME("george", "gchild", "miles"));
+            wmes.Add(new WME("george", "gparent", "willard"));
+            wmes.Add(new WME("alasdair", "gparent", "willard"));
+            wmes.Add(new WME("willard", "gparent", "immanuel"));
+            wmes.Add(new WME("jacques", "gparent", "george"));
+            wmes.Add(new WME("henry", "gchild", "rudolf"));
+            wmes.Add(new WME("wilhelm", "gparent", "miles"));
+            wmes.Add(new WME("noam", "gparent", "jean-francois"));
+            wmes.Add(new WME("pat", "gchild", "friedrich"));
+            wmes.Add(new WME("rudolf", "gchild", "david"));
+            wmes.Add(new WME("john", "gchild", "stanley"));
+            wmes.Add(new WME("jacques", "gchild", "bijan"));
+            wmes.Add(new WME("george", "parent", "miles"));
+            wmes.Add(new WME("louis", "parent", "drew"));
+            wmes.Add(new WME("rudolf", "parent", "jacques"));
+            wmes.Add(new WME("bertrand", "gparent", "ludwig"));
+            wmes.Add(new WME("gottlob", "parent", "john"));
+            wmes.Add(new WME("miles", "gchild", "miles"));
+            wmes.Add(new WME("bijan", "gchild", "noam"));
+            wmes.Add(new WME("jean-francois", "gparent", "george"));
+            wmes.Add(new WME("miles", "gparent", "henry"));
+            wmes.Add(new WME("kendall", "gchild", "ludwig"));
+            wmes.Add(new WME("louis", "gparent", "david"));
+            wmes.Add(new WME("noam", "parent", "george"));
+            wmes.Add(new WME("pat", "parent", "richard"));
+            wmes.Add(new WME("george", "parent", "ludwig"));
+            wmes.Add(new WME("george", "gparent", "alan"));
+            wmes.Add(new WME("pat", "gparent", "louis"));
+            wmes.Add(new WME("david", "parent", "friedrich"));
+            wmes.Add(new WME("wilhelm", "gchild", "alasdair"));
+            wmes.Add(new WME("pat", "gchild", "bertrand"));
+            wmes.Add(new WME("noam", "parent", "stanley"));
+            wmes.Add(new WME("friedrich", "gparent", "bijan"));
+            wmes.Add(new WME("willard", "gchild", "bertrand"));
+            wmes.Add(new WME("kendall", "gparent", "noam"));
+            wmes.Add(new WME("kendall", "gparent", "george"));
+            wmes.Add(new WME("drew", "parent", "gottlob"));
+            wmes.Add(new WME("david", "parent", "kendall"));
+            wmes.Add(new WME("alan", "gparent", "gottlob"));
+            wmes.Add(new WME("richard", "parent", "jacques"));
+            wmes.Add(new WME("alasdair", "gchild", "david"));
+            wmes.Add(new WME("richard", "parent", "bijan"));
+            wmes.Add(new WME("jean-francois", "gparent", "alan"));
+            wmes.Add(new WME("jacques", "gchild", "louis"));
+            wmes.Add(new WME("miles", "gchild", "jean-francois"));
+            wmes.Add(new WME("pat", "parent", "miles"));
+            wmes.Add(new WME("kendall", "parent", "gottlob"));
+            wmes.Add(new WME("gottlob", "parent", "willard"));
+            wmes.Add(new WME("jean-francois", "parent", "willard"));
+            wmes.Add(new WME("stanley", "gchild", "ludwig"));
+            wmes.Add(new WME("john", "gchild", "miles"));
+            wmes.Add(new WME("john", "parent", "jean-francois"));
+            wmes.Add(new WME("alan", "gchild", "louis"));
+            wmes.Add(new WME("stanley", "gchild", "wilhelm"));
+            wmes.Add(new WME("drew", "gparent", "miles"));
+            wmes.Add(new WME("jacques", "parent", "immanuel"));
+            wmes.Add(new WME("david", "gparent", "willard"));
+            wmes.Add(new WME("miles", "parent", "alasdair"));
+            wmes.Add(new WME("immanuel", "gparent", "ludwig"));
+            wmes.Add(new WME("kendall", "gparent", "henry"));
+            wmes.Add(new WME("immanuel", "gparent", "ludwig"));
+            wmes.Add(new WME("miles", "gchild", "john"));
+            wmes.Add(new WME("louis", "gchild", "alan"));
+            wmes.Add(new WME("willard", "parent", "alan"));
+            wmes.Add(new WME("kendall", "parent", "ludwig"));
+            wmes.Add(new WME("george", "gchild", "alasdair"));
+            wmes.Add(new WME("richard", "gparent", "bertrand"));
+
             int i = 1;
             foreach (WME wme in wmes)
             {
